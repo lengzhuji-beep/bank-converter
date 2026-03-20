@@ -1,0 +1,11 @@
+name = "bank-transfer-furigana-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Client IDはシークレットとして設定します（コードには書きません）
+# デプロイ後に以下のコマンドで登録してください:
+#   npx wrangler secret put YAHOO_CLIENT_ID
+# プロンプトに Client ID を入力してEnterを押すと安全に保存されます
+
+[vars]
+# ここにはダミー変数のみ置きます。YAHOO_CLIENT_IDはシークレットで管理します

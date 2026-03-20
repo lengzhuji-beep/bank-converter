@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankTransfer Master | 振込名義変換</title>
+    <!-- Google AdSense Placeholder -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BankTransfer Master</h1>
+            <p class="subtitle">全銀フォーマット準拠の振込名義に即座に変換</p>
+        </header>
+
+        <main class="main-content">
+            <section class="converter-section">
+                <div class="input-group">
+                    <label for="companyInput">会社名・個人名（漢字・カナ・英数）</label>
+                    <input type="text" id="companyInput" placeholder="例：株式会社ウェブフリコム" autocomplete="off">
+                </div>
+
+                <div class="result-area">
+                    <button class="copy-btn" id="copyBtn">COPY</button>
+                    <div id="convertedResult" contenteditable="true" title="直接編集できます">WEB-FURI MASTER</div>
+                    <div class="char-count" id="charCount">0 / 30</div>
+                </div>
+            </section>
+
+            <aside class="candidates-sidebar">
+                <div class="candidates-section" id="candidatesSection">
+                    <div class="candidates-header">他の候補</div>
+                    <div class="candidates-list" id="candidatesList">
+                        <!-- Candidates will be injected here -->
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="converter.js"></script>
+</body>
+</html>
