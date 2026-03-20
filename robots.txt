@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lengzhuji-beep.github.io/bank-converter/sitemap.xml
