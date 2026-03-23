@@ -656,9 +656,18 @@ async function convert() {
         str = str.replace('\x01CORP\x01', corpAbbr);
     }
 
-    // 正規化
+    // 6. 全角英数字 → 半角 + 大文字化（英字変換の準備）
     str = str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
     str = str.toUpperCase();
+
+    // 7. 英字（ローマ字）をカタカナに変換
+    try {
+        str = await applyEnglishKatakana(str);
+    } catch (e) {
+        console.error('English conversion error:', e);
+    }
+
+    // 8. 記号変換・正規化
     str = str.replace(/・/g, '.');
     str = str.replace(/[【】「」『』〔〕〈〉《》]/g, '');
     str = toHalfWidthKatakana(str);
