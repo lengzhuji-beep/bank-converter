@@ -564,18 +564,93 @@ async function getEnglishKatakanaFromProxy(word) {
 }
 
 /**
- * 英字をカタカナに変換するヘルパー（辞書 → Google Input Tools API）
- * text 中の連続英字列を置換して返す。
+ * ローマ字 → カタカナ変換テーブル（ヘボン式・訓令式ハイブリッド）
+ * 姓名や地名などの典型的なローマ字入力をクライアント側で確実に処理する。
+ */
+const ROMAJI_CHART = {
+    'a':'ｱ','i':'ｲ','u':'ｳ','e':'ｴ','o':'ｵ',
+    'ka':'ｶ','ki':'ｷ','ku':'ｸ','ke':'ｹ','ko':'ｺ',
+    'ga':'ｶﾞ','gi':'ｷﾞ','gu':'ｸﾞ','ge':'ｹﾞ','go':'ｺﾞ',
+    'sa':'ｻ','shi':'ｼ','su':'ｽ','se':'ｾ','so':'ｿ',
+    'za':'ｻﾞ','ji':'ｼﾞ','zu':'ｽﾞ','ze':'ｾﾞ','zo':'ｿﾞ',
+    'ta':'ﾀ','chi':'ﾁ','tsu':'ﾂ','te':'ﾃ','to':'ﾄ',
+    'da':'ﾀﾞ','di':'ﾁﾞ','du':'ﾂﾞ','de':'ﾃﾞ','do':'ﾄﾞ',
+    'na':'ﾅ','ni':'ﾆ','nu':'ﾇ','ne':'ﾈ','no':'ﾉ',
+    'ha':'ﾊ','hi':'ﾋ','fu':'ﾌ','he':'ﾍ','ho':'ﾎ',
+    'ba':'ﾊﾞ','bi':'ﾋﾞ','bu':'ﾌﾞ','be':'ﾍﾞ','bo':'ﾎﾞ',
+    'pa':'ﾊﾟ','pi':'ﾋﾟ','pu':'ﾌﾟ','pe':'ﾍﾟ','po':'ﾎﾟ',
+    'ma':'ﾏ','mi':'ﾐ','mu':'ﾑ','me':'ﾒ','mo':'ﾓ',
+    'ya':'ﾔ','yu':'ﾕ','yo':'ﾖ',
+    'ra':'ﾗ','ri':'ﾘ','ru':'ﾙ','re':'ﾚ','ro':'ﾛ',
+    'wa':'ﾜ','wo':'ｦ','n':'ﾝ',
+    'kya':'ｷｬ','kyu':'ｷｭ','kyo':'ｷｮ','sha':'ｼｬ','shu':'ｼｭ','sho':'ｼｮ',
+    'cha':'ﾁｬ','chu':'ﾁｭ','cho':'ﾁｮ','nya':'ﾆｬ','nyu':'ﾆｭ','nyo':'ﾆｮ',
+    'hya':'ﾋｬ','hyu':'ﾋｭ','hyo':'ﾋｮ','mya':'ﾐｬ','myu':'ﾐｭ','myo':'ﾐｮ',
+    'rya':'ﾘｬ','ryu':'ﾘｭ','ryo':'ﾘｮ','gya':'ｷﾞｬ','gyu':'ｷﾞｭ','gyo':'ｷﾞｮ',
+    'ja':'ｼﾞｬ','ju':'ｼﾞｭ','jo':'ｼﾞｮ','bya':'ﾊﾞ雅','byu':'ﾊﾞｭ','byo':'ﾊﾞｮ',
+    'pya':'ﾊﾟｬ','pyu':'ﾊﾟｭ','pyo':'ﾊﾟｮ'
+};
+
+/** ローマ字文字列をカタカナに変換（最長一致） */
+function romajiToKatakana(str) {
+    let res = '', i = 0;
+    const s = str.toLowerCase();
+    while (i < s.length) {
+        let matched = false;
+        for (let len = 3; len >= 1; len--) {
+            const part = s.substring(i, i + len);
+            if (ROMAJI_CHART[part]) {
+                res += ROMAJI_CHART[part];
+                i += len;
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            // 子音の重なり（促音「ッ」）の判定: っk -> kku
+            if (i + 1 < s.length && s[i] === s[i+1] && s[i].match(/[a-z]/)) {
+                res += 'ｯ';
+                i += 1;
+            } else {
+                res += s[i].toUpperCase(); // 変換できない文字は大文字英字で残す
+                i++;
+            }
+        }
+    }
+    return res;
+}
+
+/**
+ * 英字をカタカナに変換するヘルパー
+ * 1. ローマ字変換を試行
+ * 2. 辞書マッチを試行
+ * 3. Google Input Tools API を呼び出し、結果をカタカナ強制化
  */
 async function applyEnglishKatakana(text) {
     const tokens = [...new Set(text.match(/[A-Z]+/g) || [])];
     let result = text;
     for (const token of tokens) {
+        // 1. ローマ字変換を試行（完全にカタカナになれば採用）
+        const fromRomaji = romajiToKatakana(token);
+        if (/^[\uFF61-\uFF9F]+$/.test(fromRomaji)) {
+            result = result.split(token).join(fromRomaji);
+            continue;
+        }
+
+        // 2. 辞書マッチ
         const fromDict = ENGLISH_WORDS_TO_KATAKANA[token];
         if (fromDict) { result = result.split(token).join(fromDict); continue; }
-        const fromApi = await getEnglishKatakanaFromProxy(token);
+
+        // 3. API 呼び出し
+        let fromApi = await getEnglishKatakanaFromProxy(token);
         if (fromApi) {
-            result = result.split(token).join(processSmallChars(toHalfWidthKatakana(fromApi)));
+            // API結果が漢字を含む場合、内蔵テーブルでカタカナに強制変換
+            if (/[\u4E00-\u9FFF]/.test(fromApi)) {
+                fromApi = processKanjiDynamic(fromApi);
+            }
+            // 半角化・小書き文字処理
+            const finalApi = processSmallChars(toHalfWidthKatakana(fromApi));
+            result = result.split(token).join(finalApi);
         }
     }
     return result;
