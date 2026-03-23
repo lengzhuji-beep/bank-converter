@@ -220,10 +220,349 @@ const DIGITS_PHONETIC = {
 const DIGIT_JP_SINGLE = ['ｾﾞﾛ','ｲﾁ','ﾆ','ｻﾝ','ﾖﾝ','ｺﾞ','ﾛｸ','ﾅﾅ','ﾊﾁ','ｷｭｳ'];
 const DIGIT_EN_SINGLE = ['ｾﾞﾛ','ﾜﾝ','ﾂｰ','ｽﾘｰ','ﾌｫｰ','ﾌｧｲﾌﾞ','ｼｯｸｽ','ｾﾌﾞﾝ','ｴｲﾄ','ﾅｲﾝ'];
 
+/** 数字列を1文字ずつ日本語読みに変換: "123"→"ｲﾁﾆｻﾝ" */
+function digitsToJpSingle(str) { return str.replace(/[0-9]/g, d => DIGIT_JP_SINGLE[+d]); }
+/** 数字列を1文字ずつ英語読みに変換: "123"→"ﾜﾝﾂｰｽﾘｰ" */
+function digitsToEnSingle(str) { return str.replace(/[0-9]/g, d => DIGIT_EN_SINGLE[+d]); }
+
+/** 数値を日本語数値読みに変換: 111→"ﾋｬｸｼﾞｭｳｲﾁ" */
+function numberToJapanese(n) {
+    if (n === 0) return 'ｾﾞﾛ';
+    const O = ['','ｲﾁ','ﾆ','ｻﾝ','ﾖﾝ','ｺﾞ','ﾛｸ','ﾅﾅ','ﾊﾁ','ｷｭｳ'];
+    let res = '', mn = Math.floor(n / 10000); n %= 10000;
+    const sn = Math.floor(n/1000); n%=1000; const hn = Math.floor(n/100); n%=100;
+    const jn = Math.floor(n/10);   n%=10;
+    if (mn > 0) {
+        const a=Math.floor(mn/1000),b=Math.floor(mn%1000/100),c=Math.floor(mn%100/10),d=mn%10;
+        if(a)res+=(a>1?O[a]:'')+`ｾﾝ`; if(b)res+=(b>1?O[b]:'')+`ﾋｬｸ`;
+        if(c)res+=(c>1?O[c]:'')+`ｼﾞｭｳ`; if(d)res+=O[d]; res+='ﾏﾝ';
+    }
+    if(sn>0)res+=(sn>1?O[sn]:'')+`ｾﾝ`; if(hn>0)res+=(hn>1?O[hn]:'')+`ﾋｬｸ`;
+    if(jn>0)res+=(jn>1?O[jn]:'')+`ｼﾞｭｳ`; if(n>0)res+=O[n];
+    return res;
+}
+
+/** 数値を英語数値読みに変換: 111→"ﾜﾝﾊﾝﾄﾞﾚｯﾄﾞｱﾝﾄﾞｲﾚﾌﾞﾝ" */
+function numberToEnglish(n) {
+    if (n === 0) return 'ｾﾞﾛ';
+    const Ones=['','ﾜﾝ','ﾂｰ','ｽﾘｰ','ﾌｫｰ','ﾌｧｲﾌﾞ','ｼｯｸｽ','ｾﾌﾞﾝ','ｴｲﾄ','ﾅｲﾝ',
+                'ﾃﾝ','ｲﾚﾌﾞﾝ','ﾄｩｴﾙﾌﾞ','ｻｰﾃｨｰﾝ','ﾌｫｰﾃｨｰﾝ','ﾌｨﾌﾃｨｰﾝ',
+                'ｼｯｸｽﾃｨｰﾝ','ｾﾌﾞﾝﾃｨｰﾝ','ｴｲﾃｨｰﾝ','ﾅｲﾝﾃｨｰﾝ'];
+    const Tens=['','','ﾄｩｴﾝﾃｨ','ｻｰﾃｨ','ﾌｫｰﾃｨ','ﾌｨﾌﾃｨ','ｼｯｸｽﾃｨ','ｾﾌﾞﾝﾃｨ','ｴｲﾃｨ','ﾅｲﾝﾃｨ'];
+    function b1k(v){
+        let r='';
+        if(v>=100){r+=Ones[Math.floor(v/100)]+'ﾊﾝﾄﾞﾚｯﾄﾞ';v%=100;if(v)r+='ｱﾝﾄﾞ';}
+        if(v>=20){r+=Tens[Math.floor(v/10)];v%=10;r+=Ones[v];}else if(v>0)r+=Ones[v];
+        return r;
+    }
+    let res='';
+    if(n>=1000000){res+=b1k(Math.floor(n/1000000))+'ﾐﾘｵﾝ';n%=1000000;if(n)res+='ｱﾝﾄﾞ';}
+    if(n>=1000){res+=b1k(Math.floor(n/1000))+'ｻｳｻﾞﾝﾄﾞ';n%=1000;if(n)res+='ｱﾝﾄﾞ';}
+    if(n>0)res+=b1k(n);
+    return res;
+}
+
+// ============================================================
+// 5. 小書き文字 → 大文字変換
+// ============================================================
+const SMALL_TO_LARGE = {
+    'ｧ': 'ｱ', 'ｨ': 'ｲ', 'ｩ': 'ｳ', 'ｪ': 'ｴ', 'ｫ': 'ｵ',
+    'ｯ': 'ﾂ', 'ｬ': 'ﾔ', 'ｭ': 'ﾕ', 'ｮ': 'ﾖ',
+    'ァ': 'ア', 'ィ': 'イ', 'ゥ': 'ウ', 'ェ': 'エ', 'ォ': 'オ',
+    'ッ': 'ツ', 'ャ': 'ヤ', 'ュ': 'ユ', 'ョ': 'ヨ'
+};
+
+// ============================================================
+// 6. 英単語 → 半角カタカナ（商号・社名頻出語辞典）
+// ============================================================
+const ENGLISH_WORDS_TO_KATAKANA = {
+    // 法人格・行政
+    'CORPORATION':'ｺｰﾎﾟﾚｰｼｮﾝ','COMPANY':'ｶﾝﾊﾟﾆｰ','ENTERPRISE':'ｴﾝﾀｰﾌﾟﾗｲｽﾞ',
+    'INTERNATIONAL':'ｲﾝﾀｰﾅｼｮﾅﾙ','GLOBAL':'ｸﾞﾛｰﾊﾞﾙ','HOLDINGS':'ﾎｰﾙﾃﾞｨﾝｸﾞｽ',
+    'GROUP':'ｸﾞﾙｰﾌﾟ','PARTNERS':'ﾊﾟｰﾄﾅｰｽﾞ','PARTNER':'ﾊﾟｰﾄﾅｰ',
+    'ASSOCIATES':'ｱｿｼｴｲﾂ',
+    // IT・テクノロジー
+    'SYSTEM':'ｼｽﾃﾑ','SYSTEMS':'ｼｽﾃﾑｽﾞ','SOFTWARE':'ｿﾌﾄｳｪｱ','HARDWARE':'ﾊｰﾄﾞｳｪｱ',
+    'TECHNOLOGY':'ﾃｸﾉﾛｼﾞｰ','TECHNOLOGIES':'ﾃｸﾉﾛｼﾞｰｽﾞ','DIGITAL':'ﾃﾞｼﾞﾀﾙ',
+    'NETWORK':'ﾈｯﾄﾜｰｸ','NETWORKS':'ﾈｯﾄﾜｰｸｽﾞ','DATA':'ﾃﾞｰﾀ','CLOUD':'ｸﾗｳﾄﾞ',
+    'WEB':'ｳｪﾌﾞ','SOFT':'ｿﾌﾄ','TECH':'ﾃｯｸ','INFORMATION':'ｲﾝﾌｫﾒｰｼｮﾝ',
+    'ENGINEERING':'ｴﾝｼﾞﾆｱﾘﾝｸﾞ','DEVELOPMENT':'ﾃﾞﾍﾞﾛｯﾌﾟﾒﾝﾄ',
+    'SOLUTION':'ｿﾘｭｰｼｮﾝ','SOLUTIONS':'ｿﾘｭｰｼｮﾝｽﾞ','MEDIA':'ﾒﾃﾞｨｱ',
+    'COMMUNICATION':'ｺﾐｭﾆｹｰｼｮﾝ','COMMUNICATIONS':'ｺﾐｭﾆｹｰｼｮﾝｽﾞ',
+    // 商社・流通
+    'TRADING':'ﾄﾚｰﾃﾞｨﾝｸﾞ','TRADE':'ﾄﾚｰﾄﾞ','LOGISTICS':'ﾛｼﾞｽﾃｨｸｽ','SUPPLY':'ｻﾌﾟﾗｲ',
+    'IMPORT':'ｲﾝﾎﾟｰﾄ','EXPORT':'ｴｸｽﾎﾟｰﾄ','SERVICE':'ｻｰﾋﾞｽ','SERVICES':'ｻｰﾋﾞｽﾞ',
+    'SALES':'ｾｰﾙｽﾞ','MARKETING':'ﾏｰｹﾃｨﾝｸﾞ',
+    // 金融・不動産
+    'FINANCE':'ﾌｧｲﾅﾝｽ','FINANCIAL':'ﾌｧｲﾅﾝｼｬﾙ','CAPITAL':'ｷｬﾋﾟﾀﾙ',
+    'INVESTMENT':'ｲﾝﾍﾞｽﾄﾒﾝﾄ','ASSET':'ｱｾｯﾄ','ASSETS':'ｱｾｯﾂ',
+    'REAL':'ﾘｱﾙ','ESTATE':'ｴｽﾃｰﾄ',
+    // 建設・製造
+    'CONSTRUCTION':'ｺﾝｽﾄﾗｸｼｮﾝ','PLANNING':'ﾌﾟﾗﾝﾆﾝｸﾞ','INDUSTRIES':'ｲﾝﾀﾞｽﾄﾘｰｽﾞ',
+    'INDUSTRY':'ｲﾝﾀﾞｽﾄﾘｰ','PRODUCTION':'ﾌﾟﾛﾀﾞｸｼｮﾝ',
+    // ヘルス・食品
+    'FOODS':'ﾌｰﾄﾞｽﾞ','FOOD':'ﾌｰﾄﾞ','HEALTH':'ﾍﾙｽ','CARE':'ｹｱ','PHARMA':'ﾌｧｰﾏ',
+    // 共通
+    'JAPAN':'ｼﾞｬﾊﾟﾝ','ASIA':'ｱｼﾞｱ','TOKYO':'ﾄｳｷﾖｳ','OSAKA':'ｵｰｻｶ',
+    'RESEARCH':'ﾘｻｰﾁ','CONSULTING':'ｺﾝｻﾙﾃｨﾝｸﾞ','MANAGEMENT':'ﾏﾈｼﾞﾒﾝﾄ',
+    'SUPPORT':'ｻﾎﾟｰﾄ','DESIGN':'ﾃﾞｻﾞｲﾝ','CREATIVE':'ｸﾘｴｲﾃｨﾌﾞ',
+    'ENERGY':'ｴﾈﾙｷﾞｰ','POWER':'ﾊﾟﾜｰ','PLUS':'ﾌﾟﾗｽ','OFFICE':'ｵﾌｨｽ',
+    'NEXT':'ﾈｸｽﾄ','NEW':'ﾆｭｰ','ONE':'ﾜﾝ','FIRST':'ﾌｧｰｽﾄ','BEST':'ﾍﾞｽﾄ',
+    'PRIME':'ﾌﾟﾗｲﾑ','PRO':'ﾌﾟﾛ','LIFE':'ﾗｲﾌ','STYLE':'ｽﾀｲﾙ',
+    'HOME':'ﾎｰﾑ','HOUSE':'ﾊｳｽ','GREEN':'ｸﾞﾘｰﾝ','CLEAN':'ｸﾘｰﾝ',
+    'SMART':'ｽﾏｰﾄ','FUTURE':'ﾌｭｰﾁｬｰ','WORLD':'ﾜｰﾙﾄﾞ','LINK':'ﾘﾝｸ',
+    'ACT':'ｱｸﾄ','ART':'ｱｰﾄ','MAX':'ﾏｯｸｽ','TOP':'ﾄｯﾌﾟ','STAR':'ｽﾀｰ',
+    'SUN':'ｻﾝ','CROSS':'ｸﾛｽ','ADVANCE':'ｱﾄﾞﾊﾞﾝｽ','COMPLEX':'ｺﾝﾌﾟﾚｯｸｽ',
+    'LAND':'ﾗﾝﾄﾞ','ECO':'ｴｺ','BIO':'ﾊﾞｲｵ','ALL':'ｵｰﾙ',
+};
+
 /**
- * ローマ字 → カタカナ変換テーブル（ヘボン式・訓令式ハイブリッド）
- * 姓名や地名などの典型的なローマ字入力をクライアント側で確実に処理する。
+ * 英単語をカタカナに変換（候補生成用）
+ * 辞書にある単語を優先的に置換し、残った英字は1文字ずつ近似変換
  */
+function processEnglish(str) {
+    // 長い順に並べておきロングマッチ優先
+    const sorted = Object.keys(ENGLISH_WORDS_TO_KATAKANA).sort((a, b) => b.length - a.length);
+    let result = str;
+    for (const word of sorted) {
+        // 単語境界は [英字以外 or 先頭/末尾] とする
+        const re = new RegExp(`(?<![A-Z])${word}(?![A-Z])`, 'g');
+        result = result.replace(re, ENGLISH_WORDS_TO_KATAKANA[word]);
+    }
+    return result;
+}
+
+// ============================================================
+// 変換関数群
+// ============================================================
+
+/** 全角カタカナ・ひらがな → 半角カタカナ */
+function toHalfWidthKatakana(str) {
+    const kanaMap = {
+        'ガ': 'ｶﾞ', 'ギ': 'ｷﾞ', 'グ': 'ｸﾞ', 'ゲ': 'ｹﾞ', 'ゴ': 'ｺﾞ',
+        'ザ': 'ｻﾞ', 'ジ': 'ｼﾞ', 'ズ': 'ｽﾞ', 'ゼ': 'ｾﾞ', 'ゾ': 'ｿﾞ',
+        'ダ': 'ﾀﾞ', 'ヂ': 'ﾁﾞ', 'ヅ': 'ﾂﾞ', 'デ': 'ﾃﾞ', 'ド': 'ﾄﾞ',
+        'バ': 'ﾊﾞ', 'ビ': 'ﾋﾞ', 'ブ': 'ﾌﾞ', 'ベ': 'ﾍﾞ', 'ボ': 'ﾎﾞ',
+        'パ': 'ﾊﾟ', 'ピ': 'ﾋﾟ', 'プ': 'ﾌﾟ', 'ペ': 'ﾍﾟ', 'ポ': 'ﾎﾟ',
+        'ア': 'ｱ', 'イ': 'ｲ', 'ウ': 'ｳ', 'エ': 'ｴ', 'オ': 'ｵ',
+        'カ': 'ｶ', 'キ': 'ｷ', 'ク': 'ｸ', 'ケ': 'ｹ', 'コ': 'ｺ',
+        'サ': 'ｻ', 'シ': 'ｼ', 'ス': 'ｽ', 'セ': 'ｾ', 'ソ': 'ｿ',
+        'タ': 'ﾀ', 'チ': 'ﾁ', 'ツ': 'ﾂ', 'テ': 'ﾃ', 'ト': 'ﾄ',
+        'ナ': 'ﾅ', 'ニ': 'ﾆ', 'ヌ': 'ﾇ', 'ネ': 'ﾈ', 'ノ': 'ﾉ',
+        'ハ': 'ﾊ', 'ヒ': 'ﾋ', 'フ': 'ﾌ', 'ヘ': 'ﾍ', 'ホ': 'ﾎ',
+        'マ': 'ﾏ', 'ミ': 'ﾐ', 'ム': 'ﾑ', 'メ': 'ﾒ', 'モ': 'ﾓ',
+        'ヤ': 'ﾔ', 'ユ': 'ﾕ', 'ヨ': 'ﾖ',
+        'ラ': 'ﾗ', 'リ': 'ﾘ', 'ル': 'ﾙ', 'レ': 'ﾚ', 'ロ': 'ﾛ',
+        'ワ': 'ﾜ', 'ヰ': 'ｲ', 'ヱ': 'ｴ', 'ヲ': 'ｦ', 'ン': 'ﾝ', 'ヴ': 'ｳﾞ',
+        'ァ': 'ｧ', 'ィ': 'ｨ', 'ゥ': 'ｩ', 'ェ': 'ｪ', 'ォ': 'ｫ',
+        'ッ': 'ｯ', 'ャ': 'ｬ', 'ュ': 'ｭ', 'ョ': 'ｮ',
+        'ー': 'ｰ', '・': '･', '「': '｢', '」': '｣', '。': '｡', '、': '､',
+        '　': ' '
+    };
+    let result = '';
+    for (const char of str) {
+        result += kanaMap[char] || char;
+    }
+    return result;
+}
+
+/** ひらがな → カタカナ */
+function processHiragana(str) {
+    let res = '';
+    for (const char of str) {
+        res += HIRAGANA_TO_KATAKANA[char] || char;
+    }
+    return res;
+}
+
+/** 漢字を1文字ずつ音読みで動的変換。辞書にない文字はそのまま残す */
+function processKanjiDynamic(str) {
+    let res = '';
+    for (const char of str) {
+        const cp = char.codePointAt(0);
+        const isKanji = (cp >= 0x4E00 && cp <= 0x9FFF)
+                     || (cp >= 0x3400 && cp <= 0x4DBF)
+                     || (cp >= 0xF900 && cp <= 0xFAFF);
+        if (isKanji) {
+            res += KANJI_ON_READINGS[char] || char; // 辞書にない場合は漢字のまま
+        } else {
+            res += char;
+        }
+    }
+    return res;
+}
+
+/** 小書き文字 → 大文字 */
+function processSmallChars(str) {
+    let res = str;
+    for (const [small, large] of Object.entries(SMALL_TO_LARGE)) {
+        res = res.split(small).join(large);
+    }
+    return res;
+}
+
+/** 法人略号の位置判定と置換
+ * 返値: { str: 変換後文字列, abbrParts: [{placeholder, replacement}] }
+ * 略号部分は \x01N\x01 プレースホルダーになり、後で復元する
+ */
+function handleCorpAbbreviations(str) {
+    // 長い文字列を優先してマッチ（例: '医療法人社団' を '医療法人' より先に処理）
+    const sorted = [...CORP_ABBREVIATIONS].sort((a, b) => b.target.length - a.target.length);
+
+    for (const corp of sorted) {
+        const idx = str.indexOf(corp.target);
+        if (idx === -1) continue;
+
+        const before = str.substring(0, idx);
+        const after = str.substring(idx + corp.target.length);
+
+        let abbr;
+        if (idx === 0 && after.length > 0) {
+            abbr = corp.abbr + ')';         // 先頭: abbr + ")" + 残り
+        } else if (after.length === 0 && before.length > 0) {
+            abbr = '(' + corp.abbr;         // 末尾: 前部分 + "(" + abbr
+        } else if (before.length > 0 && after.length > 0) {
+            abbr = '(' + corp.abbr + ')';   // 中間
+        } else {
+            abbr = corp.abbr + ')';         // 単独
+        }
+
+        // プレースホルダーで略号部分をマークする（APIが漢字と誤認識しないようにASCII記号）
+        const PLACEHOLDER = '\x01CORP\x01';
+        str = before + PLACEHOLDER + after;
+
+        // PLACEHOLDER を後で abbr に戻すために返す
+        return { str, abbr };
+    }
+    return { str, abbr: null };
+}
+
+/** 氏名と判定された漢字列に半角スペースを挿入 */
+function handlePersonalNames(str) {
+    const hasCorp = CORP_ABBREVIATIONS.some(c => str.includes(c.target));
+    if (hasCorp) return str;
+    if (str.includes(' ') || str.includes('　')) return str;
+
+    // 漢字のみ2〜5文字の場合、姓＋名と判定
+    if (/^[\u4E00-\u9FFF]{2,5}$/.test(str)) {
+        if (str.length === 2) return str[0] + ' ' + str[1];
+        if (str.length === 3) return str.slice(0, 2) + ' ' + str.slice(2);
+        if (str.length === 4) return str.slice(0, 2) + ' ' + str.slice(2);
+        if (str.length === 5) return str.slice(0, 2) + ' ' + str.slice(2);
+    }
+    return str;
+}
+
+/** メインの正規化処理 */
+function normalizeInput(val) {
+    let str = val.trim();
+
+    // 1. 法人略号を先に置換（漢字変換前に行う必要がある）
+    str = handleCorpAbbreviations(str);
+
+    // 2. 個人名スペース挿入（法人でない場合のみ）
+    str = handlePersonalNames(str);
+
+    // 3. ひらがな → カタカナ
+    str = processHiragana(str);
+
+    // 4. 漢字を動的に音読み変換
+    str = processKanjiDynamic(str);
+
+    // 5. 全角英数字 → 半角
+    str = str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
+
+    // 6. 大文字化
+    str = str.toUpperCase();
+
+    // 7. 記号変換
+    str = str.replace(/・/g, '.');
+    str = str.replace(/[【】「」『』〔〕〈〉《》]/g, '');
+
+    // 8. 全角カタカナ → 半角カタカナ
+    str = toHalfWidthKatakana(str);
+
+    return str;
+}
+
+/** 変換候補の生成
+ * extraCandidates: buildKatakanaCandidates()の返り値（{label,value}の配列）
+ */
+function generateCandidates(normalizedResult, extraCandidates) {
+    if (!normalizedResult) return [];
+    let results = [{ label: '標準変換', value: normalizedResult }];
+    if (extraCandidates && extraCandidates.length) results.push(...extraCandidates);
+    return results.filter((v, i, a) => a.findIndex(t => t.value === v.value) === i);
+}
+
+// ============================================================
+// Yahoo! Japan ルビ振り API 呼び出し
+// API エンドポイント (CORS 対応済み・2023年〜)
+// Client ID は Yahoo! デベロッパーネットワークで無料取得可能
+// ============================================================
+
+/**
+ * Cloudflare Workerプロキシ経由でフリガナを取得する。
+ * Client IDはWorker内のシークレットに保存され、ブラウザには公開されない。
+ */
+async function getFuriganaFromProxy(text) {
+    try {
+        const res = await fetch(PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ q: text })
+        });
+        if (!res.ok) return null;
+        const json = await res.json();
+        if (json.error || !json.result) return null;
+
+        let reading = '';
+        for (const word of json.result.word) {
+            reading += word.furigana || word.surface || '';
+        }
+        return reading;
+    } catch (e) {
+        console.warn('Proxy call failed:', e);
+        return null;
+    }
+}
+
+/**
+ * 漢字をカタカナに変換（プロキシ優先、フォールバックは1文字音読み）
+ */
+async function convertKanji(text) {
+    if (!/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/.test(text)) return text;
+
+    // プロキシが設定されている場合はそちらを優先使用
+    if (PROXY_URL && !PROXY_URL.includes('YOUR_WORKER_SUBDOMAIN')) {
+        const furigana = await getFuriganaFromProxy(text);
+        if (furigana) return processHiragana(furigana);
+    }
+
+    // プロキシ未設定または失敗時は1文字フォールバック
+    return processKanjiDynamic(text);
+}
+
+/**
+ * Cloudflare Workerの /transliterate エンドポイント経由で
+ * 英字ローマ字をカタカナに変換する（Google Input Toolsプロキシ）
+ */
+async function getEnglishKatakanaFromProxy(word) {
+    if (!PROXY_URL || PROXY_URL.includes('YOUR_WORKER_SUBDOMAIN')) return null;
+    try {
+        const res = await fetch(`${PROXY_URL}/transliterate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ word: word.toLowerCase() })
+        });
+        if (!res.ok) return null;
+        const json = await res.json();
+        return json.katakana || null;  // 全角カタカナで返ってくる
+    } catch (e) {
+        return null;
+    }
+}
+
 const ROMAJI_CHART = {
     'a':'ｱ','i':'ｲ','u':'ｳ','e':'ｴ','o':'ｵ',
     'ka':'ｶ','ki':'ｷ','ku':'ｸ','ke':'ｹ','ko':'ｺ',
@@ -311,6 +650,8 @@ async function applyEnglishKatakana(text) {
     }
     return result;
 }
+
+
 
 /**
  * 数字の読み方バリエーション × 英字カタカナ変換を組み合わせて
