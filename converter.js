@@ -548,16 +548,16 @@ async function convertKanji(text) {
  * 英字ローマ字をカタカナに変換する（Google Input Toolsプロキシ）
  */
 async function getEnglishKatakanaFromProxy(word) {
-    if (!PROXY_URL || PROXY_URL.includes('YOUR_WORKER_SUBDOMAIN')) return null;
+    if (!PROXY_URL || PROXY_URL.includes('YOUR_WORKER')) return null;
     try {
-        const res = await fetch(`${PROXY_URL}/transliterate`, {
+        const res = await fetch(PROXY_URL + '/transliterate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ word: word.toLowerCase() })
         });
         if (!res.ok) return null;
         const json = await res.json();
-        return json.katakana || null;  // 全角カタカナで返ってくる
+        return json.katakana || null;
     } catch (e) {
         return null;
     }

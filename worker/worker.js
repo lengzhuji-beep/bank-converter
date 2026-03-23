@@ -75,9 +75,9 @@ export default {
                 const json = JSON.parse(text);
                 if (
                     json[0] === 'SUCCESS' &&
-                    json[1]?.[0]?.[1]?.[0]?.[0]
+                    json[1]?.[0]?.[1]?.[0]
                 ) {
-                    return jsonResponse({ katakana: json[1][0][1][0][0] });
+                    return jsonResponse({ katakana: json[1][0][1][0] });
                 }
                 return jsonResponse({ katakana: null });
             } catch (e) {
