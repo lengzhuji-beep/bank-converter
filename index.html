@@ -86,22 +86,69 @@
         </main>
 
         <section class="info-section">
-            <h2>振込名義カタカナ変換ツールとは？</h2>
-            <p>銀行振込を行う際、ビジネスシーンでは「株式会社」を「カ）」、「有限会社」を「ユ）」と略したり、特定のカタカナ形式（全銀フォーマット）に変換する必要があります。当ツールは、入力された名称を自動で判別し、振込に最適なカタカナ名義に変換します。</p>
+            <div class="content-block">
+                <h2>振込名義カタカナ変換ツールとは？</h2>
+                <p>銀行振込を行う際、ビジネスシーンでは「株式会社」を「カ）」、「有限会社」を「ユ）」と略したり、特定のカタカナ形式（全銀フォーマット）に変換する必要があります。当ツールは、入力された名称を自動で判別し、振込に最適なカタカナ名義に変換します。</p>
+            </div>
             
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>主な変換ルール</h3>
-                    <ul>
-                        <li><strong>株式会社</strong> → カ） / （カ / カ）</li>
-                        <li><strong>有限会社</strong> → ユ） / （ユ / ユ）</li>
-                        <li><strong>合同会社</strong> → ド）</li>
-                        <li><strong>英数字</strong> → 全角カタカナへ変換</li>
-                    </ul>
+            <div class="content-block">
+                <h2>全銀フォーマット（銀行振込形式）の基本</h2>
+                <p>日本の多くの銀行では、全国銀行協会が定める「全銀フォーマット」に基づいたデータ処理を行っています。この形式では、使用できる文字が「全角カタカナ」「英数字」「一部の記号（括弧、ドット等）」に制限されており、さらに法人の種類を1文字〜2文字の略号で表現することが推奨されています。</p>
+                <div class="abbreviation-table-container">
+                    <table class="abbreviation-table">
+                        <thead>
+                            <tr>
+                                <th>法人・組織の種類</th>
+                                <th>略号（前方入力の場合）</th>
+                                <th>略号（中・後方入力の場合）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>株式会社</td>
+                                <td>カ）</td>
+                                <td>（カ</td>
+                            </tr>
+                            <tr>
+                                <td>有限会社</td>
+                                <td>ユ）</td>
+                                <td>（ユ</td>
+                            </tr>
+                            <tr>
+                                <td>合同会社</td>
+                                <td>ド）</td>
+                                <td>（ド</td>
+                            </tr>
+                            <tr>
+                                <td>一般社団法人</td>
+                                <td>シヤ）</td>
+                                <td>（シヤ</td>
+                            </tr>
+                            <tr>
+                                <td>学校法人</td>
+                                <td>ガク）</td>
+                                <td>（ガク</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="info-card">
-                    <h3>コピー機能</h3>
-                    <p>変換結果をワンクリックでクリップボードにコピー可能。ネットバンキングや会計ソフトへの入力を効率化します。</p>
+            </div>
+
+            <div class="content-block">
+                <h2>よくある質問 (FAQ)</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <p class="faq-q">Q. 小文字のカタカナ（ッ、ョ等）はどうなりますか？</p>
+                        <p class="faq-a">A. 多くの銀行システムでは小文字のまま通りますが、一部の古いシステムでは大文字（ツ、ヨ等）に変換される場合があります。当ツールでは標準的な全角カタカナを生成します。</p>
+                    </div>
+                    <div class="faq-item">
+                        <p class="faq-q">Q. 英数字の会社名はどう変換されますか？</p>
+                        <p class="faq-a">A. 全銀フォーマットでは英字も使用可能ですが、カタカナでの登録を求められることもあります。当ツールでは英字を全角カナに変換する候補も提示します。</p>
+                    </div>
+                    <div class="faq-item">
+                        <p class="faq-q">Q. 銀行への直接入稿にそのまま使えますか？</p>
+                        <p class="faq-a">A. はい、30文字制限のチェックも含めて全銀フォーマットに準拠した形式を出力しています。ただし、最終的な確認は振込先の情報と照らし合わせて行ってください。</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -111,6 +158,8 @@
                 <a href="index.html">ホーム</a>
                 <a href="about.html">当サイトについて</a>
                 <a href="privacy.html">プライバシーポリシー</a>
+                <a href="terms.html">利用規約</a>
+                <a href="contact.html">お問い合わせ</a>
             </nav>
             <p>&copy; 2026 振込名義カタカナ変換ツール</p>
         </footer>
