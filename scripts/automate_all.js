@@ -114,6 +114,7 @@ async function runAutomation() {
 
     const handleAds = async () => {
         try {
+            // Standard overlays
             const adCloseSelectors = ['#dismiss-button', '.card-close-button', '[aria-label="Close ad"]', '[aria-label="広告を閉じる"]', 'div[role="button"]:has-text("閉じる")'];
             for (const selector of adCloseSelectors) {
                 const el = await page.$(selector);
@@ -122,79 +123,130 @@ async function runAutomation() {
                     await el.click().catch(() => {});
                 }
             }
+
+            // Google Vignette (AdSense full-screen ads)
+            const vignetteFrame = page.frames().find(f => f.url().includes('googleads') || f.name().includes('aswift'));
+            if (vignetteFrame) {
+                const dismissBtn = vignetteFrame.locator('#dismiss-button');
+                if (await dismissBtn.isVisible()) {
+                    console.log('Closing AdSense Vignette Ad...');
+                    await dismissBtn.click();
+                    await page.waitForTimeout(1000);
+                }
+            }
         } catch (e) {}
     };
 
     const runQuizMode = async () => {
-        console.log('\n>> Entering [Quiz Mode]');
+        console.log('\n>> Entering [Quiz/Training Mode]');
         await page.goto(startUrl, { waitUntil: 'domcontentloaded' });
-        const modes = ['単語のテストモード', '単語のトレーニング'];
-        const chosenMode = modes[Math.floor(Math.random() * modes.length)];
-        await page.click(`text="${chosenMode}"`);
-        await page.waitForTimeout(3000);
         await handleAds();
 
-        const levels = await page.$$('button.icon-button');
+        // Use more robust selectors for Testing/Training based on live site
+        const modes = [
+            { name: 'トレーニング', selector: 'a.mode-button.button-link[href*="training.html"]' },
+            { name: 'テスト', selector: 'a.mode-button.button-link[href*="test.html"]' }
+        ];
+        const chosen = modes[Math.floor(Math.random() * modes.length)];
+        console.log(`Selecting Mode: ${chosen.name}`);
+        
+        await page.waitForSelector(chosen.selector, { timeout: 10000 });
+        await page.click(chosen.selector);
+        await page.waitForTimeout(3000);
+        await handleAds(); // Handle vignette after transition
+
+        // Level selection
+        console.log('Selecting Level...');
+        const levelSelector = '#level-select .icon-button, .icon-button';
+        await page.waitForSelector(levelSelector, { timeout: 10000 });
+        const levels = await page.$$(levelSelector);
         if (levels.length > 0) {
             await levels[Math.floor(Math.random() * Math.min(levels.length, 5))].click();
             await page.waitForTimeout(3000);
             await handleAds();
         }
 
-        const countButtons = await page.$$('.count-button, button:has-text("問")');
+        // Question count selection (if exists)
+        const countBtnSelector = '.icon-container .icon-button, button:has-text("問")';
+        const countButtons = await page.$$(countBtnSelector);
         if (countButtons.length > 0) {
             await countButtons[0].click();
             await page.waitForTimeout(3000);
             await handleAds();
         }
 
+        // Answer questions
         const numQs = Math.floor(Math.random() * 8) + 7; // 7-15 questions
         for (let i = 0; i < numQs; i++) {
             await handleAds();
-            const choices = await page.$$('#choices-container button');
-            if (choices.length > 0) {
-                await choices[Math.floor(Math.random() * choices.length)].click();
-                await page.waitForTimeout(Math.random() * 2000 + 1500);
-                const nextBtn = await page.$('#next-btn');
-                if (nextBtn && await nextBtn.isVisible()) {
-                    await nextBtn.click();
-                    await page.waitForTimeout(1500);
-                }
-            } else break;
+            const choiceSelector = '#choices button';
+            try {
+                await page.waitForSelector(choiceSelector, { timeout: 5000 });
+                const choices = await page.$$(choiceSelector);
+                if (choices.length > 0) {
+                    await choices[Math.floor(Math.random() * choices.length)].click();
+                    await page.waitForTimeout(Math.random() * 2000 + 2000); // 2-4s per question
+                    
+                    const nextBtn = await page.$('#next-btn');
+                    if (nextBtn && await nextBtn.isVisible()) {
+                        await nextBtn.click();
+                        await page.waitForTimeout(2000);
+                    }
+                } else break;
+            } catch (e) {
+                console.log(`Ending session: ${e.message}`);
+                break;
+            }
         }
     };
 
     const runBrowsingMode = async () => {
-        console.log('\n>> Entering [Browsing Mode]');
+        console.log('\n>> Entering [Deep Browsing Mode]');
         const headerLinks = [
             'a[href*="toeic-overview.html"]',
             'a[href*="toeic-books.html"]',
             'a[href*="column.html"]',
             'a[href*="other-exams.html"]',
-            'a[href*="profile.html"]'
+            'a[href*="profile.html"]',
+            'a[href*="toeic-vocabulary.html"]',
+            'a[href*="toeic-types.html"]'
         ];
         
-        const numPages = Math.floor(Math.random() * 3) + 2; 
+        const numPages = Math.floor(Math.random() * 4) + 2; // Visit 2-6 pages
         for (let i = 0; i < numPages; i++) {
             await page.goto(startUrl, { waitUntil: 'domcontentloaded' });
             await handleAds();
             const selector = headerLinks[Math.floor(Math.random() * headerLinks.length)];
-            console.log(`Browsing to header: ${selector}`);
-            await page.click(selector);
-            await page.waitForTimeout(3000);
-            await handleAds();
+            
+            try {
+                const link = await page.$(selector);
+                if (link) {
+                    console.log(`Browsing to child page: ${selector}`);
+                    await link.click();
+                    await page.waitForTimeout(4000);
+                    await handleAds();
 
-            const scrolls = Math.floor(Math.random() * 3) + 2;
-            for (let s = 0; s < scrolls; s++) {
-                const y = Math.floor(Math.random() * 2000);
-                await page.evaluate((y) => window.scrollTo({ top: y, behavior: 'smooth' }), y);
-                await page.waitForTimeout(Math.random() * 3000 + 2000);
+                    // Enhanced scrolling simulation
+                    const scrolls = Math.floor(Math.random() * 5) + 3; // 3-8 scrolls
+                    for (let s = 0; s < scrolls; s++) {
+                        const y = Math.floor(Math.random() * 3000);
+                        const duration = Math.random() * 4000 + 3000;
+                        console.log(`  Scrolling to Y=${y} (Waiting ${Math.round(duration/1000)}s)`);
+                        await page.evaluate((y) => window.scrollTo({ top: y, behavior: 'smooth' }), y);
+                        await page.waitForTimeout(duration);
+                    }
+                }
+            } catch (e) {
+                console.log(`Navigation failed for ${selector}: ${e.message}`);
             }
         }
     };
 
     try {
+        // Master Randomization: Decide path
         const pathType = Math.random();
+        console.log(`Master Path Selected: ${pathType < 0.4 ? 'A (Browse -> Quiz)' : pathType < 0.8 ? 'B (Quiz -> Browse)' : 'C (Deep Browse)'}`);
+        
         if (pathType < 0.4) {
             await runBrowsingMode();
             await runQuizMode();
