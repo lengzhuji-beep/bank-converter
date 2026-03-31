@@ -1,9 +1,20 @@
 const { execSync } = require('child_process');
 const axios = require('axios');
 const { chromium } = require('playwright');
+const readline = require('readline');
 
 const VPNCMD_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmd_x64.exe';
 const ACCOUNT_NAME = 'VPNGateAuto';
+
+// Helper for UI input
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function askQuestion(query) {
+    return new Promise(resolve => rl.question(query, resolve));
+}
 
 // Helper to run vpncmd
 function runVpnCmd(cmd) {
@@ -15,7 +26,29 @@ function runVpnCmd(cmd) {
     }
 }
 
-// 1. VPN Connection Logic (with Retry)
+// 0. IP Verification Logic
+async function checkCurrentIp() {
+    console.log('\n--- Checking Current IP Status ---');
+    try {
+        const res = await axios.get('http://ip-api.com/json/');
+        const data = res.data;
+        console.log(`[IP Address] ${data.query}`);
+        console.log(`[Location]   ${data.country} (${data.city})`);
+        console.log(`[ISP]        ${data.isp}`);
+        
+        if (data.countryCode !== 'JP') {
+            console.warn('WARNING: Current IP is NOT in Japan!');
+        } else {
+            console.log('SUCCESS: Verified Japan IP.');
+        }
+        return data;
+    } catch (e) {
+        console.error('Failed to verify IP:', e.message);
+        return null;
+    }
+}
+
+// 1. VPN Connection Logic (Automatic)
 async function connectVpnWithRetry(maxRetries = 3) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         console.log(`\n--- [1/4] VPN Connection (Attempt ${attempt}/${maxRetries}) ---`);
@@ -40,14 +73,12 @@ async function connectVpnWithRetry(maxRetries = 3) {
             runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
             runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
             
-            // Note: Standard VPN Gate config
             runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
             runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
             
             console.log('Connecting...');
             runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
 
-            // Wait for connection with longer timeout (60 seconds)
             console.log('Waiting for "Connected" status (max 60s)...');
             let connected = false;
             for (let i = 0; i < 30; i++) {
@@ -74,6 +105,7 @@ async function connectVpnWithRetry(maxRetries = 3) {
 // 2. Automation Logic (Master Randomizer)
 async function runAutomation() {
     console.log('\n--- [2/4] Browser Automation (Master Randomizer) ---');
+    // ... (rest of the runAutomation function remains same as before)
     const browser = await chromium.launch({ headless: false, slowMo: 800 }); 
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -142,7 +174,7 @@ async function runAutomation() {
             'a[href*="profile.html"]'
         ];
         
-        const numPages = Math.floor(Math.random() * 3) + 2; // Visit 2-4 pages
+        const numPages = Math.floor(Math.random() * 3) + 2; 
         for (let i = 0; i < numPages; i++) {
             await page.goto(startUrl, { waitUntil: 'domcontentloaded' });
             await handleAds();
@@ -152,7 +184,6 @@ async function runAutomation() {
             await page.waitForTimeout(3000);
             await handleAds();
 
-            // Random scrolling on the page
             const scrolls = Math.floor(Math.random() * 3) + 2;
             for (let s = 0; s < scrolls; s++) {
                 const y = Math.floor(Math.random() * 2000);
@@ -163,18 +194,14 @@ async function runAutomation() {
     };
 
     try {
-        // Master Randomization: Decide path
         const pathType = Math.random();
         if (pathType < 0.4) {
-            // Path A: Browse then Quiz
             await runBrowsingMode();
             await runQuizMode();
         } else if (pathType < 0.8) {
-            // Path B: Quiz then Browse
             await runQuizMode();
             await runBrowsingMode();
         } else {
-            // Path C: Deep Browse only
             await runBrowsingMode();
             await runBrowsingMode();
         }
@@ -196,14 +223,41 @@ function disconnectVpn() {
 
 // Master Flow
 async function main() {
+    console.log('=======================================');
+    console.log('   Advanced Automation Master Script   ');
+    console.log('=======================================');
+    console.log('\nVPN Selection Mode:');
+    console.log('[1] Automatic (VPN Gate via SoftEther)');
+    console.log('[2] Manual (Connect your own VPN first)');
+
+    const choice = await askQuestion('\nChoose mode (1 or 2): ');
+
     try {
-        await connectVpnWithRetry(3); // Retry 3 different servers
+        if (choice === '1') {
+            await connectVpnWithRetry(3);
+        } else {
+            console.log('\n>> Manual Mode Selected.');
+            console.log('Please connect to your VPN now.');
+            await askQuestion('Press ENTER once connected to verify IP and start automation...');
+        }
+
+        // IP Verification Step
+        const ipData = await checkCurrentIp();
+        if (ipData) {
+            const confirm = await askQuestion('\nContinue with this connection? (Y/n): ');
+            if (confirm.toLowerCase() === 'n') {
+                throw new Error('User aborted due to IP verification.');
+            }
+        }
+
         await runAutomation();
         disconnectVpn();
         console.log('\n--- [4/4] Process Finished Successfully ---');
     } catch (error) {
         console.error('\n[ERROR] Final failure:', error.message);
         disconnectVpn();
+    } finally {
+        rl.close();
     }
 }
 
