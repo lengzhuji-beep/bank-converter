@@ -117,9 +117,14 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
 
             console.log('  Launching SoftEther GUI to establish connection (App window should appear)...');
             // Allow a small delay to let SoftEther write the config to disk
-            await new Promise(r => setTimeout(r, 1500));
+            await new Promise(r => setTimeout(r, 1000));
             
-            execSync(`start "" "${VPN_CLIENT_PATH}" /connect:"${ACCOUNT_NAME}"`, { stdio: 'ignore' });
+            // Open GUI so Windows sees the desktop app as active
+            execSync(`start "" "${VPN_CLIENT_PATH}"`, { stdio: 'ignore' });
+            
+            // Actually trigger the connection
+            console.log('  Triggering connection command...');
+            runVpnCmd(`AccountConnect "${ACCOUNT_NAME}"`);
 
             console.log('  Waiting for GUI handshake & IP assignment (max 40s)...');
             let connected = false;
