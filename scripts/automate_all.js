@@ -95,30 +95,39 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
     }
 
     // Pick nodes, but prefer IP-based connection as it was successful before
+    const ACCOUNT_NAME = 'VPN Gate Connection';
+    const VPN_CLIENT_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpn_client_x64.exe';
+
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        // Take top 10 best nodes and pick one randomly
         const elitePool = candidates.slice(0, 10);
         const node = elitePool[Math.floor(Math.random() * elitePool.length)];
         
         console.log(`\n[Attempt ${attempt}/${maxRetries}] Target IP: ${node.ip} (Score: ${node.score})`);
 
         try {
-            console.log('  Preparing SoftEther (AccountDelete -> Create)...');
+            console.log('  Preparing existing successful profile...');
             runVpnCmd(`NicEnable VPN`);
-            runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
-            runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
+            runVpnCmd(`AccountDisconnect "${ACCOUNT_NAME}"`);
 
-            // Success logic from Step 1094: simple Create -> Connect
-            console.log(`  Configuring SoftEther for ${node.ip}...`);
-            runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
-            runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
-            runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
+            // Inject the new IP into the existing working profile
+            console.log(`  Updating GUI Profile with new IP...`);
+            let setOutput = runVpnCmd(`AccountSet "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn`);
+            
+            if (setOutput.includes('エラー') || setOutput.includes('Error')) {
+                console.log(`  Profile "${ACCOUNT_NAME}" not found. Trying to recreate it...`);
+                runVpnCmd(`AccountCreate "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
+                runVpnCmd(`AccountPasswordSet "${ACCOUNT_NAME}" /PASSWORD:vpn /TYPE:standard`);
+            }
 
-            console.log('  Waiting for server handshake & IP assignment (max 40s)...');
+            // Launch the actual GUI program to handle the connection exactly like a manual click!
+            console.log('  Launching SoftEther GUI to establish connection (App window should appear)...');
+            execSync(`start "" "${VPN_CLIENT_PATH}" /connect:"${ACCOUNT_NAME}"`, { stdio: 'ignore' });
+
+            console.log('  Waiting for GUI handshake & IP assignment (max 40s)...');
             let connected = false;
             
-            // Give SoftEther a moment to establish the base connection before hammering IP checks
-            await new Promise(r => setTimeout(r, 10000));
+            // Give GUI time to pop up and negotiate
+            await new Promise(r => setTimeout(r, 12000));
             
             for (let j = 0; j < 8; j++) {
                 const currentIpData = await getIpData();
@@ -128,15 +137,21 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
                     if (history.length > 20) history.shift();
                     fs.writeFileSync(HISTORY_FILE, JSON.stringify(history));
                     connected = true;
+                    
+                    // Close the GUI window to keep screen clean (connection stays active)
+                    try { execSync('taskkill /IM vpn_client_x64.exe /F', { stdio: 'ignore' }); } catch(e) {}
+                    
                     return true;
                 }
-                process.stdout.write('?'); // This is the '?' the user remembers!
+                process.stdout.write('?'); 
                 await new Promise(r => setTimeout(r, 4000));
             }
             
             if (!connected) {
                 console.log('\n  Timeout: IP did not change. Removing this node from current candidates...');
                 candidates = candidates.filter(c => c.ip !== node.ip);
+                runVpnCmd(`AccountDisconnect "${ACCOUNT_NAME}"`);
+                try { execSync('taskkill /IM vpn_client_x64.exe /F', { stdio: 'ignore' }); } catch(e) {}
             }
 
         } catch (error) {
