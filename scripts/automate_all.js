@@ -49,7 +49,7 @@ async function checkCurrentIp() {
 }
 
 // 1. VPN Connection Logic (Automatic)
-async function connectVpnWithRetry(maxRetries = 10) {
+async function connectVpnWithRetry(initialIp, maxRetries = 10) {
     console.log('\n--- [1/4] VPN Connection ---');
     console.log('Fetching Japan VPN list and prioritizing high-quality nodes...');
     
@@ -57,22 +57,17 @@ async function connectVpnWithRetry(maxRetries = 10) {
     try {
         const response = await axios.get('https://www.vpngate.net/api/iphone/');
         const allLines = response.data.split('\n');
-        
-        // Find indices from header
         const headers = allLines[1].split(',');
         const ipIdx = headers.indexOf('IP');
         const scoreIdx = headers.indexOf('Score');
         const countryIdx = headers.indexOf('CountryLong');
         const countryShortIdx = headers.indexOf('CountryShort');
 
-        // Strict filtering for 'Japan' or 'JP'
         sortedNodes = allLines.slice(2).map(line => {
             const parts = line.split(',');
             if (parts.length < 10) return null;
-            
             const isJapan = parts[countryIdx] === 'Japan' || parts[countryShortIdx] === 'JP';
             if (!isJapan) return null;
-
             return { ip: parts[ipIdx], score: parseInt(parts[scoreIdx]) || 0 };
         }).filter(n => n !== null).sort((a, b) => b.score - a.score);
 
@@ -96,12 +91,11 @@ async function connectVpnWithRetry(maxRetries = 10) {
             runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
             runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
 
-            console.log('  Waiting for connection (max 30s)...');
+            console.log('  Waiting for server handshake (max 30s)...');
             let connected = false;
             for (let i = 0; i < 15; i++) {
                 const status = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
                 if (status.includes('接続完了') || status.includes('Connected')) {
-                    console.log('\n  VPN Connected successfully!');
                     connected = true;
                     break;
                 }
@@ -110,21 +104,20 @@ async function connectVpnWithRetry(maxRetries = 10) {
             }
 
             if (connected) {
-                console.log('  Wait 10s for Windows to update routing and DHCP...');
-                await new Promise(r => setTimeout(r, 10000));
-                
-                // Force Metric priority via PowerShell
-                try {
-                    console.log('  Optimizing network priority (Metric: 1)...');
-                    const psCmd = 'powershell -Command "Get-NetIPInterface -InterfaceAlias \'*VPN*\' | Set-NetIPInterface -InterfaceMetric 1"';
-                    execSync(psCmd);
-                } catch (e) {
-                    console.log('  Note: Manual routing optimization skipped.');
+                console.log('\n  Server connected. Verifying IP change (max 30s)...');
+                for (let j = 0; j < 6; j++) {
+                    const currentIpData = await getIpData();
+                    if (currentIpData && currentIpData.query !== initialIp) {
+                        console.log(`  SUCCESS: IP changed to ${currentIpData.query} (${currentIpData.country})`);
+                        return true;
+                    }
+                    process.stdout.write('?');
+                    await new Promise(r => setTimeout(r, 5000));
                 }
-                
-                return true;
+                console.warn('\n  Warning: VPN session active but IP did not change. Switching server...');
+            } else {
+                console.log('\n  Timeout on this server. Trying next high-quality node...');
             }
-            console.log('\n  Timeout on this server. Trying next high-quality node...');
 
         } catch (error) {
             console.error(`\n  Attempt ${attempt + 1} error:`, error.message);
@@ -392,23 +385,24 @@ async function main() {
     const isAutomatic = (choice === '1');
 
     try {
+        const initialIp = initialIpData ? initialIpData.query : null;
         if (isAutomatic) {
-            await connectVpnWithRetry(3);
+            await connectVpnWithRetry(initialIp, 10);
         } else {
             console.log('\n>> Manual Mode Selected.');
             console.log('Waiting for manual VPN connection...');
             await askQuestion('Press ENTER when connected...');
-        }
-
-        const newIpData = await getIpData();
-        if (newIpData) {
-            console.log(`\nCurrent IP: ${newIpData.query} (${newIpData.country})`);
-            if (initialIpData && newIpData.query === initialIpData.query) {
-                console.warn('WARNING: IP has NOT changed. Possible VPN failure.');
-                const proceed = await askQuestion('Proceed anyway? (y/N): ');
-                if (proceed.toLowerCase() !== 'y') throw new Error('IP verification failed.');
-            } else {
-                console.log('SUCCESS: IP changed. Proceeding automatically...');
+            
+            const newIpData = await getIpData();
+            if (newIpData) {
+                console.log(`\nCurrent IP: ${newIpData.query} (${newIpData.country})`);
+                if (initialIp && newIpData.query === initialIp) {
+                    console.warn('WARNING: IP has NOT changed. Possible VPN failure.');
+                    const proceed = await askQuestion('Proceed anyway? (y/N): ');
+                    if (proceed.toLowerCase() !== 'y') throw new Error('IP verification failed.');
+                } else {
+                    console.log('SUCCESS: IP changed. Proceeding automatically...');
+                }
             }
         }
 
