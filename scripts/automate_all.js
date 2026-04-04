@@ -318,11 +318,32 @@ async function runAutomation() {
 }
 
 // 3. Disconnect Logic
-function disconnectVpn() {
+function disconnectVpn(isAutomatic) {
+    if (!isAutomatic) {
+        console.log('\n--- [3/4] Status ---');
+        console.log('Manual VPN mode: Please disconnect your VPN manually if needed.');
+        return;
+    }
+
     console.log('\n--- [3/4] VPN Disconnection ---');
-    runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
-    runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
-    console.log('VPN Disconnected.');
+    console.log('Attempting to disconnect and cleanup SoftEther...');
+    
+    // Attempt stop if connected
+    const status = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
+    if (!status.includes('エラー')) {
+        console.log('  Active connection found. Disconnecting...');
+        runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
+    }
+    
+    // Always attempt delete
+    const delRes = runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
+    if (delRes.includes('正常に終了しました') || delRes.includes('successfully')) {
+        console.log('  VPN connection profile deleted successfully.');
+    } else {
+        console.log('  No specific automation profile to delete.');
+    }
+    
+    console.log('VPN Cleanup Process Finished.');
 }
 
 // Master Flow
@@ -336,11 +357,13 @@ async function main() {
 
     console.log('\n[1] Automatic VPN  [2] Manual Mode');
     const choice = await askQuestion('Choice (1/2): ');
+    const isAutomatic = (choice === '1');
 
     try {
-        if (choice === '1') {
+        if (isAutomatic) {
             await connectVpnWithRetry(3);
         } else {
+            console.log('\n>> Manual Mode Selected.');
             console.log('Waiting for manual VPN connection...');
             await askQuestion('Press ENTER when connected...');
         }
@@ -358,11 +381,11 @@ async function main() {
         }
 
         await runAutomation();
-        disconnectVpn();
+        disconnectVpn(isAutomatic);
         console.log('\n--- [4/4] Completed successfully ---');
     } catch (error) {
         console.error('\n[ERROR] Aborted:', error.message);
-        disconnectVpn();
+        disconnectVpn(isAutomatic);
     } finally {
         rl.close();
     }
