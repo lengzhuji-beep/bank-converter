@@ -97,7 +97,7 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
 
     // Pick nodes, but prefer IP-based connection as it was successful before
     const ACCOUNT_NAME = 'VPN Gate Connection';
-    const VPN_CLIENT_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpn_client_x64.exe';
+    const VPN_CLIENT_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmgr_x64.exe';
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         const elitePool = candidates.slice(0, 10);
@@ -140,7 +140,7 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
                     connected = true;
                     
                     // Close the GUI window to keep screen clean (connection stays active)
-                    try { execSync('taskkill /IM vpn_client_x64.exe /F', { stdio: 'ignore' }); } catch(e) {}
+                    try { execSync('taskkill /IM vpncmgr_x64.exe /F', { stdio: 'ignore' }); } catch(e) {}
                     
                     return true;
                 }
@@ -152,7 +152,7 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
                 console.log('\n  Timeout: IP did not change. Removing this node from current candidates...');
                 candidates = candidates.filter(c => c.ip !== node.ip);
                 runVpnCmd(`AccountDisconnect "${ACCOUNT_NAME}"`);
-                try { execSync('taskkill /IM vpn_client_x64.exe /F', { stdio: 'ignore' }); } catch(e) {}
+                try { execSync('taskkill /IM vpncmgr_x64.exe /F', { stdio: 'ignore' }); } catch(e) {}
             }
 
         } catch (error) {
