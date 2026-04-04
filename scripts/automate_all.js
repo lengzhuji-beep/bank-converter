@@ -49,42 +49,50 @@ async function checkCurrentIp() {
 }
 
 // 1. VPN Connection Logic (Automatic)
-async function connectVpnWithRetry(maxRetries = 3) {
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        console.log(`\n--- [1/4] VPN Connection (Attempt ${attempt}/${maxRetries}) ---`);
+async function connectVpnWithRetry(maxRetries = 10) {
+    console.log('\n--- [1/4] VPN Connection ---');
+    console.log('Fetching Japan VPN list and prioritizing high-quality nodes...');
+    
+    let sortedNodes = [];
+    try {
+        const response = await axios.get('https://www.vpngate.net/api/iphone/');
+        const lines = response.data.split('\n').filter(line => line.includes('Japan'));
         
+        // Find indices from header
+        const headers = response.data.split('\n')[1].split(',');
+        const ipIdx = headers.indexOf('IP');
+        const scoreIdx = headers.indexOf('Score');
+
+        sortedNodes = lines.map(line => {
+            const parts = line.split(',');
+            return { ip: parts[ipIdx], score: parseInt(parts[scoreIdx]) || 0 };
+        }).sort((a, b) => b.score - a.score);
+
+        if (sortedNodes.length === 0) throw new Error('No Japan nodes found.');
+    } catch (e) {
+        throw new Error(`Failed to fetch VPN list: ${e.message}`);
+    }
+
+    for (let attempt = 0; attempt < Math.min(maxRetries, sortedNodes.length); attempt++) {
+        const { ip, score } = sortedNodes[attempt];
+        console.log(`\n[Attempt ${attempt + 1}/${maxRetries}] Target IP: ${ip} (Score: ${score})`);
+
         try {
-            console.log('Fetching Japan VPN list...');
-            const url = 'https://www.vpngate.net/api/iphone/';
-            const response = await axios.get(url);
-            const lines = response.data.split('\n');
-            const headers = lines[1].split(',');
-            const countryIndex = headers.indexOf('CountryLong');
-            const ipIndex = headers.indexOf('IP');
-
-            const japanNodes = lines.slice(2).filter(line => line.split(',')[countryIndex] === 'Japan');
-            if (japanNodes.length === 0) throw new Error('No Japanese nodes found.');
-
-            const randomNode = japanNodes[Math.floor(Math.random() * japanNodes.length)];
-            const ip = randomNode.split(',')[ipIndex];
-            console.log(`Selected IP: ${ip} (Japan)`);
-
-            console.log('Configuring SoftEther...');
+            console.log('  Cleaning up previous state...');
             runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
             runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
-            
+
+            console.log(`  Configuring SoftEther for ${ip}...`);
             runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
             runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
-            
-            console.log('Connecting...');
             runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
 
-            console.log('Waiting for "Connected" status (max 60s)...');
+            console.log('  Waiting for connection (max 30s)...');
             let connected = false;
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 15; i++) {
                 const status = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
                 if (status.includes('接続完了') || status.includes('Connected')) {
-                    console.log('\nVPN Connected successfully!');
+                    console.log('\n  VPN Connected successfully!');
                     connected = true;
                     break;
                 }
@@ -93,13 +101,13 @@ async function connectVpnWithRetry(maxRetries = 3) {
             }
 
             if (connected) return true;
-            console.log('\nTimeout on this server. Retrying with another...');
+            console.log('\n  Timeout on this server. Trying next high-quality node...');
 
         } catch (error) {
-            console.error('\nAttempt failed:', error.message);
+            console.error(`\n  Attempt ${attempt + 1} error:`, error.message);
         }
     }
-    throw new Error('All VPN connection attempts failed.');
+    throw new Error('Could not establish a stable VPN connection after multiple attempts.');
 }
 
 // Helper: Get IP silently
