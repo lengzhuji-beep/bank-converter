@@ -231,7 +231,8 @@ async function runAutomation() {
 
     const runQuizMode = async () => {
         console.log('\n>> Entering [Quiz/Training Mode]');
-        await page.goto(startUrl, { waitUntil: 'networkidle' });
+        await page.goto(startUrl, { waitUntil: 'load' });
+        await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
         await handleAds(page);
 
         const modes = [
@@ -240,7 +241,8 @@ async function runAutomation() {
         ];
         const chosen = modes[Math.floor(Math.random() * modes.length)];
         await smartClick(page, chosen.selector);
-        await page.waitForLoadState('networkidle').catch(() => {});
+        await page.waitForLoadState('load');
+        await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
         await handleAds(page);
 
         console.log('Selecting Level...');
@@ -271,12 +273,14 @@ async function runAutomation() {
         const links = ['column.html', 'toeic-books.html', 'toeic-overview.html', 'profile.html', 'toeic-vocabulary.html'];
         
         for (const link of links.sort(() => Math.random() - 0.5).slice(0, 4)) {
-            await page.goto(startUrl, { waitUntil: 'networkidle' });
+            await page.goto(startUrl, { waitUntil: 'load' });
+            await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
             await clickRandomAd(page);
             try {
                 const sel = `a[href*="${link}"]`;
                 await smartClick(page, sel);
-                await page.waitForLoadState('networkidle').catch(() => {});
+                await page.waitForLoadState('load');
+                await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
                 
                 const scrolls = Math.floor(Math.random() * 6) + 4;
                 for (let s = 0; s < scrolls; s++) {
