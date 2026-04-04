@@ -6,7 +6,9 @@ const readline = require('readline');
 const HISTORY_FILE = 'vpn_history.json';
 
 const VPNCMD_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmd_x64.exe';
-const ACCOUNT_NAME = 'VPNGateAuto';
+const VPN_CLIENT_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpn_client_x64.exe';
+const ACCOUNT_NAME = 'VPN Gate Connection';
+const BACKUP_ACCOUNT = 'VPNGateAuto'; // Fallback if manual name is missing
 
 // Helper for UI input
 const rl = readline.createInterface({
@@ -21,10 +23,11 @@ function askQuestion(query) {
 // Helper to run vpncmd
 function runVpnCmd(cmd) {
     try {
-        const fullCmd = `"${VPNCMD_PATH}" localhost /CLIENT /CMD ${cmd}`;
-        return execSync(fullCmd).toString();
+        // Force UTF8 output via PowerShell bridge to ensure character matching
+        const psCmd = `powershell -Command "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; & '${VPNCMD_PATH}' localhost /CLIENT /CMD ${cmd}"`;
+        return execSync(psCmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
     } catch (e) {
-        return e.stdout ? e.stdout.toString() : e.message;
+        return e.stdout ? e.stdout.toString('utf8') : e.message;
     }
 }
 
@@ -102,27 +105,56 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
         console.log(`\n[Attempt ${attempt}/${maxRetries}] Target: ${node.host} (Score: ${node.score})`);
 
         try {
-            console.log('  Preparing SoftEther...');
-            runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
-            runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
+            console.log('  Preparing existing successful profile...');
+            runVpnCmd(`NicEnable VPN`); // Keep NIC alive
+            
+            // Try to set new server on EXISTING manual profile "VPN Gate Connection"
+            // This inherits all working GUI settings (Metric, NIC, Proxy, etc.)
+            let setOutput = runVpnCmd(`AccountSet "${ACCOUNT_NAME}" /SERVER:${node.host}:443 /HUB:VPNGATE /USERNAME:vpn`);
+            
+            if (setOutput.includes('エラー') || setOutput.includes('Error')) {
+                console.log('  Manual profile not found. Creating a fresh auto profile...');
+                runVpnCmd(`AccountDelete "${BACKUP_ACCOUNT}"`);
+                runVpnCmd(`AccountCreate "${BACKUP_ACCOUNT}" /SERVER:${node.host}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
+                runVpnCmd(`AccountPasswordSet "${BACKUP_ACCOUNT}" /PASSWORD:vpn /TYPE:standard`);
+                runVpnCmd(`AccountDetailSet "${BACKUP_ACCOUNT}" /MAXTCP:8 /RETRY:10 /RETRYINTERVAL:5 /HALF:no /ENCRYPT:yes /COMPRESS:no`);
+                // Switch to backup for this session
+                currentLocalAccount = BACKUP_ACCOUNT;
+            } else {
+                console.log('  SUCCESS: Updated manual profile target.');
+                currentLocalAccount = ACCOUNT_NAME;
+            }
 
-            // Try standard ports: 443 is primary, but Hostname usually handles it better
-            console.log(`  Connecting to ${node.host}...`);
-            runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${node.host}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
-            runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
-            runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
+            // Simulate "Desktop Icon Click" using the GUI binary's /connect flag
+            // This force-triggers the same engine the GUI uses
+            console.log(`  Initiating connection via GUI engine (mimic icon click)...`);
+            try {
+                execSync(`"${VPN_CLIENT_PATH}" /connect:"${currentLocalAccount}"`);
+            } catch (e) {
+                // Sometimes it returns immediately or has a minor error, we check status next regardless
+                runVpnCmd(`AccountConnect "${currentLocalAccount}"`); // Fallback if binary /connect fails
+            }
 
-            console.log('  Waiting for server handshake (max 30s)...');
+            console.log('  Waiting for server handshake (max 60s)...');
             let connected = false;
             let lastStatus = '';
-            for (let i = 0; i < 15; i++) {
-                const statusOutput = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
-                const match = statusOutput.match(/セッション接続状態\s+\|(.+)/);
-                const currentStatus = match ? match[1].trim() : 'Unknown';
+            // Increased to 30 loops (60s) for better stability
+            for (let i = 0; i < 30; i++) {
+                const statusOutput = runVpnCmd(`AccountStatusGet "${currentLocalAccount}"`);
                 
-                if (currentStatus !== lastStatus) {
-                    process.stdout.write(`\n  Status: ${currentStatus} `);
-                    lastStatus = currentStatus;
+                // Universal Status Search: find ANY line with "状態" (Status) or "Session" and a "|"
+                const lines = statusOutput.split('\n');
+                let currentStatusValue = 'Connecting...';
+                for (const line of lines) {
+                    if ((line.includes('状態') || line.includes('Status')) && line.includes('|')) {
+                        currentStatusValue = line.split('|').pop().trim();
+                        break;
+                    }
+                }
+                
+                if (currentStatusValue !== lastStatus) {
+                    process.stdout.write(`\n    [SoftEther] ${currentStatusValue} `);
+                    lastStatus = currentStatusValue;
                 }
                 process.stdout.write('.');
 
@@ -130,6 +162,12 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
                     connected = true;
                     break;
                 }
+                
+                if (statusOutput.includes('エラーが発生しました') || statusOutput.includes('Error occurred')) {
+                    console.log('\n    Handshake error detected.');
+                    break;
+                }
+
                 await new Promise(r => setTimeout(r, 2000));
             }
 
@@ -376,22 +414,18 @@ async function runAutomation() {
 }
 
 // 3. Disconnect Logic
-async function disconnectVpn(isAutomatic) {
-    if (!isAutomatic) {
-        console.log('\n--- [3/4] Status ---');
-        console.log('Manual VPN mode: Please disconnect your VPN manually if needed.');
-        return;
-    }
-
+async function disconnectVpn() {
     console.log('\n--- [3/4] VPN Disconnection ---');
     console.log('Attempting to disconnect and cleanup SoftEther...');
     
-    // Attempt stop if connected
-    const status = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
-    if (!status.includes('エラー')) {
-        console.log('  Active connection found. Disconnecting...');
-        runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
-    }
+    // Attempt stop on both potential names
+    [ACCOUNT_NAME, BACKUP_ACCOUNT].forEach(name => {
+        const status = runVpnCmd(`AccountStatusGet "${name}"`);
+        if (!status.includes('エラー')) {
+            console.log(`  Disconnecting ${name}...`);
+            runVpnCmd(`AccountDisconnect "${name}"`);
+        }
+    });
     
     // Hard-reset the Virtual NIC to clear OS-level IP/Routes
     console.log('  Hard-resetting Virtual NIC (VPN)...');
