@@ -7,8 +7,7 @@ const HISTORY_FILE = 'vpn_history.json';
 
 const VPNCMD_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmd_x64.exe';
 const VPN_CLIENT_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpn_client_x64.exe';
-const ACCOUNT_NAME = 'VPN Gate Connection';
-const BACKUP_ACCOUNT = 'VPNGateAuto'; // Fallback if manual name is missing
+const ACCOUNT_NAME = 'VPNGateAuto';
 
 // Helper for UI input
 const rl = readline.createInterface({
@@ -23,11 +22,10 @@ function askQuestion(query) {
 // Helper to run vpncmd
 function runVpnCmd(cmd) {
     try {
-        // Force UTF8 output via PowerShell bridge to ensure character matching
-        const psCmd = `powershell -Command "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; & '${VPNCMD_PATH}' localhost /CLIENT /CMD ${cmd}"`;
-        return execSync(psCmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+        const fullCmd = `"${VPNCMD_PATH}" localhost /CLIENT /CMD ${cmd}`;
+        return execSync(fullCmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString();
     } catch (e) {
-        return e.stdout ? e.stdout.toString('utf8') : e.message;
+        return '';
     }
 }
 
@@ -96,98 +94,48 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
         throw new Error(`Failed to fetch VPN list: ${e.message}`);
     }
 
-    // Try up to maxRetries, but pick from the top 20 best nodes randomly
+    // Pick nodes, but prefer IP-based connection as it was successful before
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        // Take top 20 and pick 1 randomly to avoid congestion on the absolute #1
-        const elitePool = candidates.slice(0, 20);
+        // Take top 10 best nodes and pick one randomly
+        const elitePool = candidates.slice(0, 10);
         const node = elitePool[Math.floor(Math.random() * elitePool.length)];
         
-        console.log(`\n[Attempt ${attempt}/${maxRetries}] Target: ${node.host} (Score: ${node.score})`);
+        console.log(`\n[Attempt ${attempt}/${maxRetries}] Target IP: ${node.ip} (Score: ${node.score})`);
 
         try {
-            console.log('  Preparing existing successful profile...');
-            runVpnCmd(`NicEnable VPN`); // Keep NIC alive
-            
-            // Try to set new server on EXISTING manual profile "VPN Gate Connection"
-            // This inherits all working GUI settings (Metric, NIC, Proxy, etc.)
-            let setOutput = runVpnCmd(`AccountSet "${ACCOUNT_NAME}" /SERVER:${node.host}:443 /HUB:VPNGATE /USERNAME:vpn`);
-            
-            if (setOutput.includes('エラー') || setOutput.includes('Error')) {
-                console.log('  Manual profile not found. Creating a fresh auto profile...');
-                runVpnCmd(`AccountDelete "${BACKUP_ACCOUNT}"`);
-                runVpnCmd(`AccountCreate "${BACKUP_ACCOUNT}" /SERVER:${node.host}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
-                runVpnCmd(`AccountPasswordSet "${BACKUP_ACCOUNT}" /PASSWORD:vpn /TYPE:standard`);
-                runVpnCmd(`AccountDetailSet "${BACKUP_ACCOUNT}" /MAXTCP:8 /RETRY:10 /RETRYINTERVAL:5 /HALF:no /ENCRYPT:yes /COMPRESS:no`);
-                // Switch to backup for this session
-                currentLocalAccount = BACKUP_ACCOUNT;
-            } else {
-                console.log('  SUCCESS: Updated manual profile target.');
-                currentLocalAccount = ACCOUNT_NAME;
-            }
+            console.log('  Preparing SoftEther (AccountDelete -> Create)...');
+            runVpnCmd(`NicEnable VPN`);
+            runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
+            runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
 
-            // Simulate "Desktop Icon Click" using the GUI binary's /connect flag
-            // This force-triggers the same engine the GUI uses
-            console.log(`  Initiating connection via GUI engine (mimic icon click)...`);
-            try {
-                execSync(`"${VPN_CLIENT_PATH}" /connect:"${currentLocalAccount}"`);
-            } catch (e) {
-                // Sometimes it returns immediately or has a minor error, we check status next regardless
-                runVpnCmd(`AccountConnect "${currentLocalAccount}"`); // Fallback if binary /connect fails
-            }
+            // Success logic from Step 1094: simple Create -> Connect
+            console.log(`  Configuring SoftEther for ${node.ip}...`);
+            runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
+            runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
+            runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
 
-            console.log('  Waiting for server handshake (max 60s)...');
+            console.log('  Waiting for server handshake & IP assignment (max 40s)...');
             let connected = false;
-            let lastStatus = '';
-            // Increased to 30 loops (60s) for better stability
-            for (let i = 0; i < 30; i++) {
-                const statusOutput = runVpnCmd(`AccountStatusGet "${currentLocalAccount}"`);
-                
-                // Universal Status Search: find ANY line with "状態" (Status) or "Session" and a "|"
-                const lines = statusOutput.split('\n');
-                let currentStatusValue = 'Connecting...';
-                for (const line of lines) {
-                    if ((line.includes('状態') || line.includes('Status')) && line.includes('|')) {
-                        currentStatusValue = line.split('|').pop().trim();
-                        break;
-                    }
-                }
-                
-                if (currentStatusValue !== lastStatus) {
-                    process.stdout.write(`\n    [SoftEther] ${currentStatusValue} `);
-                    lastStatus = currentStatusValue;
-                }
-                process.stdout.write('.');
-
-                if (statusOutput.includes('接続完了') || statusOutput.includes('Connected')) {
+            
+            // Give SoftEther a moment to establish the base connection before hammering IP checks
+            await new Promise(r => setTimeout(r, 10000));
+            
+            for (let j = 0; j < 8; j++) {
+                const currentIpData = await getIpData();
+                if (currentIpData && currentIpData.query !== initialIp) {
+                    console.log(`\n  SUCCESS: IP changed to ${currentIpData.query} (${currentIpData.country})`);
+                    history.push(node.ip);
+                    if (history.length > 20) history.shift();
+                    fs.writeFileSync(HISTORY_FILE, JSON.stringify(history));
                     connected = true;
-                    break;
+                    return true;
                 }
-                
-                if (statusOutput.includes('エラーが発生しました') || statusOutput.includes('Error occurred')) {
-                    console.log('\n    Handshake error detected.');
-                    break;
-                }
-
-                await new Promise(r => setTimeout(r, 2000));
+                process.stdout.write('?'); // This is the '?' the user remembers!
+                await new Promise(r => setTimeout(r, 4000));
             }
-
-            if (connected) {
-                console.log('\n\n  Server connected. Verifying IP change (max 30s)...');
-                for (let j = 0; j < 6; j++) {
-                    const currentIpData = await getIpData();
-                    if (currentIpData && currentIpData.query !== initialIp) {
-                        console.log(`  SUCCESS: IP changed to ${currentIpData.query} (${currentIpData.country})`);
-                        history.push(node.ip);
-                        if (history.length > 20) history.shift();
-                        fs.writeFileSync(HISTORY_FILE, JSON.stringify(history));
-                        return true;
-                    }
-                    process.stdout.write('?');
-                    await new Promise(r => setTimeout(r, 5000));
-                }
-                console.warn('\n  Warning: VPN connected but IP did not change. Switching server...');
-            } else {
-                console.log('\n  Handshake timeout. Removing this node from current candidates...');
+            
+            if (!connected) {
+                console.log('\n  Timeout: IP did not change. Removing this node from current candidates...');
                 candidates = candidates.filter(c => c.ip !== node.ip);
             }
 
@@ -418,14 +366,12 @@ async function disconnectVpn() {
     console.log('\n--- [3/4] VPN Disconnection ---');
     console.log('Attempting to disconnect and cleanup SoftEther...');
     
-    // Attempt stop on both potential names
-    [ACCOUNT_NAME, BACKUP_ACCOUNT].forEach(name => {
-        const status = runVpnCmd(`AccountStatusGet "${name}"`);
-        if (!status.includes('エラー')) {
-            console.log(`  Disconnecting ${name}...`);
-            runVpnCmd(`AccountDisconnect "${name}"`);
-        }
-    });
+    // Attempt stop if connected
+    const status = runVpnCmd(`AccountStatusGet "${ACCOUNT_NAME}"`);
+    if (!status.includes('エラー')) {
+        console.log(`  Disconnecting ${ACCOUNT_NAME}...`);
+        runVpnCmd(`AccountDisconnect "${ACCOUNT_NAME}"`);
+    }
     
     // Hard-reset the Virtual NIC to clear OS-level IP/Routes
     console.log('  Hard-resetting Virtual NIC (VPN)...');
@@ -434,7 +380,7 @@ async function disconnectVpn() {
     runVpnCmd(`NicEnable VPN`);  // Re-enable for next time
     
     // Cleanup profile
-    runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
+    runVpnCmd(`AccountDelete "${ACCOUNT_NAME}"`);
     
     console.log('VPN Cleanup Process Finished. System is now back to original IP.');
 }
