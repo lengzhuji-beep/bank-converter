@@ -318,7 +318,7 @@ async function runAutomation() {
 }
 
 // 3. Disconnect Logic
-function disconnectVpn(isAutomatic) {
+async function disconnectVpn(isAutomatic) {
     if (!isAutomatic) {
         console.log('\n--- [3/4] Status ---');
         console.log('Manual VPN mode: Please disconnect your VPN manually if needed.');
@@ -335,15 +335,16 @@ function disconnectVpn(isAutomatic) {
         runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
     }
     
-    // Always attempt delete
-    const delRes = runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
-    if (delRes.includes('正常に終了しました') || delRes.includes('successfully')) {
-        console.log('  VPN connection profile deleted successfully.');
-    } else {
-        console.log('  No specific automation profile to delete.');
-    }
+    // Hard-reset the Virtual NIC to clear OS-level IP/Routes
+    console.log('  Hard-resetting Virtual NIC (VPN)...');
+    runVpnCmd(`NicDisable VPN`); // Disable
+    await new Promise(r => setTimeout(r, 2000));
+    runVpnCmd(`NicEnable VPN`);  // Re-enable for next time
     
-    console.log('VPN Cleanup Process Finished.');
+    // Cleanup profile
+    runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
+    
+    console.log('VPN Cleanup Process Finished. System is now back to original IP.');
 }
 
 // Master Flow
@@ -381,11 +382,11 @@ async function main() {
         }
 
         await runAutomation();
-        disconnectVpn(isAutomatic);
+        await disconnectVpn(isAutomatic);
         console.log('\n--- [4/4] Completed successfully ---');
     } catch (error) {
         console.error('\n[ERROR] Aborted:', error.message);
-        disconnectVpn(isAutomatic);
+        await disconnectVpn(isAutomatic);
     } finally {
         rl.close();
     }
