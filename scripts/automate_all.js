@@ -1,4 +1,106 @@
-// ... (previous helper functions: runVpnCmd, checkCurrentIp, etc.)
+const { execSync } = require('child_process');
+const axios = require('axios');
+const { chromium } = require('playwright');
+const readline = require('readline');
+
+const VPNCMD_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmd_x64.exe';
+const ACCOUNT_NAME = 'VPNGateAuto';
+
+// Helper for UI input
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function askQuestion(query) {
+    return new Promise(resolve => rl.question(query, resolve));
+}
+
+// Helper to run vpncmd
+function runVpnCmd(cmd) {
+    try {
+        const fullCmd = `"${VPNCMD_PATH}" localhost /CLIENT /CMD ${cmd}`;
+        return execSync(fullCmd).toString();
+    } catch (e) {
+        return e.stdout ? e.stdout.toString() : e.message;
+    }
+}
+
+// 0. IP Verification Logic
+async function checkCurrentIp() {
+    console.log('\n--- Checking Current IP Status ---');
+    try {
+        const res = await axios.get('http://ip-api.com/json/');
+        const data = res.data;
+        console.log(`[IP Address] ${data.query}`);
+        console.log(`[Location]   ${data.country} (${data.city})`);
+        console.log(`[ISP]        ${data.isp}`);
+        
+        if (data.countryCode !== 'JP') {
+            console.warn('WARNING: Current IP is NOT in Japan!');
+        } else {
+            console.log('SUCCESS: Verified Japan IP.');
+        }
+        return data;
+    } catch (e) {
+        console.error('Failed to verify IP:', e.message);
+        return null;
+    }
+}
+
+// 1. VPN Connection Logic (Automatic)
+async function connectVpnWithRetry(maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        console.log(`\n--- [1/4] VPN Connection (Attempt ${attempt}/${maxRetries}) ---`);
+        
+        try {
+            console.log('Fetching Japan VPN list...');
+            const url = 'https://www.vpngate.net/api/iphone/';
+            const response = await axios.get(url);
+            const lines = response.data.split('\n');
+            const headers = lines[1].split(',');
+            const countryIndex = headers.indexOf('CountryLong');
+            const ipIndex = headers.indexOf('IP');
+
+            const japanNodes = lines.slice(2).filter(line => line.split(',')[countryIndex] === 'Japan');
+            if (japanNodes.length === 0) throw new Error('No Japanese nodes found.');
+
+            const randomNode = japanNodes[Math.floor(Math.random() * japanNodes.length)];
+            const ip = randomNode.split(',')[ipIndex];
+            console.log(`Selected IP: ${ip} (Japan)`);
+
+            console.log('Configuring SoftEther...');
+            runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
+            runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
+            
+            runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
+            runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
+            
+            console.log('Connecting...');
+            runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
+
+            console.log('Waiting for "Connected" status (max 60s)...');
+            let connected = false;
+            for (let i = 0; i < 30; i++) {
+                const status = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
+                if (status.includes('接続完了') || status.includes('Connected')) {
+                    console.log('\nVPN Connected successfully!');
+                    connected = true;
+                    break;
+                }
+                process.stdout.write('.');
+                await new Promise(r => setTimeout(r, 2000));
+            }
+
+            if (connected) return true;
+            console.log('\nTimeout on this server. Retrying with another...');
+
+        } catch (error) {
+            console.error('\nAttempt failed:', error.message);
+        }
+    }
+    throw new Error('All VPN connection attempts failed.');
+}
 
 // Helper: Smart Click that handles obstructions
 async function smartClick(page, selector, options = {}) {
