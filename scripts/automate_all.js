@@ -96,7 +96,7 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
     }
 
     // Pick nodes, but prefer IP-based connection as it was successful before
-    const ACCOUNT_NAME = 'VPN Gate Connection';
+    const ACCOUNT_NAME = 'VPNGateAuto';
     const VPN_CLIENT_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmgr_x64.exe';
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -106,22 +106,19 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
         console.log(`\n[Attempt ${attempt}/${maxRetries}] Target IP: ${node.ip} (Score: ${node.score})`);
 
         try {
-            console.log('  Preparing existing successful profile...');
+            console.log('  Preparing GUI profile (Reset & Create fresh)...');
             runVpnCmd(`NicEnable VPN`);
             runVpnCmd(`AccountDisconnect "${ACCOUNT_NAME}"`);
+            runVpnCmd(`AccountDelete "${ACCOUNT_NAME}"`);
 
-            // Inject the new IP into the existing working profile
-            console.log(`  Updating GUI Profile with new IP...`);
-            let setOutput = runVpnCmd(`AccountSet "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn`);
-            
-            if (setOutput === '' || setOutput.includes('エラー') || setOutput.includes('Error')) {
-                console.log(`  Profile "${ACCOUNT_NAME}" not found. Trying to recreate it...`);
-                runVpnCmd(`AccountCreate "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
-                runVpnCmd(`AccountPasswordSet "${ACCOUNT_NAME}" /PASSWORD:vpn /TYPE:standard`);
-            }
+            console.log(`  Configuring new Profile to bypass plugin restrictions...`);
+            let createOutput = runVpnCmd(`AccountCreate "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
+            runVpnCmd(`AccountPasswordSet "${ACCOUNT_NAME}" /PASSWORD:vpn /TYPE:standard`);
 
-            // Launch the actual GUI program to handle the connection exactly like a manual click!
             console.log('  Launching SoftEther GUI to establish connection (App window should appear)...');
+            // Allow a small delay to let SoftEther write the config to disk
+            await new Promise(r => setTimeout(r, 1500));
+            
             execSync(`start "" "${VPN_CLIENT_PATH}" /connect:"${ACCOUNT_NAME}"`, { stdio: 'ignore' });
 
             console.log('  Waiting for GUI handshake & IP assignment (max 40s)...');
