@@ -342,8 +342,10 @@ async function runAutomation() {
     const runBrowsingMode = async () => {
         console.log('\n>> Entering [Autonomous Browsing Mode]');
         const links = ['column.html', 'toeic-books.html', 'toeic-overview.html', 'profile.html', 'toeic-vocabulary.html'];
+        // Randomize number of pages this "user" visits (1 to 5)
+        const pagesToVisit = Math.floor(Math.random() * 5) + 1;
         
-        for (const link of links.sort(() => Math.random() - 0.5).slice(0, 4)) {
+        for (const link of links.sort(() => Math.random() - 0.5).slice(0, pagesToVisit)) {
             await page.goto(startUrl, { waitUntil: 'load' });
             await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
             await clickRandomAd(page);
@@ -353,10 +355,18 @@ async function runAutomation() {
                 await page.waitForLoadState('load');
                 await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
                 
-                const scrolls = Math.floor(Math.random() * 6) + 4;
+                // Simulate "Bouncing" - immediately leaving some pages
+                if (Math.random() < 0.2) {
+                    console.log(`  [Simulated Bounce] Leaving page almost immediately...`);
+                    await page.waitForTimeout(Math.random() * 2000 + 1000);
+                    continue; 
+                }
+
+                // Random scroll depth/interest
+                const scrolls = Math.floor(Math.random() * 5) + 2;
                 for (let s = 0; s < scrolls; s++) {
                     await page.evaluate(() => window.scrollBy({ top: Math.random() * 800 + 200, behavior: 'smooth' }));
-                    await page.waitForTimeout(Math.random() * 4000 + 3000);
+                    await page.waitForTimeout(Math.random() * 5000 + 2000); // Varied reading time
                     if (globalAdsClicked < globalAdTarget) await clickRandomAd(page);
                 }
             } catch (e) {}
@@ -364,10 +374,32 @@ async function runAutomation() {
     };
 
     try {
-        await runBrowsingMode();
-        await runQuizMode();
+        // High-level workflow randomization to simulate different user personalities
+        // Some users only browse, some browse then quiz, some only quiz.
+        const workflows = [
+            [runBrowsingMode],
+            [runQuizMode, runBrowsingMode],
+            [runBrowsingMode, runQuizMode],
+            [runBrowsingMode, runBrowsingMode, runQuizMode],
+            [runQuizMode]
+        ];
+        // Pick a random personality
+        const selectedWorkflow = workflows[Math.floor(Math.random() * workflows.length)];
+        
+        for (const action of selectedWorkflow) {
+            await action();
+            // Early exit if we casually hit our quota fast, but 30% chance we just keep browsing anyway
+            if (globalAdsClicked >= globalAdTarget && Math.random() > 0.3) {
+                console.log('\n>> Targeted ad quota met naturally. Concluding session...');
+                break;
+            }
+            // Wait between major actions
+            await page.waitForTimeout(Math.random() * 5000 + 3000);
+        }
+        
+        // Force extra browsing if quota still not met
         if (globalAdsClicked < globalAdTarget) {
-            console.log('\n>> Targeted ad quota not met. Extra browsing...');
+            console.log('\n>> Targeted ad quota not met. Extra browsing session...');
             await runBrowsingMode();
         }
     } catch (e) {
