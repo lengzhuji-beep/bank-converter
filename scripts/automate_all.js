@@ -2,6 +2,7 @@ const fs = require('fs');
 const axios = require('axios');
 const { chromium } = require('playwright');
 const readline = require('readline');
+const { execSync } = require('child_process');
 
 const HISTORY_FILE = 'vpn_history.json';
 
