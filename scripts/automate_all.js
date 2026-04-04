@@ -56,19 +56,28 @@ async function connectVpnWithRetry(maxRetries = 10) {
     let sortedNodes = [];
     try {
         const response = await axios.get('https://www.vpngate.net/api/iphone/');
-        const lines = response.data.split('\n').filter(line => line.includes('Japan'));
+        const allLines = response.data.split('\n');
         
         // Find indices from header
-        const headers = response.data.split('\n')[1].split(',');
+        const headers = allLines[1].split(',');
         const ipIdx = headers.indexOf('IP');
         const scoreIdx = headers.indexOf('Score');
+        const countryIdx = headers.indexOf('CountryLong');
+        const countryShortIdx = headers.indexOf('CountryShort');
 
-        sortedNodes = lines.map(line => {
+        // Strict filtering for 'Japan' or 'JP'
+        sortedNodes = allLines.slice(2).map(line => {
             const parts = line.split(',');
+            if (parts.length < 10) return null;
+            
+            const isJapan = parts[countryIdx] === 'Japan' || parts[countryShortIdx] === 'JP';
+            if (!isJapan) return null;
+
             return { ip: parts[ipIdx], score: parseInt(parts[scoreIdx]) || 0 };
-        }).sort((a, b) => b.score - a.score);
+        }).filter(n => n !== null).sort((a, b) => b.score - a.score);
 
         if (sortedNodes.length === 0) throw new Error('No Japan nodes found.');
+        console.log(`  Found ${sortedNodes.length} Japanese nodes. Attempting best quality...`);
     } catch (e) {
         throw new Error(`Failed to fetch VPN list: ${e.message}`);
     }
@@ -100,7 +109,21 @@ async function connectVpnWithRetry(maxRetries = 10) {
                 await new Promise(r => setTimeout(r, 2000));
             }
 
-            if (connected) return true;
+            if (connected) {
+                console.log('  Wait 10s for Windows to update routing and DHCP...');
+                await new Promise(r => setTimeout(r, 10000));
+                
+                // Force Metric priority via PowerShell
+                try {
+                    console.log('  Optimizing network priority (Metric: 1)...');
+                    const psCmd = 'powershell -Command "Get-NetIPInterface -InterfaceAlias \'*VPN*\' | Set-NetIPInterface -InterfaceMetric 1"';
+                    execSync(psCmd);
+                } catch (e) {
+                    console.log('  Note: Manual routing optimization skipped.');
+                }
+                
+                return true;
+            }
             console.log('\n  Timeout on this server. Trying next high-quality node...');
 
         } catch (error) {
