@@ -54,99 +54,107 @@ async function checkCurrentIp() {
 async function connectVpnWithRetry(initialIp, maxRetries = 10) {
     console.log('\n--- [1/4] VPN Connection ---');
     
-    // Load history
     let history = [];
     if (fs.existsSync(HISTORY_FILE)) {
-        try {
-            history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
-        } catch (e) {
-            history = [];
-        }
+        try { history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8')); } catch (e) {}
     }
 
-    console.log('Fetching Japan VPN list and prioritizing high-quality nodes...');
-    let sortedNodes = [];
+    console.log('Fetching Japan VPN list and selecting high-score elite nodes...');
+    let candidates = [];
     try {
         const response = await axios.get('https://www.vpngate.net/api/iphone/');
         const allLines = response.data.split('\n');
         const headers = allLines[1].split(',');
+        const hostIdx = headers.indexOf('#HostName');
         const ipIdx = headers.indexOf('IP');
         const scoreIdx = headers.indexOf('Score');
         const countryIdx = headers.indexOf('CountryLong');
         const countryShortIdx = headers.indexOf('CountryShort');
 
-        sortedNodes = allLines.slice(2).map(line => {
+        candidates = allLines.slice(2).map(line => {
             const parts = line.split(',');
             if (parts.length < 10) return null;
             
             const ip = parts[ipIdx];
+            const host = parts[hostIdx] ? `${parts[hostIdx]}.opengw.net` : ip;
             const isJapan = parts[countryIdx] === 'Japan' || parts[countryShortIdx] === 'JP';
             const isUsed = history.includes(ip);
             
             if (!isJapan || isUsed) return null;
-            return { ip, score: parseInt(parts[scoreIdx]) || 0 };
+            return { ip, host, score: parseInt(parts[scoreIdx]) || 0 };
         }).filter(n => n !== null).sort((a, b) => b.score - a.score);
 
-        if (sortedNodes.length === 0) {
-            console.warn('  No fresh Japan nodes found. Clearing history and retrying...');
+        if (candidates.length === 0) {
+            console.warn('  No fresh Japan nodes found. Clearing history...');
             fs.writeFileSync(HISTORY_FILE, '[]');
             return connectVpnWithRetry(initialIp, maxRetries);
         }
-        console.log(`  Found ${sortedNodes.length} Japanese nodes (excluding recently used).`);
     } catch (e) {
         throw new Error(`Failed to fetch VPN list: ${e.message}`);
     }
 
-    for (let attempt = 0; attempt < Math.min(maxRetries, sortedNodes.length); attempt++) {
-        const { ip, score } = sortedNodes[attempt];
-        console.log(`\n[Attempt ${attempt + 1}/${maxRetries}] Target IP: ${ip} (Score: ${score})`);
+    // Try up to maxRetries, but pick from the top 20 best nodes randomly
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        // Take top 20 and pick 1 randomly to avoid congestion on the absolute #1
+        const elitePool = candidates.slice(0, 20);
+        const node = elitePool[Math.floor(Math.random() * elitePool.length)];
+        
+        console.log(`\n[Attempt ${attempt}/${maxRetries}] Target: ${node.host} (Score: ${node.score})`);
 
         try {
-            console.log('  Cleaning up previous state...');
+            console.log('  Preparing SoftEther...');
             runVpnCmd(`AccountDisconnect ${ACCOUNT_NAME}`);
             runVpnCmd(`AccountDelete ${ACCOUNT_NAME}`);
 
-            console.log(`  Configuring SoftEther for ${ip}...`);
-            runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
+            // Try standard ports: 443 is primary, but Hostname usually handles it better
+            console.log(`  Connecting to ${node.host}...`);
+            runVpnCmd(`AccountCreate ${ACCOUNT_NAME} /SERVER:${node.host}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
             runVpnCmd(`AccountPasswordSet ${ACCOUNT_NAME} /PASSWORD:vpn /TYPE:standard`);
             runVpnCmd(`AccountConnect ${ACCOUNT_NAME}`);
 
             console.log('  Waiting for server handshake (max 30s)...');
             let connected = false;
+            let lastStatus = '';
             for (let i = 0; i < 15; i++) {
-                const status = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
-                if (status.includes('接続完了') || status.includes('Connected')) {
+                const statusOutput = runVpnCmd(`AccountStatusGet ${ACCOUNT_NAME}`);
+                const match = statusOutput.match(/セッション接続状態\s+\|(.+)/);
+                const currentStatus = match ? match[1].trim() : 'Unknown';
+                
+                if (currentStatus !== lastStatus) {
+                    process.stdout.write(`\n  Status: ${currentStatus} `);
+                    lastStatus = currentStatus;
+                }
+                process.stdout.write('.');
+
+                if (statusOutput.includes('接続完了') || statusOutput.includes('Connected')) {
                     connected = true;
                     break;
                 }
-                process.stdout.write('.');
                 await new Promise(r => setTimeout(r, 2000));
             }
 
             if (connected) {
-                console.log('\n  Server connected. Verifying IP change (max 30s)...');
+                console.log('\n\n  Server connected. Verifying IP change (max 30s)...');
                 for (let j = 0; j < 6; j++) {
                     const currentIpData = await getIpData();
                     if (currentIpData && currentIpData.query !== initialIp) {
                         console.log(`  SUCCESS: IP changed to ${currentIpData.query} (${currentIpData.country})`);
-                        
-                        // Save to history (keep last 20)
-                        history.push(ip);
+                        history.push(node.ip);
                         if (history.length > 20) history.shift();
                         fs.writeFileSync(HISTORY_FILE, JSON.stringify(history));
-                        
                         return true;
                     }
                     process.stdout.write('?');
                     await new Promise(r => setTimeout(r, 5000));
                 }
-                console.warn('\n  Warning: VPN session active but IP did not change. Switching server...');
+                console.warn('\n  Warning: VPN connected but IP did not change. Switching server...');
             } else {
-                console.log('\n  Timeout on this server. Trying next high-quality node...');
+                console.log('\n  Handshake timeout. Removing this node from current candidates...');
+                candidates = candidates.filter(c => c.ip !== node.ip);
             }
 
         } catch (error) {
-            console.error(`\n  Attempt ${attempt + 1} error:`, error.message);
+            console.error(`\n  Attempt ${attempt} error:`, error.message);
         }
     }
     throw new Error('Could not establish a stable VPN connection after multiple attempts.');
