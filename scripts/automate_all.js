@@ -26,7 +26,7 @@ function runVpnCmd(cmd) {
         const fullCmd = `"${VPNCMD_PATH}" localhost /CLIENT /CMD ${cmd}`;
         return execSync(fullCmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString();
     } catch (e) {
-        return '';
+        return e.stdout ? e.stdout.toString() : 'Error';
     }
 }
 
@@ -114,7 +114,7 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
             console.log(`  Updating GUI Profile with new IP...`);
             let setOutput = runVpnCmd(`AccountSet "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn`);
             
-            if (setOutput.includes('エラー') || setOutput.includes('Error')) {
+            if (setOutput === '' || setOutput.includes('エラー') || setOutput.includes('Error')) {
                 console.log(`  Profile "${ACCOUNT_NAME}" not found. Trying to recreate it...`);
                 runVpnCmd(`AccountCreate "${ACCOUNT_NAME}" /SERVER:${node.ip}:443 /HUB:VPNGATE /USERNAME:vpn /NICNAME:VPN`);
                 runVpnCmd(`AccountPasswordSet "${ACCOUNT_NAME}" /PASSWORD:vpn /TYPE:standard`);
