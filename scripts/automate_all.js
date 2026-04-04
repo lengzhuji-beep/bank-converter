@@ -1,7 +1,9 @@
-const { execSync } = require('child_process');
+const fs = require('fs');
 const axios = require('axios');
 const { chromium } = require('playwright');
 const readline = require('readline');
+
+const HISTORY_FILE = 'vpn_history.json';
 
 const VPNCMD_PATH = 'C:\\Program Files\\SoftEther VPN Client\\vpncmd_x64.exe';
 const ACCOUNT_NAME = 'VPNGateAuto';
@@ -51,8 +53,18 @@ async function checkCurrentIp() {
 // 1. VPN Connection Logic (Automatic)
 async function connectVpnWithRetry(initialIp, maxRetries = 10) {
     console.log('\n--- [1/4] VPN Connection ---');
-    console.log('Fetching Japan VPN list and prioritizing high-quality nodes...');
     
+    // Load history
+    let history = [];
+    if (fs.existsSync(HISTORY_FILE)) {
+        try {
+            history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
+        } catch (e) {
+            history = [];
+        }
+    }
+
+    console.log('Fetching Japan VPN list and prioritizing high-quality nodes...');
     let sortedNodes = [];
     try {
         const response = await axios.get('https://www.vpngate.net/api/iphone/');
@@ -66,13 +78,21 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
         sortedNodes = allLines.slice(2).map(line => {
             const parts = line.split(',');
             if (parts.length < 10) return null;
+            
+            const ip = parts[ipIdx];
             const isJapan = parts[countryIdx] === 'Japan' || parts[countryShortIdx] === 'JP';
-            if (!isJapan) return null;
-            return { ip: parts[ipIdx], score: parseInt(parts[scoreIdx]) || 0 };
+            const isUsed = history.includes(ip);
+            
+            if (!isJapan || isUsed) return null;
+            return { ip, score: parseInt(parts[scoreIdx]) || 0 };
         }).filter(n => n !== null).sort((a, b) => b.score - a.score);
 
-        if (sortedNodes.length === 0) throw new Error('No Japan nodes found.');
-        console.log(`  Found ${sortedNodes.length} Japanese nodes. Attempting best quality...`);
+        if (sortedNodes.length === 0) {
+            console.warn('  No fresh Japan nodes found. Clearing history and retrying...');
+            fs.writeFileSync(HISTORY_FILE, '[]');
+            return connectVpnWithRetry(initialIp, maxRetries);
+        }
+        console.log(`  Found ${sortedNodes.length} Japanese nodes (excluding recently used).`);
     } catch (e) {
         throw new Error(`Failed to fetch VPN list: ${e.message}`);
     }
@@ -109,6 +129,12 @@ async function connectVpnWithRetry(initialIp, maxRetries = 10) {
                     const currentIpData = await getIpData();
                     if (currentIpData && currentIpData.query !== initialIp) {
                         console.log(`  SUCCESS: IP changed to ${currentIpData.query} (${currentIpData.country})`);
+                        
+                        // Save to history (keep last 20)
+                        history.push(ip);
+                        if (history.length > 20) history.shift();
+                        fs.writeFileSync(HISTORY_FILE, JSON.stringify(history));
+                        
                         return true;
                     }
                     process.stdout.write('?');
@@ -378,40 +404,19 @@ async function main() {
     console.log('=======================================');
 
     const initialIpData = await getIpData();
-    console.log(`Initial IP: ${initialIpData ? initialIpData.query : 'Unknown'}`);
-
-    console.log('\n[1] Automatic VPN  [2] Manual Mode');
-    const choice = await askQuestion('Choice (1/2): ');
-    const isAutomatic = (choice === '1');
+    const initialIp = initialIpData ? initialIpData.query : null;
+    console.log(`Initial IP: ${initialIp || 'Unknown'}`);
 
     try {
-        const initialIp = initialIpData ? initialIpData.query : null;
-        if (isAutomatic) {
-            await connectVpnWithRetry(initialIp, 10);
-        } else {
-            console.log('\n>> Manual Mode Selected.');
-            console.log('Waiting for manual VPN connection...');
-            await askQuestion('Press ENTER when connected...');
-            
-            const newIpData = await getIpData();
-            if (newIpData) {
-                console.log(`\nCurrent IP: ${newIpData.query} (${newIpData.country})`);
-                if (initialIp && newIpData.query === initialIp) {
-                    console.warn('WARNING: IP has NOT changed. Possible VPN failure.');
-                    const proceed = await askQuestion('Proceed anyway? (y/N): ');
-                    if (proceed.toLowerCase() !== 'y') throw new Error('IP verification failed.');
-                } else {
-                    console.log('SUCCESS: IP changed. Proceeding automatically...');
-                }
-            }
-        }
+        console.log('\n>> Entering [Full Automatic Mode]');
+        await connectVpnWithRetry(initialIp, 10);
 
         await runAutomation();
-        await disconnectVpn(isAutomatic);
+        await disconnectVpn(true);
         console.log('\n--- [4/4] Completed successfully ---');
     } catch (error) {
         console.error('\n[ERROR] Aborted:', error.message);
-        await disconnectVpn(isAutomatic);
+        await disconnectVpn(true);
     } finally {
         rl.close();
     }
