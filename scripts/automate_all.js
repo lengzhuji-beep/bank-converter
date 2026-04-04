@@ -180,38 +180,47 @@ async function clickRandomAd(page) {
     const prob = globalAdsClicked === 0 ? 0.7 : 0.4;
     if (Math.random() > prob) return false;
 
-    console.log(`\n>> [Ad Mode] Attempt ${globalAdsClicked + 1}/${globalAdTarget}`);
+    console.log(`\n>> [Ad Mode] Interaction ${globalAdsClicked + 1}/${globalAdTarget}`);
     try {
-        await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+        await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
         const adLocators = ['ins.adsbygoogle', 'iframe[id^="google_ads_iframe"]', '.ad-container'];
         
         let foundAd = null;
         for (const sel of adLocators) {
             const ads = await page.$$(sel);
-            if (ads.length > 0) {
-                const visibleAds = [];
-                for (const ad of ads) if (await ad.isVisible()) visibleAds.push(ad);
-                if (visibleAds.length > 0) {
-                    foundAd = visibleAds[Math.floor(Math.random() * visibleAds.length)];
+            for (const ad of ads) {
+                if (await ad.isVisible()) {
+                    foundAd = ad;
                     break;
                 }
             }
+            if (foundAd) break;
         }
 
         if (foundAd) {
-            console.log('  Found visible ad. Clicking...');
+            console.log('  Found visible ad. Executing click...');
+            
+            // Count as success if the click action completes
+            globalAdsClicked++;
+            
             const [newPage] = await Promise.all([
                 page.context().waitForEvent('page', { timeout: 8000 }).catch(() => null),
-                foundAd.click({ force: true })
+                foundAd.click({ force: true, delay: 100 }).catch(e => {
+                    console.log(`  Click failed: ${e.message}`);
+                    globalAdsClicked--; // Revert if click literally failed
+                    return null;
+                })
             ]);
 
             if (newPage) {
-                globalAdsClicked++;
-                console.log(`  Ad SUCCESS (${globalAdsClicked}/${globalAdTarget}). Waiting 6s...`);
+                console.log(`  Ad SUCCESS (New Tab). Waiting 6s...`);
                 await newPage.waitForTimeout(6000);
-                await newPage.close();
-                return true;
+                await newPage.close().catch(() => {});
+            } else {
+                console.log(`  Ad Interaction Recorded (No new tab detected).`);
+                await page.waitForTimeout(3000);
             }
+            return true;
         }
     } catch (e) {
         console.log(`  Ad interaction skipped: ${e.message}`);
