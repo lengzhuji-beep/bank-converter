@@ -234,12 +234,19 @@ const handleAds = async (page) => {
 // Target ad clicks (3-5 per session)
 let globalAdsClicked = 0;
 let globalAdTarget = 3;
+let lastAdClickTime = 0; // Cooldown tracker
 
 async function clickRandomAd(page) {
     if (globalAdsClicked >= globalAdTarget) return false;
     
-    // Increase probability if we haven't hit the target yet
-    const prob = globalAdsClicked === 0 ? 0.7 : 0.4;
+    // HARD COOLDOWN: Must wait at least 45 seconds between ad clicks
+    // During this time, the script will naturally perform regular browsing (scrolling, clicking internal links)
+    if (Date.now() - lastAdClickTime < 45000) {
+        return false;
+    }
+    
+    // Maintain a natural randomization
+    const prob = globalAdsClicked === 0 ? 0.8 : 0.6;
     if (Math.random() > prob) return false;
 
     console.log(`\n>> [Ad Mode] Interaction ${globalAdsClicked + 1}/${globalAdTarget}`);
@@ -262,8 +269,9 @@ async function clickRandomAd(page) {
         if (foundAd) {
             console.log('  Found visible ad. Executing click...');
             
-            // Count as success if the click action completes
+            // Count as success and trigger cooldown immediately
             globalAdsClicked++;
+            lastAdClickTime = Date.now();
             
             const [newPage] = await Promise.all([
                 page.context().waitForEvent('page', { timeout: 8000 }).catch(() => null),
@@ -330,7 +338,12 @@ async function runAutomation() {
         const numQs = Math.floor(Math.random() * 10) + 10;
         for (let i = 0; i < numQs; i++) {
             await handleAds(page);
-            if (globalAdsClicked < globalAdTarget) await clickRandomAd(page);
+            
+            // Only consider an ad click occasionally between questions, not every single one
+            if (i % 3 === 1 && globalAdsClicked < globalAdTarget) {
+                await clickRandomAd(page);
+            }
+            
             try {
                 await smartClick(page, '#choices button');
                 await page.waitForTimeout(Math.random() * 2000 + 2000);
@@ -348,7 +361,7 @@ async function runAutomation() {
         for (const link of links.sort(() => Math.random() - 0.5).slice(0, pagesToVisit)) {
             await page.goto(startUrl, { waitUntil: 'load' });
             await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
-            await clickRandomAd(page);
+            
             try {
                 const sel = `a[href*="${link}"]`;
                 await smartClick(page, sel);
@@ -362,12 +375,16 @@ async function runAutomation() {
                     continue; 
                 }
 
-                // Random scroll depth/interest
+                // Random scroll depth/interest (pure organic reading)
                 const scrolls = Math.floor(Math.random() * 5) + 2;
                 for (let s = 0; s < scrolls; s++) {
                     await page.evaluate(() => window.scrollBy({ top: Math.random() * 800 + 200, behavior: 'smooth' }));
                     await page.waitForTimeout(Math.random() * 5000 + 2000); // Varied reading time
-                    if (globalAdsClicked < globalAdTarget) await clickRandomAd(page);
+                }
+                
+                // After thoroughly reading the article, consider an ad click before navigating away
+                if (globalAdsClicked < globalAdTarget) {
+                    await clickRandomAd(page);
                 }
             } catch (e) {}
         }
