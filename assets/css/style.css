@@ -381,20 +381,10 @@ img {
   transition: var(--transition);
 }
 
-.tool-highlight-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--gold-400);
-}
-
 .tool-highlight-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
-  border-color: var(--gold-300);
+  border-color: var(--gold-400);
 }
 
 .tool-icon-wrap {
@@ -698,11 +688,12 @@ img {
 
 .article-content h2 {
   font-family: var(--font-serif);
-  font-size: 22px;
-  color: var(--primary-800);
-  padding-left: 14px;
-  border-left: 4px solid var(--gold-400);
-  margin: 36px 0 18px;
+  font-size: 21px;
+  color: var(--primary-900);
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 10px;
+  margin: 38px 0 18px;
+  letter-spacing: 0.02em;
 }
 
 .article-content h2:first-child {
@@ -710,9 +701,10 @@ img {
 }
 
 .article-content h3 {
-  font-size: 17px;
-  color: var(--primary-700);
+  font-size: 16.5px;
+  color: var(--primary-800);
   margin: 24px 0 12px;
+  font-weight: 700;
 }
 
 .article-content p {
@@ -739,25 +731,34 @@ img {
   text-align: left;
 }
 
-/* Callout Box */
+/* Callout Box - 自然で上品なカードスタイル（左太線のAI感を排除） */
 .callout {
   padding: 20px 24px;
   border-radius: var(--radius-md);
   margin: 24px 0;
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.75;
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
 }
 
 .callout.tip {
-  background: var(--gold-100);
-  border-left: 4px solid var(--gold-500);
-  color: var(--primary-800);
+  background: #fcfaf6;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  color: var(--primary-900);
 }
 
 .callout.warn {
-  background: #fff1f2;
-  border-left: 4px solid #e11d48;
-  color: #9f1239;
+  background: #fffafa;
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  color: #881337;
+}
+
+.callout.note {
+  background: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: var(--primary-800);
 }
 
 /* Footer */
