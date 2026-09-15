@@ -3,13 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ビジネスマナー全書｜名刺交換・電話応対・来客・手土産の作法｜マナーコンパス</title>
-  <meta name="description" content="社会人が押さえておくべきビジネスマナーを徹底解説。名刺交換の順番と名刺入れの扱い、電話応対の受発信ルール、手土産を渡すタイミングとお辞儀の角度までを完全網羅。">
+  <title>ビジネスマナー全書｜名刺交換・電話応対・席次・メール・身だしなみ｜マナーコンパス</title>
+  <meta name="description" content="新社会人からベテランまで必須のビジネスマナーを網羅。名刺交換、電話応対、お礼・お詫びメールの定型フォーマット、上座・下座席次、手土産、お辞儀、オフィスカジュアルまで徹底解説。">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .toc-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 36px;
+    }
+    .toc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-800);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 8px 20px;
+    }
+    .toc-list a {
+      font-size: 13px;
+      color: var(--primary-700);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+    }
+    .toc-list a:hover {
+      color: var(--gold-600);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
+  <!-- Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="../index.html" class="brand-logo">
@@ -36,6 +73,8 @@
       <a href="../index.html" class="mobile-nav-link">トップページ <span>→</span></a>
       <a href="./seating.html" class="mobile-nav-link">上座・下座 席次早見表 <span>→</span></a>
       <a href="../ceremony/index.html" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
+      <a href="../dining/index.html" class="mobile-nav-link">食事・テーブルマナー <span>→</span></a>
+      <a href="../language/index.html" class="mobile-nav-link">敬語・言葉遣い <span>→</span></a>
     </div>
   </header>
 
@@ -46,30 +85,74 @@
       </div>
       <h1 class="page-title">🏢 ビジネスマナー全書</h1>
       <p class="page-lead">
-        信頼されるビジネスパーソンの基本。名刺交換から電話応対、手土産の渡し方まで、現場で恥をかかない実務作法をまとめました。
+        信頼されるビジネスパーソンの基本。名刺交換から電話応対、席次、ビジネスメール、手土産、身だしなみまで、現場で恥をかかない実務作法を完全網羅しました。
       </p>
     </div>
   </div>
 
   <main class="container">
+    <!-- Quick Tool Banner -->
+    <div class="tools-grid" style="margin-bottom: 36px;">
+      <a href="./seating.html" class="tool-highlight-card business">
+        <div class="tool-icon-wrap">💺</div>
+        <div class="tool-info">
+          <h3>上座・下座（席次）早見図解ツール</h3>
+          <p>タクシー・会議室・エレベーター・宴会など、迷いやすい座席の序列を図解で一発確認できます。</p>
+          <span class="tool-action-link">席次図解を開く →</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc-box">
+      <div class="toc-title">📑 目次（クリックで各項目へジャンプ）</div>
+      <ul class="toc-list">
+        <li><a href="#seating">1. 上座・下座の基本原則（席次）</a></li>
+        <li><a href="#meishi">2. 正しい名刺交換の順番と置き方</a></li>
+        <li><a href="#phone">3. ビジネス電話応対の受発信作法</a></li>
+        <li><a href="#email">4. お礼・お詫びビジネスメールの定型フォーマット</a></li>
+        <li><a href="#souvenir">5. 手土産を渡すタイミングと紙袋の処理</a></li>
+        <li><a href="#bow">6. お辞儀の3つの角度（会釈・敬礼・最敬礼）</a></li>
+        <li><a href="#dress">7. オフィスカジュアル・平服の定義と身だしなみ</a></li>
+        <li><a href="#visitor">8. 来客案内・エレベーター・ドアの開け閉め</a></li>
+      </ul>
+    </div>
+
+    <!-- Article Content -->
     <article class="article-content">
-      <h2 id="meishi">1. 名刺交換の基本ルール</h2>
+
+      <!-- 1. 席次・上座下座 -->
+      <h2 id="seating">1. 上座・下座の基本原則（席次）</h2>
       <p>
-        名刺は「相手の分身」として丁寧に扱います。テーブル越しに渡すのは厳禁で、必ず立って相手の正面で行います。
+        ビジネスにおける席次の鉄則は**「出入口から最も遠い奥の席が上座、出入口に最も近い手前の席が下座」**です。
+      </p>
+      <ul>
+        <li><strong>会議室</strong>: 出入口から一番遠い奥の中央（または奥側）が最上座。出入口の真横が最下座（ドアの開閉や連絡役）。</li>
+        <li><strong>タクシー</strong>: 運転席の真後ろが最上座（1位）、助手席の後ろが2位、後部座席の中央が3位、助手席が最下座（道案内・支払い担当）。※ただし社員が自家用車を運転する場合は「助手席が最上座」になります。</li>
+        <li><strong>エレベーター</strong>: 操作盤の前が最下座。操作盤の斜め奥が最上座。</li>
+      </ul>
+      <p style="margin-top: 12px;">
+        👉 詳しいイラスト付き図解は「<a href="./seating.html" style="color: var(--gold-600); font-weight: 600; text-decoration: underline;">上座・下座 席次早見図解ページ</a>」をご覧ください。
       </p>
 
+      <!-- 2. 名刺交換 -->
+      <h2 id="meishi">2. 正しい名刺交換の順番と置き方のマナー</h2>
+      <p>
+        名刺は「相手の分身」であり、会社の顔です。テーブル越しに渡すのは厳禁で、必ず立ち上がって相手の正面で行います。
+      </p>
       <h3>渡す順番と受け取り方</h3>
       <ul>
-        <li><strong>序列の低い側から先に差し出す</strong>: お客様と自社であれば「自社から」、上司と同行している場合は「上位役職者同士」がまず交換し、その後に若手同士が交換します。</li>
-        <li><strong>高さの位置</strong>: 同時に差し出す場合は、相手よりも<strong>少し低い位置</strong>から差し出すのが謙譲の作法です。</li>
+        <li><strong>序列の低い側（訪問側）から先に差し出す</strong>: お客様と自社であれば「自社から」、上司と同行している場合は「上位役職者同士」がまず交換し、その後に若手同士が交換します。</li>
+        <li><strong>差し出す高さ</strong>: 同時に差し出す場合は、相手よりも<strong>少し低い位置</strong>から両手で差し出すのが謙譲の作法です。</li>
         <li><strong>受け取りの言葉</strong>: 「頂戴いたします。〇〇様ですね、よろしくお願いいたします」と添え、両手で受け取ります。指で相手の会社ロゴや名前を隠さないように注意します。</li>
-        <li><strong>商談中の配置</strong>: 受け取った名刺はすぐにしまわず、自分の<strong>名刺入れの上に載せて左斜め前</strong>に置きます（複数人の場合は席順に並べる）。</li>
+        <li><strong>商談中の配置</strong>: 受け取った名刺はすぐにしまわず、自分の<strong>名刺入れの上に載せて左斜め前</strong>に置きます。複数人の場合は、相手の座席の並び順通りに机上に並べます。</li>
       </ul>
 
-      <h2 id="phone">2. ビジネス電話応対の作法</h2>
+      <!-- 3. 電話応対 -->
+      <h2 id="phone">3. ビジネス電話応対の受発信作法</h2>
       <table class="info-table">
         <tr>
-          <th>場面</th>
+          <th style="width: 140px;">場面</th>
           <th>対応マナーと定型フレーズ</th>
         </tr>
         <tr>
@@ -85,28 +168,107 @@
           </td>
         </tr>
         <tr>
+          <td><strong>聞き取れなかった時</strong></td>
+          <td>
+            「お電話が少々遠いようでございます。恐れ入りますが、もう一度会社名とお名前をお伺いしてもよろしいでしょうか」と電話機の不調を理由にします。
+          </td>
+        </tr>
+        <tr>
           <td><strong>電話を切る時</strong></td>
           <td>
-            原則として<strong>「かけた側から先に切る」</strong>のが基本ですが、取引先や顧客が相手の場合は、相手が切ったのを確認してから静かに受話器を置きます（またはフックを指で押して切る）。
+            原則として「かけた側から先に切る」のが基本ですが、相手が顧客や取引先の場合は、相手が切ったのを確認してから静かに受話器を置きます。
           </td>
         </tr>
       </table>
 
-      <h2 id="souvenir">3. 手土産の渡し方</h2>
-      <div class="callout tip">
-        <strong>渡すタイミングと紙袋の作法</strong><br>
-        1. 玄関先や受付では渡さず、<strong>「応接室に通され、挨拶や名刺交換を終えて着席する直前」</strong>に渡します。<br>
-        2. 紙袋のまま渡すのはNGです。必ず袋から品物を取り出し、時計回りに回転させて正面を相手に向けて両手で差し出します。<br>
-        3. 紙袋は手早くたたんで持ち帰るのが基本ですが、相手が持ち帰る必要がある外出先での面談では「袋のまま失礼いたします」と断って渡すのが親切です。<br>
-        4. 「つまらないものですが」ではなく、<strong>「お口に合うと嬉しいのですが」「評判の洋菓子でございます」</strong>と前向きな言葉を添えましょう。
+      <!-- 4. ビジネスメール定型フォーマット -->
+      <h2 id="email">4. お礼・お詫びビジネスメールの定型フォーマット</h2>
+      <p>
+        ビジネスメールは「要件が明確」「件名で内容がわかる」「適切な敬語」が重要です。
+      </p>
+
+      <h3>① 商談・打ち合わせ後のお礼メール（当日中に送信）</h3>
+      <div class="callout tip" style="font-family: monospace; font-size: 13px; line-height: 1.6;">
+        件名：本日の面談のお礼【株式会社〇〇・山田】<br><br>
+        株式会社〇〇<br>
+        〇〇部　部長　佐藤 様<br><br>
+        いつも大変お世話になっております。<br>
+        株式会社〇〇の山田でございます。<br><br>
+        本日はご多忙の折、貴重なお時間をいただき誠にありがとうございました。<br>
+        ご相談いただきました〇〇の件につきまして、来週水曜（〇月〇日）までに<br>
+        お見積書および企画書を改めて送付いたします。<br><br>
+        今後とも何卒よろしくお願い申し上げます。
       </div>
 
-      <h2 id="bow">4. お辞儀の3つの角度</h2>
+      <h3>② ミス・不手際があった際のお詫びメール（発覚後即座に送信）</h3>
+      <div class="callout warn" style="font-family: monospace; font-size: 13px; line-height: 1.6;">
+        件名：【重要・お詫び】〇〇資料の誤記に関するお詫びと訂正【株式会社〇〇】<br><br>
+        株式会社〇〇<br>
+        〇〇部　佐藤 様<br><br>
+        平素は格別のご高配を賜り、厚く御礼申し上げます。<br>
+        株式会社〇〇の山田でございます。<br><br>
+        先ほどお送りいたしました「〇〇資料」におきまして、<br>
+        一部数値に誤りがございました。多大なるご迷惑をおかけしましたことを、<br>
+        深くお詫び申し上げます。<br><br>
+        修正いたしました正しい資料を添付いたしましたので、<br>
+        大変お手数をおかけいたしますが、差し替えのご対応をお願い申し上げます。<br><br>
+        今後は二重チェック体制を徹底し、再発防止に努めてまいります。<br>
+        略儀ではございますが、取り急ぎメールにてお詫び申し上げます。
+      </div>
+
+      <!-- 5. 手土産 -->
+      <h2 id="souvenir">5. 手土産を渡すベストなタイミングと紙袋の処理</h2>
+      <div class="callout tip">
+        <strong>渡す手順と紙袋の作法</strong><br>
+        1. 玄関先や受付では渡さず、<strong>「応接室に通され、挨拶や名刺交換を終えて着席する直前」</strong>に渡します（生もの・冷凍品など急ぎ冷蔵が必要な場合のみ玄関で断って渡す）。<br>
+        2. 紙袋のまま渡すのはNGです。必ず袋から品物を取り出し、時計回りに2回まわして正面を相手に向けて両手で差し出します。<br>
+        3. 紙袋は素早くたたんで持ち帰るのが基本ですが、外出先で相手が持ち帰る必要がある場合は「紙袋のまま失礼いたします」と断って渡すのが配慮となります。<br>
+        4. 「つまらないものですが」ではなく、<strong>「評判のお菓子と伺いましたので」「心ばかりの品ですが、皆様でお召し上がりください」</strong>とポジティブな言葉を添えましょう。
+      </div>
+
+      <!-- 6. お辞儀 -->
+      <h2 id="bow">6. お辞儀の3つの角度（会釈・敬礼・最敬礼）</h2>
       <ul>
-        <li><strong>会釈（15度）</strong>: 社内の廊下ですれ違った時、入退室の際などの軽い挨拶。</li>
-        <li><strong>敬礼（30度）</strong>: 来客の出迎え・見送り、初対面の挨拶など、最も頻繁に使う標準的なお辞儀。</li>
-        <li><strong>最敬礼（45度）</strong>: 深い感謝を伝える時、重大なお詫びや謝罪の際に用いる最も丁寧なお辞儀。</li>
+        <li><strong>会釈（15度）</strong>: 社内の廊下ですれ違った時、入退室の際などの軽い挨拶。視線は約3m先に落とします。</li>
+        <li><strong>敬礼（30度）</strong>: 来客の出迎え・見送り、初対面の商談の挨拶など、ビジネスで最も頻繁に使う標準的なお辞儀。視線は約1.5m先に落とします。</li>
+        <li><strong>最敬礼（45度）</strong>: 深い感謝を伝える時、重大なお詫びや謝罪、冠婚葬祭の儀礼の際に用いる最も丁寧なお辞儀。頭を下げた位置で一拍静止します。</li>
       </ul>
+
+      <!-- 7. オフィスカジュアル・身だしなみ -->
+      <h2 id="dress">7. オフィスカジュアル・平服の定義と身だしなみ</h2>
+      <p>
+        「服装自由」「平服でお越しください」と言われた際も、完全な普段着（部屋着）という意味ではありません。
+      </p>
+      <table class="info-table">
+        <tr>
+          <th style="width: 120px;">対象</th>
+          <th>好ましいオフィスカジュアル</th>
+          <th>避けるべきNGスタイル</th>
+        </tr>
+        <tr>
+          <td><strong>男性</strong></td>
+          <td>テーラードジャケット、襟付きシャツ（ポロシャツ可の企業も）、チノパン・スラックス、革靴または清潔なレザースニーカー</td>
+          <td>ダメージジーンズ、タンクトップ、ハーフパンツ、サンダル、派手なロゴプリントTシャツ</td>
+        </tr>
+        <tr>
+          <td><strong>女性</strong></td>
+          <td>ジャケットやカーディガン、上品なブラウス、膝下丈のスカートまたはスラックス、歩きやすいパンプス</td>
+          <td>過度な露出（胸元や背中）、ミニスカート、生足（ストッキング未着用）、ビーチサンダル、派手すぎるネイルや香水</td>
+        </tr>
+      </table>
+
+      <!-- 8. 来客案内・ドア -->
+      <h2 id="visitor">8. 来客案内・ドアの開閉・歩く位置</h2>
+      <ul>
+        <li><strong>案内時の歩く位置</strong>: お客様の<strong>「左斜め前2〜3歩」</strong>を歩き、曲がり角では立ち止まって「こちらでございます」と手先を揃えて方向を示します。</li>
+        <li><strong>ドアの開け閉め</strong>: 
+          <ul>
+            <li><strong>外開きドア（手前に引くドア）</strong>: 自分が先にドアを引いて押さえ、お客様を先に通します。</li>
+            <li><strong>内開きドア（奥へ押すドア）</strong>: 自分が先に入ってドアを奥に押さえ、お客様を招き入れます。</li>
+          </ul>
+        </li>
+      </ul>
+
     </article>
   </main>
 

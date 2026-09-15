@@ -3,10 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>冠婚葬祭マナー全書｜結婚式・葬儀・法要・お祝いの作法｜マナーコンパス</title>
-  <meta name="description" content="冠婚葬祭の正しいマナーを網羅。結婚式の招待状返信ハガキの書き方・ドレスコード、お通夜・葬儀の服装・数珠の選び方・お悔やみの言葉・忌み言葉まで詳しく解説。">
+  <title>冠婚葬祭マナー全書｜結婚式・葬儀・法要・お中元お歳暮の作法｜マナーコンパス</title>
+  <meta name="description" content="冠婚葬祭の正しいマナーを網羅。結婚式の招待状返信・ドレスコード、お通夜・葬儀の服装・数珠・袱紗、忌み言葉、法要の参列、お中元・お歳暮の時期と相場まで徹底解説。">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .toc-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 36px;
+    }
+    .toc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-800);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 8px 20px;
+    }
+    .toc-list a {
+      font-size: 13px;
+      color: var(--primary-700);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+    }
+    .toc-list a:hover {
+      color: var(--gold-600);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
@@ -25,7 +61,7 @@
         <a href="../business/index.html" class="nav-link">ビジネス</a>
         <a href="../dining/index.html" class="nav-link">食事・テーブル</a>
         <a href="../language/index.html" class="nav-link">敬語・言葉遣い</a>
-        <a href="../ceremony/simulator.html" class="nav-tool-btn">💰 相場シミュレーター</a>
+        <a href="./simulator.html" class="nav-tool-btn">💰 相場シミュレーター</a>
       </nav>
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
         <span class="hamburger-line"></span>
@@ -35,9 +71,11 @@
     </div>
     <div class="mobile-drawer" id="mobileDrawer">
       <a href="../index.html" class="mobile-nav-link">トップページ <span>→</span></a>
-      <a href="../ceremony/simulator.html" class="mobile-nav-link">相場シミュレーター <span>→</span></a>
-      <a href="../ceremony/noshi.html" class="mobile-nav-link">のし袋・表書きチェッカー <span>→</span></a>
+      <a href="./simulator.html" class="mobile-nav-link">ご祝儀・香典相場シミュレーター <span>→</span></a>
+      <a href="./noshi.html" class="mobile-nav-link">のし袋・表書きチェッカー <span>→</span></a>
       <a href="../business/index.html" class="mobile-nav-link">ビジネスマナー <span>→</span></a>
+      <a href="../dining/index.html" class="mobile-nav-link">食事・テーブルマナー <span>→</span></a>
+      <a href="../language/index.html" class="mobile-nav-link">敬語・言葉遣い <span>→</span></a>
     </div>
   </header>
 
@@ -49,14 +87,14 @@
       </div>
       <h1 class="page-title">🕊️ 冠婚葬祭・儀礼マナー全書</h1>
       <p class="page-lead">
-        慶事（お祝い）から弔事（お悔やみ）まで。失敗が許されない人生の重大な儀礼における正しい作法と心得を体系的に解説します。
+        慶事（お祝い）から弔事（お悔やみ）まで。人生の重大な儀礼における正しい作法・服装・贈答のしきたりを体系的に解説します。
       </p>
     </div>
   </div>
 
   <main class="container">
     <!-- Quick Jump to Tools -->
-    <div class="tools-grid" style="margin-bottom: 40px;">
+    <div class="tools-grid" style="margin-bottom: 36px;">
       <a href="./simulator.html" class="tool-highlight-card ceremony">
         <div class="tool-icon-wrap">💰</div>
         <div class="tool-info">
@@ -69,36 +107,49 @@
         <div class="tool-icon-wrap">✉️</div>
         <div class="tool-info">
           <h3>のし袋・表書きチェッカー</h3>
-          <p>水引（蝶結び／結び切り）や薄墨・濃墨のルールを図解でプレビュー。</p>
+          <p>水引（蝶結び／結び切り）や薄墨・濃墨のルールを図解プレビューで確認。</p>
           <span class="tool-action-link">チェックする →</span>
         </div>
       </a>
     </div>
 
+    <!-- Table of Contents -->
+    <div class="toc-box">
+      <div class="toc-title">📑 目次（クリックで各項目へジャンプ）</div>
+      <ul class="toc-list">
+        <li><a href="#wedding">1. 結婚式・披露宴のマナー（返信ハガキと服装）</a></li>
+        <li><a href="#funeral">2. お通夜・葬儀・告別式のマナー（服装・数珠・袱紗）</a></li>
+        <li><a href="#condolence">3. お悔やみで避けるべき「忌み言葉」</a></li>
+        <li><a href="#memorial">4. 法要（初七日・四十九日・一周忌）の作法</a></li>
+        <li><a href="#gift">5. お中元・お歳暮の時期・相場とお礼状マナー</a></li>
+      </ul>
+    </div>
+
     <!-- Article Content -->
     <article class="article-content">
+      <!-- 1. 結婚式 -->
       <h2 id="wedding">1. 結婚式・披露宴のマナー</h2>
       <p>
-        結婚式は新郎新婦の門出を祝う晴れの場です。招待状の返信から当日の服装まで、失礼のないよう準備を整えましょう。
+        結婚式は新郎新婦の新たな門出を祝う晴れの場です。招待状の返信から当日の服装まで、失礼のないよう準備を整えましょう。
       </p>
 
-      <h3>招待状の返信ハガキの書き方</h3>
+      <h3>招待状の返信ハガキの書き方ルール</h3>
       <ul>
-        <li><strong>返信の期限</strong>: 届いてから<strong>2〜3日以内</strong>、遅くとも1週間以内に投函するのがマナーです。</li>
-        <li><strong>「御」「芳」の消し方</strong>: 「御出席」の「御」、「御芳名」の「御芳」、「御住所」の「御」は、<strong>二重線（または寿の文字）</strong>で消します。</li>
-        <li><strong>お祝いメッセージ</strong>: 「ご結婚おめでとうございます。喜んで出席させていただきます」など、句読点（「、」「。」）を使わずに書くのが正式なマナーです（区切りや終わりを連想させないため）。</li>
+        <li><strong>返信期限</strong>: 届いてから<strong>2〜3日以内</strong>、遅くとも1週間以内に投函するのがマナーです。</li>
+        <li><strong>「御」「芳」の消し方</strong>: 「御出席」の「御」、「御芳名」の「御芳」、「御住所」の「御」は、定規を使って<strong>二重線（または「寿」の文字を重ねて）</strong>消します。</li>
+        <li><strong>お祝いメッセージ</strong>: 「ご結婚おめでとうございます。喜んで出席させていただきます」など、句読点（「、」「。」）を使わずに書くのが正式な作法です（終わりや区切りを連想させないため）。</li>
       </ul>
 
       <h3>ゲストの服装・ドレスコード</h3>
       <table class="info-table">
         <tr>
-          <th>対象</th>
-          <th>OKな装い・ポイント</th>
+          <th style="width: 130px;">対象</th>
+          <th>好ましい装い・ポイント</th>
           <th>NGな装い（絶対に避けるべきもの）</th>
         </tr>
         <tr>
           <td><strong>女性ゲスト</strong></td>
-          <td>上品なパーティードレス、訪問着（和装）、羽織もの（昼の露出を抑えるショール等）</td>
+          <td>上品なパーティードレス、訪問着（和装）、昼の挙式では露出を抑えるショールやボレロの着用</td>
           <td><strong>白のドレス（花嫁の色）</strong>、過度な露出、つま先の出るオープントゥサンダル、黒一色の全身喪服スタイル</td>
         </tr>
         <tr>
@@ -108,18 +159,22 @@
         </tr>
       </table>
 
+      <!-- 2. お通夜・葬儀 -->
       <h2 id="funeral">2. お通夜・葬儀・告別式のマナー</h2>
       <p>
-        弔事では故人を偲び、遺族の悲しみに寄り添う節度ある振る舞いが求められます。
+        弔事では故人を偲び、遺族の深い悲しみに寄り添う節度ある振る舞いが求められます。
       </p>
 
-      <h3>服装の基本</h3>
+      <h3>服装・装飾品のルール</h3>
       <ul>
-        <li><strong>お通夜</strong>: 急な参列の場合は地味な平服（ダークスーツ、黒・濃紺のワンピース）でも失礼にあたりません。ただし派手な貴金属や時計は外します。</li>
-        <li><strong>告別式</strong>: 原則として喪服（準礼装・ブラックスーツ）を着用します。女性は黒のストッキング（20〜30デニール程度）、黒のパンプスを合わせます。</li>
+        <li><strong>お通夜</strong>: 急な参列の場合は地味な平服（ダークスーツ、黒・濃紺のワンピース）でも失礼にあたりません。ただし派手な貴金属やネクタイピンは外します。</li>
+        <li><strong>告別式</strong>: 原則として喪服（準礼装・ブラックスーツ）を着用します。女性は黒のストッキング（20〜30デニール程度）、光沢のない黒のパンプスを合わせます。</li>
         <li><strong>アクセサリー</strong>: 結婚指輪以外は外し、着用する場合は<strong>「白または黒の一連の真珠ネックレス」</strong>のみとします（二連・三連は「不幸が重なる」とされるため厳禁）。</li>
+        <li><strong>数珠（じゅず）</strong>: 仏式の葬儀では持参するのが基本です。数珠の貸し借りはマナー違反とされています。</li>
+        <li><strong>袱紗（ふくさ）</strong>: 香典袋は紫・紺・グレーなどの弔事用袱紗に包み、<strong>「左開き」</strong>で取り出します。</li>
       </ul>
 
+      <!-- 3. 忌み言葉 -->
       <h2 id="condolence">3. お悔やみで避けるべき「忌み言葉」</h2>
       <div class="callout warn">
         <strong>口にしてはいけない言葉一覧</strong><br>
@@ -129,12 +184,48 @@
           <li><strong>忌み数</strong>: 「四（死）」「九（苦）」</li>
         </ul>
       </div>
-
       <p>
         【適切な挨拶の例】<br>
         「このたびは、心よりお悔やみ申し上げます。」<br>
         「突然のことで言葉もございません。心よりご冥福をお祈りいたします。」
       </p>
+
+      <!-- 4. 法要 -->
+      <h2 id="memorial">4. 法要（初七日・四十九日・一周忌）の作法</h2>
+      <p>
+        四十九日までは「御霊前」、四十九日の法要以降（一周忌、三回忌など）は故人が成仏したとされるため、表書きは<strong>「御仏前」</strong>を用います。
+      </p>
+      <ul>
+        <li><strong>お供え物</strong>: 線香、ろうそく、果物、お菓子（個包装の日持ちするもの）が一般的です。のし紙は「結び切り」で表書きは「御供」とします。</li>
+        <li><strong>参列の服装</strong>: 四十九日や一周忌までは喪服（準礼服）を着用し、三回忌以降は略礼装（ダークスーツ等の落ち着いた平服）でも良いとされています。</li>
+      </ul>
+
+      <!-- 5. お中元・お歳暮 -->
+      <h2 id="gift">5. お中元・お歳暮の時期・相場とお礼状マナー</h2>
+      <table class="info-table">
+        <tr>
+          <th>種類</th>
+          <th>贈る時期</th>
+          <th>金額相場</th>
+          <th>のし紙の水引</th>
+        </tr>
+        <tr>
+          <td><strong>お中元</strong></td>
+          <td>東日本：7月上旬〜7月15日<br>西日本：7月中旬〜8月15日</td>
+          <td>3,000円 〜 5,000円（特にお世話になった方は1万円）</td>
+          <td><strong>紅白の蝶結び</strong>（表書き：御中元）</td>
+        </tr>
+        <tr>
+          <td><strong>お歳暮</strong></td>
+          <td>11月下旬〜12月20日頃（年末の忙しくなる前）</td>
+          <td>3,000円 〜 5,000円（お中元より2〜3割高めが一般的）</td>
+          <td><strong>紅白の蝶結び</strong>（表書き：御歳暮）</td>
+        </tr>
+      </table>
+      <div class="callout tip">
+        <strong>お礼状は届いてから3日以内に出す</strong><br>
+        お中元やお歳暮をいただいた際は、品物を返すのではなく、感謝の気持ちを綴った「お礼状」を速やか（3日以内）にハガキや手紙で送るのが大人の礼儀です。
+      </div>
     </article>
   </main>
 

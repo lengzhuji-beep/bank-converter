@@ -3,10 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>敬語・言葉遣い辞典｜間違いやすい敬語・クッション言葉早引き｜マナーコンパス</title>
-  <meta name="description" content="「了解しました」「ご苦労様です」「おっしゃられた」など、間違えやすい敬語の正しい言い換えとクッション言葉を早引き検索。ビジネスメールや会話で役立つ言葉遣い辞典。">
+  <title>敬語・言葉遣い辞典｜間違いやすい敬語・二重敬語・クッション言葉早引き｜マナーコンパス</title>
+  <meta name="description" content="「了解しました」「ご苦労様です」「おっしゃられた」など、間違えやすい敬語の正しい言い換え、二重敬語、クッション言葉、お詫びフレーズを早引き検索できる敬語辞典。">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .toc-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 36px;
+    }
+    .toc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-800);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 8px 20px;
+    }
+    .toc-list a {
+      font-size: 13px;
+      color: var(--primary-700);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+    }
+    .toc-list a:hover {
+      color: var(--gold-600);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
@@ -47,83 +83,140 @@
       </div>
       <h1 class="page-title">🗣️ 敬語・言葉遣い早引き辞典</h1>
       <p class="page-lead">
-        うっかり使ってしまいがちなNG表現と、相手に好印象を与える正しい敬語・クッション言葉をまとめました。
+        うっかり使ってしまいがちなNG敬語、二重敬語、そして相手に好印象を与える正しい言い換え・クッション言葉をまとめました。
       </p>
     </div>
   </div>
 
   <main class="container">
-    <!-- Filter Search Box -->
-    <div class="filter-search-box">
-      <input type="text" id="phraseFilterInput" class="filter-input" placeholder="フレーズで検索（例：了解、ご苦労様、おっしゃる、資料...）">
+    <!-- Table of Contents -->
+    <div class="toc-box">
+      <div class="toc-title">📑 目次（クリックで各項目へジャンプ）</div>
+      <ul class="toc-list">
+        <li><a href="#search-tool">1. 敬語リアルタイム検索ツール</a></li>
+        <li><a href="#wrong">2. 「了解しました」「ご苦労様です」の間違いと正しい言い換え</a></li>
+        <li><a href="#double">3. 「おっしゃられた」「拝見させていただきます」二重敬語の解説</a></li>
+        <li><a href="#cushion">4. 角を立てずにお願い・お断りする「クッション言葉」一覧</a></li>
+        <li><a href="#sorry">5. ビジネスで誠意が伝わる「お詫び・謝罪」の言葉遣い</a></li>
+        <li><a href="#title">6. 社内と社外での敬称ルール（「社長の〇〇」と呼ぶ理由）</a></li>
+      </ul>
     </div>
 
-    <!-- Phrase Cards Grid -->
-    <div class="phrase-grid" id="phraseCardGrid">
-      <div class="phrase-card" data-keyword="了解 承知 かしこまりました 分かりました">
-        <div class="phrase-wrong">了解しました / 了解です</div>
-        <div class="phrase-correct">承知いたしました / かしこまりました</div>
-        <div class="phrase-desc">「了解」には敬意が含まれません。上司や取引先からの依頼・連絡には「承知いたしました」を使います。</div>
+    <!-- Search Tool Section -->
+    <section id="search-tool" style="margin-bottom: 40px;">
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--primary-800); margin-bottom: 16px; border-left: 4px solid var(--gold-400); padding-left: 12px;">
+        🔍 敬語クイック早引き検索
+      </h2>
+      <div class="filter-search-box">
+        <input type="text" id="phraseFilterInput" class="filter-input" placeholder="フレーズで検索（例：了解、ご苦労様、おっしゃる、資料、謝罪...）">
       </div>
 
-      <div class="phrase-card" data-keyword="ご苦労様 お疲れ様 挨拶">
-        <div class="phrase-wrong">ご苦労様です</div>
-        <div class="phrase-correct">お疲れ様です</div>
-        <div class="phrase-desc">「ご苦労様」は目上から目下にねぎらいをかける言葉です。目上の人には必ず「お疲れ様です」と言います。</div>
-      </div>
+      <!-- Phrase Cards Grid -->
+      <div class="phrase-grid" id="phraseCardGrid">
+        <div class="phrase-card" data-keyword="了解 承知 かしこまりました 分かりました">
+          <div class="phrase-wrong">了解しました / 了解です</div>
+          <div class="phrase-correct">承知いたしました / かしこまりました</div>
+          <div class="phrase-desc">「了解」には相手への敬意が含まれません。上司や取引先からの依頼・連絡には「承知いたしました」を使います。</div>
+        </div>
 
-      <div class="phrase-card" data-keyword="すいません すみません 申し訳 謝罪 お詫び">
-        <div class="phrase-wrong">すいません / すみません</div>
-        <div class="phrase-correct">申し訳ございません / 恐れ入ります</div>
-        <div class="phrase-desc">ビジネスシーンでの口頭やメールでは、「すみません」ではなく「大変申し訳ございません」が鉄則です。</div>
-      </div>
+        <div class="phrase-card" data-keyword="ご苦労様 お疲れ様 挨拶">
+          <div class="phrase-wrong">ご苦労様です</div>
+          <div class="phrase-correct">お疲れ様です</div>
+          <div class="phrase-desc">「ご苦労様」は目上から目下にねぎらいをかける言葉です。目上の人には必ず「お疲れ様です」と言います。</div>
+        </div>
 
-      <div class="phrase-card" data-keyword="拝見 見る 二重敬語">
-        <div class="phrase-wrong">拝見させていただきます</div>
-        <div class="phrase-correct">拝見いたします / 拝見します</div>
-        <div class="phrase-desc">「拝見する（謙譲語）」に「〜させていただく（謙譲語）」を重ねた二重敬語です。「拝見いたします」で十分な敬意が伝わります。</div>
-      </div>
+        <div class="phrase-card" data-keyword="すいません すみません 申し訳 謝罪 お詫び">
+          <div class="phrase-wrong">すいません / すみません</div>
+          <div class="phrase-correct">申し訳ございません / 恐れ入ります</div>
+          <div class="phrase-desc">ビジネスシーンでの口頭やメールでは、「すみません」ではなく「大変申し訳ございません」が鉄則です。</div>
+        </div>
 
-      <div class="phrase-card" data-keyword="おっしゃる 言う 二重敬語">
-        <div class="phrase-wrong">〇〇部長がおっしゃられました</div>
-        <div class="phrase-correct">〇〇部長がおっしゃいました</div>
-        <div class="phrase-desc">「おっしゃる（尊敬語）」に「〜られる（尊敬助動詞）」を重ねた二重敬語です。「おっしゃいました」が正しい形です。</div>
-      </div>
+        <div class="phrase-card" data-keyword="拝見 見る 二重敬語">
+          <div class="phrase-wrong">拝見させていただきます</div>
+          <div class="phrase-correct">拝見いたします / 拝見します</div>
+          <div class="phrase-desc">「拝見する（謙譲語）」に「〜させていただく（謙譲語）」を重ねた二重敬語です。「拝見いたします」で十分な敬意が伝わります。</div>
+        </div>
 
-      <div class="phrase-card" data-keyword="なるほど 同意 相槌">
-        <div class="phrase-wrong">なるほどですね / なるほど</div>
-        <div class="phrase-correct">おっしゃる通りです / おっしゃる通りでございます</div>
-        <div class="phrase-desc">「なるほど」は相手を評価・品定めするニュアンスを含むため、上司やお客様に対して使うのは大変失礼です。</div>
-      </div>
+        <div class="phrase-card" data-keyword="おっしゃる 言う 二重敬語">
+          <div class="phrase-wrong">〇〇部長がおっしゃられました</div>
+          <div class="phrase-correct">〇〇部長がおっしゃいました</div>
+          <div class="phrase-desc">「おっしゃる（尊敬語）」に「〜られる（尊敬助動詞）」を重ねた二重敬語です。「おっしゃいました」が正しい形です。</div>
+        </div>
 
-      <div class="phrase-card" data-keyword="バイト敬語 方 ほう 案内">
-        <div class="phrase-wrong">書類のほうをお送りします</div>
-        <div class="phrase-correct">書類をお送りいたします</div>
-        <div class="phrase-desc">方向を指す言葉ではないものに「〜のほう」をつけるのは不自然なバイト敬語です。「書類をお送りいたします」とシンプルに表現します。</div>
-      </div>
+        <div class="phrase-card" data-keyword="なるほど 同意 相槌">
+          <div class="phrase-wrong">なるほどですね / なるほど</div>
+          <div class="phrase-correct">おっしゃる通りです / おっしゃる通りでございます</div>
+          <div class="phrase-desc">「なるほど」は相手を評価・品定めするニュアンスを含むため、上司やお客様に対して使うのは大変失礼です。</div>
+        </div>
 
-      <div class="phrase-card" data-keyword="バイト敬語 から 料金 お金">
-        <div class="phrase-wrong">1,000円からお預かりします</div>
-        <div class="phrase-correct">1,000円をお預かりいたします</div>
-        <div class="phrase-desc">お釣りがある場合でも「〜から」をつけるのは誤りです。「〜をお預かりいたします」が正確な日本語です。</div>
-      </div>
-    </div>
+        <div class="phrase-card" data-keyword="バイト敬語 方 ほう 案内">
+          <div class="phrase-wrong">書類のほうをお送りします</div>
+          <div class="phrase-correct">書類をお送りいたします</div>
+          <div class="phrase-desc">方向を指す言葉ではないものに「〜のほう」をつけるのは不自然なバイト敬語です。「書類をお送りいたします」とシンプルに表現します。</div>
+        </div>
 
-    <!-- Cushion Words Section -->
-    <article class="article-content" style="margin-top: 50px;">
-      <h2 id="cushion">メールや会話が劇的に柔らかくなる「クッション言葉」一覧</h2>
+        <div class="phrase-card" data-keyword="バイト敬語 から 料金 お金">
+          <div class="phrase-wrong">1,000円からお預かりします</div>
+          <div class="phrase-correct">1,000円をお預かりいたします</div>
+          <div class="phrase-desc">お釣りがある場合でも「〜から」をつけるのは誤りです。「〜をお預かりいたします」が正確な日本語です。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explanatory Articles -->
+    <article class="article-content">
+      <!-- 2. 了解・ご苦労様 -->
+      <h2 id="wrong">2. 「了解しました」「ご苦労様です」の間違いと正しい言い換え</h2>
       <p>
-        相手に依頼や催促、お断りをする前に添えるだけで、トーンが柔らかく丁寧になる魔法のフレーズです。
+        日常生活で馴染みがある言葉ほど、ビジネスの現場では重大なマナー違反になるリスクを孕んでいます。
       </p>
-
       <table class="info-table">
         <tr>
-          <th>場面</th>
-          <th>使えるクッション言葉</th>
-          <th>文例</th>
+          <th style="width: 160px;">使ってはいけない表現</th>
+          <th>正しい言い換え</th>
+          <th>理由と注意点</th>
         </tr>
         <tr>
-          <td><strong>何かを依頼する時</strong></td>
+          <td><strong>了解しました</strong></td>
+          <td><strong>承知いたしました<br>かしこまりました</strong></td>
+          <td>「了解」は同僚や目下に「事情を分かった」と認めるニュアンスがあり、敬意がありません。</td>
+        </tr>
+        <tr>
+          <td><strong>ご苦労様です</strong></td>
+          <td><strong>お疲れ様です</strong></td>
+          <td>「ご苦労様」は目上の者が目下をねぎらう言葉です。目上の人に使うと無礼になります。</td>
+        </tr>
+        <tr>
+          <td><strong>参考になりました</strong></td>
+          <td><strong>勉強になりました<br>大変参考になりました（※注意）</strong></td>
+          <td>「参考」は自分の考えの足しにする程度という意味が含まれるため、「勉強になりました」が最も無難です。</td>
+        </tr>
+      </table>
+
+      <!-- 3. 二重敬語 -->
+      <h2 id="double">3. 「おっしゃられた」「拝見させていただきます」二重敬語</h2>
+      <p>
+        敬語を重ねすぎると「慇懃無礼（丁寧すぎてかえって失礼・不自然）」になってしまいます。同じ種類の敬語（尊敬語＋尊敬語、謙譲語＋謙譲語）を重ねないのが基本ルールです。
+      </p>
+      <ul>
+        <li>❌ <strong>ご覧になられる</strong> ➔ ⭕ <strong>ご覧になる</strong>（「ご覧になる」自体が尊敬語のため「〜られる」は不要）</li>
+        <li>❌ <strong>伺わせていただきます</strong> ➔ ⭕ <strong>伺います / お伺いします</strong></li>
+        <li>❌ <strong>お召し上がりになられる</strong> ➔ ⭕ <strong>お召し上がりになる</strong></li>
+      </ul>
+
+      <!-- 4. クッション言葉 -->
+      <h2 id="cushion">4. お願い・お断りを角立てない「クッション言葉」一覧</h2>
+      <p>
+        本題の前に一言添えるだけで、依頼やお断りの印象が劇的に柔らかくなります。
+      </p>
+      <table class="info-table">
+        <tr>
+          <th style="width: 150px;">場面</th>
+          <th>クッション言葉の定型フレーズ</th>
+          <th>実践例文</th>
+        </tr>
+        <tr>
+          <td><strong>依頼・お願いする時</strong></td>
           <td>
             ・お忙しいところ恐縮ですが<br>
             ・ご多忙中とは存じますが<br>
@@ -132,7 +225,7 @@
           <td>「お忙しいところ恐縮ですが、明日までにご確認いただけますでしょうか」</td>
         </tr>
         <tr>
-          <td><strong>お断りをする時</strong></td>
+          <td><strong>お断りする時</strong></td>
           <td>
             ・大変心苦しいのですが<br>
             ・あいにくではございますが<br>
@@ -141,15 +234,36 @@
           <td>「大変心苦しいのですが、今回は見送らせていただく運びとなりました」</td>
         </tr>
         <tr>
-          <td><strong>尋ねる・確認する時</strong></td>
+          <td><strong>確認・質問する時</strong></td>
           <td>
-            ・差し支えなければ<br>
             ・失礼とは存じますが<br>
             ・念のため確認させていただきたいのですが
           </td>
           <td>「失礼とは存じますが、お名前をもう一度伺ってもよろしいでしょうか」</td>
         </tr>
       </table>
+
+      <!-- 5. お詫び -->
+      <h2 id="sorry">5. ビジネスで誠意が伝わる「お詫び」の言葉遣い</h2>
+      <p>
+        「すみません」「ごめんなさい」はビジネスの謝罪では厳禁です。事態の重さに応じて適切な言葉を使い分けましょう。
+      </p>
+      <div class="callout warn">
+        <strong>謝罪のレベル別フレーズ</strong><br>
+        1. <strong>日常の軽いお詫び</strong>: 「失礼いたしました」「恐れ入ります」<br>
+        2. <strong>一般的な謝罪</strong>: 「申し訳ございません」「深くお詫び申し上げます」<br>
+        3. <strong>重大なミス・会社としての謝罪</strong>: 「大変申し訳ございません」「弁解の余地もございません」「重ねて深くお詫び申し上げます」
+      </div>
+
+      <!-- 6. 社内と社外の敬称 -->
+      <h2 id="title">6. 社内と社外での敬称ルール（「社長の〇〇」と呼ぶ理由）</h2>
+      <p>
+        社外の人に対して自分の上司や社長のことを話す際、<strong>「〇〇社長様」「〇〇部長」と呼ぶのはNG</strong>です。
+      </p>
+      <ul>
+        <li><strong>社外に対して</strong>: 自社の人間には敬称をつけず、役職名を後につけて<strong>「社長の〇〇は席を外しております」「部長の佐藤は外出しております」</strong>、または単に「佐藤は〜」と呼び捨てにします。</li>
+        <li><strong>社内に対して</strong>: 「佐藤部長」「社長」と呼び、「佐藤社長様」のように役職に「様」を重ねるのは二重敬称で誤りです。</li>
+      </ul>
     </article>
   </main>
 
