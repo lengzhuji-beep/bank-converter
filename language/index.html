@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>敬語・言葉遣い辞典｜間違いやすい敬語・クッション言葉早引き｜マナーコンパス</title>
+  <meta name="description" content="「了解しました」「ご苦労様です」「おっしゃられた」など、間違えやすい敬語の正しい言い換えとクッション言葉を早引き検索。ビジネスメールや会話で役立つ言葉遣い辞典。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="compass-icon">🧭</div>
+        <div class="brand-text">
+          <span class="brand-name">マナーコンパス</span>
+          <span class="brand-sub">Manner Compass</span>
+        </div>
+      </a>
+      <nav class="desktop-nav">
+        <a href="../ceremony/index.html" class="nav-link">冠婚葬祭</a>
+        <a href="../business/index.html" class="nav-link">ビジネス</a>
+        <a href="../dining/index.html" class="nav-link">食事・テーブル</a>
+        <a href="../language/index.html" class="nav-link active">敬語・言葉遣い</a>
+        <a href="../ceremony/simulator.html" class="nav-tool-btn">💰 相場シミュレーター</a>
+      </nav>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="../index.html" class="mobile-nav-link">トップページ <span>→</span></a>
+      <a href="../language/index.html" class="mobile-nav-link">敬語・言葉遣い <span>→</span></a>
+      <a href="../business/index.html" class="mobile-nav-link">ビジネスマナー <span>→</span></a>
+      <a href="../ceremony/index.html" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">ホーム</a> ＞ <span>敬語・言葉遣い辞典</span>
+      </div>
+      <h1 class="page-title">🗣️ 敬語・言葉遣い早引き辞典</h1>
+      <p class="page-lead">
+        うっかり使ってしまいがちなNG表現と、相手に好印象を与える正しい敬語・クッション言葉をまとめました。
+      </p>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- Filter Search Box -->
+    <div class="filter-search-box">
+      <input type="text" id="phraseFilterInput" class="filter-input" placeholder="フレーズで検索（例：了解、ご苦労様、おっしゃる、資料...）">
+    </div>
+
+    <!-- Phrase Cards Grid -->
+    <div class="phrase-grid" id="phraseCardGrid">
+      <div class="phrase-card" data-keyword="了解 承知 かしこまりました 分かりました">
+        <div class="phrase-wrong">了解しました / 了解です</div>
+        <div class="phrase-correct">承知いたしました / かしこまりました</div>
+        <div class="phrase-desc">「了解」には敬意が含まれません。上司や取引先からの依頼・連絡には「承知いたしました」を使います。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="ご苦労様 お疲れ様 挨拶">
+        <div class="phrase-wrong">ご苦労様です</div>
+        <div class="phrase-correct">お疲れ様です</div>
+        <div class="phrase-desc">「ご苦労様」は目上から目下にねぎらいをかける言葉です。目上の人には必ず「お疲れ様です」と言います。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="すいません すみません 申し訳 謝罪 お詫び">
+        <div class="phrase-wrong">すいません / すみません</div>
+        <div class="phrase-correct">申し訳ございません / 恐れ入ります</div>
+        <div class="phrase-desc">ビジネスシーンでの口頭やメールでは、「すみません」ではなく「大変申し訳ございません」が鉄則です。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="拝見 見る 二重敬語">
+        <div class="phrase-wrong">拝見させていただきます</div>
+        <div class="phrase-correct">拝見いたします / 拝見します</div>
+        <div class="phrase-desc">「拝見する（謙譲語）」に「〜させていただく（謙譲語）」を重ねた二重敬語です。「拝見いたします」で十分な敬意が伝わります。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="おっしゃる 言う 二重敬語">
+        <div class="phrase-wrong">〇〇部長がおっしゃられました</div>
+        <div class="phrase-correct">〇〇部長がおっしゃいました</div>
+        <div class="phrase-desc">「おっしゃる（尊敬語）」に「〜られる（尊敬助動詞）」を重ねた二重敬語です。「おっしゃいました」が正しい形です。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="なるほど 同意 相槌">
+        <div class="phrase-wrong">なるほどですね / なるほど</div>
+        <div class="phrase-correct">おっしゃる通りです / おっしゃる通りでございます</div>
+        <div class="phrase-desc">「なるほど」は相手を評価・品定めするニュアンスを含むため、上司やお客様に対して使うのは大変失礼です。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="バイト敬語 方 ほう 案内">
+        <div class="phrase-wrong">書類のほうをお送りします</div>
+        <div class="phrase-correct">書類をお送りいたします</div>
+        <div class="phrase-desc">方向を指す言葉ではないものに「〜のほう」をつけるのは不自然なバイト敬語です。「書類をお送りいたします」とシンプルに表現します。</div>
+      </div>
+
+      <div class="phrase-card" data-keyword="バイト敬語 から 料金 お金">
+        <div class="phrase-wrong">1,000円からお預かりします</div>
+        <div class="phrase-correct">1,000円をお預かりいたします</div>
+        <div class="phrase-desc">お釣りがある場合でも「〜から」をつけるのは誤りです。「〜をお預かりいたします」が正確な日本語です。</div>
+      </div>
+    </div>
+
+    <!-- Cushion Words Section -->
+    <article class="article-content" style="margin-top: 50px;">
+      <h2 id="cushion">メールや会話が劇的に柔らかくなる「クッション言葉」一覧</h2>
+      <p>
+        相手に依頼や催促、お断りをする前に添えるだけで、トーンが柔らかく丁寧になる魔法のフレーズです。
+      </p>
+
+      <table class="info-table">
+        <tr>
+          <th>場面</th>
+          <th>使えるクッション言葉</th>
+          <th>文例</th>
+        </tr>
+        <tr>
+          <td><strong>何かを依頼する時</strong></td>
+          <td>
+            ・お忙しいところ恐縮ですが<br>
+            ・ご多忙中とは存じますが<br>
+            ・差し支えなければ
+          </td>
+          <td>「お忙しいところ恐縮ですが、明日までにご確認いただけますでしょうか」</td>
+        </tr>
+        <tr>
+          <td><strong>お断りをする時</strong></td>
+          <td>
+            ・大変心苦しいのですが<br>
+            ・あいにくではございますが<br>
+            ・ご期待に沿えず恐縮ですが
+          </td>
+          <td>「大変心苦しいのですが、今回は見送らせていただく運びとなりました」</td>
+        </tr>
+        <tr>
+          <td><strong>尋ねる・確認する時</strong></td>
+          <td>
+            ・差し支えなければ<br>
+            ・失礼とは存じますが<br>
+            ・念のため確認させていただきたいのですが
+          </td>
+          <td>「失礼とは存じますが、お名前をもう一度伺ってもよろしいでしょうか」</td>
+        </tr>
+      </table>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 マナーコンパス（Manner Compass）. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Real-time filter
+    const input = document.getElementById('phraseFilterInput');
+    const cards = document.querySelectorAll('.phrase-card');
+
+    if (input) {
+      input.addEventListener('input', () => {
+        const query = input.value.trim().toLowerCase();
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase() + " " + (card.dataset.keyword || "").toLowerCase();
+          if (text.includes(query)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

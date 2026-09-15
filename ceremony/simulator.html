@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご祝儀・香典の相場シミュレーター｜マナーコンパス</title>
+  <meta name="description" content="結婚式のご祝儀や葬儀の香典、出産祝いの金額相場を瞬時に計算。相手との関係（友人・同僚・上司・親族）や年代に応じた適正金額、お札の向き、袱紗の包み方まで徹底解説。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="compass-icon">🧭</div>
+        <div class="brand-text">
+          <span class="brand-name">マナーコンパス</span>
+          <span class="brand-sub">Manner Compass</span>
+        </div>
+      </a>
+      <nav class="desktop-nav">
+        <a href="../ceremony/index.html" class="nav-link active">冠婚葬祭</a>
+        <a href="../business/index.html" class="nav-link">ビジネス</a>
+        <a href="../dining/index.html" class="nav-link">食事・テーブル</a>
+        <a href="../language/index.html" class="nav-link">敬語・言葉遣い</a>
+        <a href="../ceremony/noshi.html" class="nav-tool-btn">✉️ のし袋チェッカー</a>
+      </nav>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="../index.html" class="mobile-nav-link">トップページ <span>→</span></a>
+      <a href="../ceremony/index.html" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
+      <a href="../ceremony/noshi.html" class="mobile-nav-link">のし袋・表書きチェッカー <span>→</span></a>
+      <a href="../business/seating.html" class="mobile-nav-link">上座・下座 席次早見表 <span>→</span></a>
+      <a href="../business/index.html" class="mobile-nav-link">ビジネスマナー <span>→</span></a>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">ホーム</a> ＞ <a href="./index.html">冠婚葬祭</a> ＞ <span>相場シミュレーター</span>
+      </div>
+      <h1 class="page-title">💰 ご祝儀・香典 相場シミュレーター</h1>
+      <p class="page-lead">
+        シチュエーション・相手との関係・ご自身の年代を選択するだけで、適正な金額とお札の包み方ルールがすぐに分かります。
+      </p>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="simulator-box">
+      <div class="simulator-controls">
+        <div class="control-group">
+          <label class="control-label" for="simEvent">📌 シチュエーション</label>
+          <select id="simEvent" class="control-select">
+            <option value="wedding">結婚式・結婚祝い</option>
+            <option value="funeral">お通夜・葬儀（香典）</option>
+            <option value="baby">出産祝い</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="simRelation">👤 相手との関係</label>
+          <select id="simRelation" class="control-select">
+            <option value="friend">友人・知人</option>
+            <option value="colleague">職場の同僚</option>
+            <option value="boss">職場の上司</option>
+            <option value="subordinate">職場の部下</option>
+            <option value="sibling">兄弟・姉妹</option>
+            <option value="relative">親族（いとこ等）</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="simAge">🎂 あなたの年代</label>
+          <select id="simAge" class="control-select">
+            <option value="20s">20代</option>
+            <option value="30s" selected>30代</option>
+            <option value="40s">40代以上</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="sim-result-card">
+        <span class="result-badge">CALCULATION RESULT</span>
+        <div class="result-target" id="resultTarget">結婚式・結婚祝いの目安相場</div>
+        <div class="result-price-wrap">
+          <div class="result-price-main" id="resultPriceMain">30,000円</div>
+          <div class="result-price-range" id="resultPriceRange">（相場幅: 3万円 〜 5万円）</div>
+        </div>
+        <ul class="result-note-list" id="resultNoteList">
+          <li>【新札の用意】必ず銀行等でピン札（新札）を用意します。</li>
+          <li>【割り切れない奇数】偶数（2・4・6など）は別れを連想させるため避けます。</li>
+          <li>【お札の向き】肖像画が表側・上部に来るように入れます。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Explanatory Article -->
+    <article class="article-content">
+      <h2>お祝い金・香典を包む際の共通マナー</h2>
+      <p>
+        金額だけでなく、「お札の状態」「お札の向き」「袱紗（ふくさ）の包み方」にも厳格なルールが存在します。
+      </p>
+
+      <h3>1. お札の「新札」と「旧札」の使い分け</h3>
+      <table class="info-table">
+        <thead>
+          <tr>
+            <th>区分</th>
+            <th>結婚祝い・出産祝い等の慶事</th>
+            <th>お通夜・葬儀等の弔事</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>推奨されるお札</strong></td>
+            <td><strong>新札（ピン札）</strong><br>「晴れの日を心待ちに準備していた」誠意を表します。</td>
+            <td><strong>使用感のある旧札</strong><br>「突然の訃報に急ぎ駆けつけた」ことを示します。</td>
+          </tr>
+          <tr>
+            <td><strong>手元に新札しかない場合</strong></td>
+            <td>アイロン掛け等の工夫、または銀行窓口で両替。</td>
+            <td><strong>中央に一度折り目をつけてから</strong>包みます。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2. お札を入れる向き</h3>
+      <div class="callout tip">
+        <strong>慶事（結婚祝い・出産祝いなど）</strong><br>
+        中袋の「表側（金額を書く面）」に対して、<strong>お札の肖像画（顔）が表かつ上</strong>に来るように入れます。袋を開けた時に肖像画が最初に見える向きです。
+      </div>
+
+      <div class="callout warn">
+        <strong>弔事（香典・不祝儀）</strong><br>
+        中袋の「表側」に対して、<strong>お札の肖像画（顔）を裏面かつ下向き</strong>にして入れます。「悲しみに顔を伏せる」という意味が込められています。
+      </div>
+
+      <h3>3. 袱紗（ふくさ）の選び方と包み方</h3>
+      <p>
+        現金を包んだのし袋をそのままバッグやスーツの内ポケットに入れて持ち歩くのは大変失礼にあたります。必ず「袱紗（ふくさ）」に包んで持参しましょう。
+      </p>
+      <ul>
+        <li><strong>慶事用</strong>: 赤、ピンク、オレンジ、えんじ、ゴールドなどの明るい暖色系（<strong>右開き</strong>で包む）</li>
+        <li><strong>弔事用</strong>: 紺、グレー、緑、黒などの落ち着いた寒色系（<strong>左開き</strong>で包む）</li>
+        <li><strong>慶弔両用</strong>: <strong>「紫色（むらさき）」</strong>の袱紗は唯一、慶事・弔事のどちらでも使えます。1枚持っておくと重宝します。</li>
+      </ul>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 マナーコンパス（Manner Compass）. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/simulator.js"></script>
+</body>
+</html>

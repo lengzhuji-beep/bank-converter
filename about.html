@@ -1,75 +1,101 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>当サイトについて | 振込名義カタカナ変換ツール</title>
-    
-    <meta name="google-adsense-account" content="ca-pub-1605984058031593">
-    
-    <!-- Google Analytics 4 (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WSM2T4B6R"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-6WSM2T4B6R');
-    </script>
-    
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1605984058031593" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マナーコンパスについて｜当サイトの運営方針と理念｜マナーコンパス</title>
+  <meta name="description" content="マナーコンパス（Manner Compass）の運営理念、提供サービス、情報監修の方針について。ビジネス・冠婚葬祭・食事・敬語など現代社会の正しい作法の指針を目指します。">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/tool.css">
 </head>
-<body class="sub-page">
-    <div class="container">
-        <header>
-            <h1>当サイトについて</h1>
-            <p class="subtitle">ABOUT THIS TOOL</p>
-        </header>
+<body>
 
-        <main class="content-body">
-            <section>
-                <h2>振込名義カタカナ変換ツールとは</h2>
-                <p>本サイトは、銀行振込の際に必要となる「振込名義」を、全銀フォーマット（全国銀行協会が定める形式）に準拠したカタカナ形式に自動変換するための無料Webツールです。</p>
-                <p>特にビジネスシーンで頻出する「株式会社」「有限会社」などの略号（カ、ユ等）への変換や、英数字、記号の適切な全角カタカナ化を一瞬で行うことができます。</p>
-            </section>
-
-            <section>
-                <h2>開発の背景と専門性</h2>
-                <p>経理業務やECサイトの運営において、入金元との照合（消込作業）は非常に重要ですが、銀行ごとに異なるカタカナ入力を手作業で行うのはミスを招きやすく、非効率です。当ツールは、これらの課題を解決するために開発されました。</p>
-                <p>内部ロジックは全銀協のガイドラインを細かく反映しており、ビジネスの実務でそのまま使える精度を追求しています。単なる文字置換ではなく、文脈に合わせた略号の配置（前方・中・後方）を自動判別するのが最大の特徴です。</p>
-            </section>
-
-            <section>
-                <h2>提供する価値</h2>
-                <ul>
-                    <li>漢字・英数字混じりの名称を標準的な振込用カナに変換</li>
-                    <li>会社形態（株式会社、合同会社等）を適切な略号に自動変換</li>
-                    <li>文字数カウント機能（30文字制限のチェック）</li>
-                    <li>ネットバンキングへのコピペを容易にするUI</li>
-                    <li>複数の変換候補の提示による柔軟な対応</li>
-                </ul>
-            </section>
-
-            <div class="back-home">
-                <a href="index.html" class="back-link">← ツールに戻る</a>
-            </div>
-        </main>
-
-        <footer>
-            <nav>
-                <a href="index.html">ホーム</a>
-                <a href="about.html">当サイトについて</a>
-                <a href="privacy.html">プライバシーポリシー</a>
-                <a href="terms.html">利用規約</a>
-                <a href="contact.html">お問い合わせ</a>
-            </nav>
-            <p>&copy; 2026 振込名義カタカナ変換ツール</p>
-        </footer>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="./index.html" class="brand-logo">
+        <div class="compass-icon">🧭</div>
+        <div class="brand-text">
+          <span class="brand-name">マナーコンパス</span>
+          <span class="brand-sub">Manner Compass</span>
+        </div>
+      </a>
+      <nav class="desktop-nav">
+        <a href="./ceremony/index.html" class="nav-link">冠婚葬祭</a>
+        <a href="./business/index.html" class="nav-link">ビジネス</a>
+        <a href="./dining/index.html" class="nav-link">食事・テーブル</a>
+        <a href="./language/index.html" class="nav-link">敬語・言葉遣い</a>
+        <a href="./ceremony/simulator.html" class="nav-tool-btn">💰 相場シミュレーター</a>
+      </nav>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="./index.html" class="mobile-nav-link">トップページ <span>→</span></a>
+      <a href="./ceremony/simulator.html" class="mobile-nav-link">相場シミュレーター <span>→</span></a>
+      <a href="./ceremony/noshi.html" class="mobile-nav-link">のし袋チェッカー <span>→</span></a>
+      <a href="./business/seating.html" class="mobile-nav-link">上座下座マップ <span>→</span></a>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="./index.html">ホーム</a> ＞ <span>マナーコンパスについて</span>
+      </div>
+      <h1 class="page-title">🧭 マナーコンパスについて</h1>
+      <p class="page-lead">
+        「形式にとらわれるだけでなく、相手への思いやりを形にする」。当サイトの理念と運営方針をご紹介します。
+      </p>
+    </div>
+  </div>
+
+  <main class="container">
+    <article class="article-content">
+      <h2>運営理念・ミッション</h2>
+      <p>
+        マナー（Manner）とは、単に堅苦しいルールを守ることではなく、**「周囲の人々に不快感を与えず、敬意と心遣いを正しく届けるための共通言語」**です。
+      </p>
+      <p>
+        しかし、冠婚葬祭のしきたりやビジネスの席次、敬語の使い分けなど、普段なじみの薄い場面では「これで合っているのだろうか」と誰もが不安を抱きます。<br>
+        『マナーコンパス（Manner Compass）』は、現代社会を生きるすべての人が迷った時、自信を持って振る舞える**「正しい指針」**となることを目指して開設されました。
+      </p>
+
+      <h2>サイトの特徴</h2>
+      <ul>
+        <li><strong>網羅的な5大シーン対応</strong>: ビジネス、冠婚葬祭、食事、敬語、訪問挨拶の全領域を整理。</li>
+        <li><strong>Webならではの計算・図解ツール</strong>: 「ご祝儀・香典相場シミュレーター」「のし袋・表書きチェッカー」「上座・下座席次マップ」など、数秒で疑問が解決するインタラクティブ機能を搭載。</li>
+        <li><strong>時代に即した現代マナー</strong>: 伝統的なしきたりを尊重しながらも、オンライン商談やチャットツールなど現代の実態に即した最新の作法を提供します。</li>
+      </ul>
+
+      <h2>運営情報</h2>
+      <table class="info-table">
+        <tr>
+          <th>サイト名</th>
+          <td>マナーコンパス（Manner Compass）</td>
+        </tr>
+        <tr>
+          <th>サイトURL</th>
+          <td>https://lengzhuji-beep.github.io/bank-converter/</td>
+        </tr>
+        <tr>
+          <th>主なコンテンツ</th>
+          <td>ビジネスマナー、冠婚葬祭作法、食事テーブルマナー、敬語辞典、各種計算・図解ツール</td>
+        </tr>
+      </table>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 マナーコンパス（Manner Compass）. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./assets/js/main.js"></script>
 </body>
 </html>

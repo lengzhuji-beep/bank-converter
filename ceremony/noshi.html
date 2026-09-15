@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>のし袋・水引・表書きチェッカー｜マナーコンパス</title>
+  <meta name="description" content="結婚式、出産祝い、お見舞い、お通夜・葬儀など、目的に合わせたのし袋（金封・不祝儀袋）の選び方、水引（結び切り／蝶結び）、表書きと名入れの書き方をリアルタイムに図解プレビュー。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="compass-icon">🧭</div>
+        <div class="brand-text">
+          <span class="brand-name">マナーコンパス</span>
+          <span class="brand-sub">Manner Compass</span>
+        </div>
+      </a>
+      <nav class="desktop-nav">
+        <a href="../ceremony/index.html" class="nav-link active">冠婚葬祭</a>
+        <a href="../business/index.html" class="nav-link">ビジネス</a>
+        <a href="../dining/index.html" class="nav-link">食事・テーブル</a>
+        <a href="../language/index.html" class="nav-link">敬語・言葉遣い</a>
+        <a href="../ceremony/simulator.html" class="nav-tool-btn">💰 相場シミュレーター</a>
+      </nav>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="../index.html" class="mobile-nav-link">トップページ <span>→</span></a>
+      <a href="../ceremony/index.html" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
+      <a href="../ceremony/simulator.html" class="mobile-nav-link">ご祝儀・香典相場シミュレーター <span>→</span></a>
+      <a href="../business/seating.html" class="mobile-nav-link">上座・下座 席次早見表 <span>→</span></a>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">ホーム</a> ＞ <a href="./index.html">冠婚葬祭</a> ＞ <span>のし袋・表書きチェッカー</span>
+      </div>
+      <h1 class="page-title">✉️ のし袋・水引・表書きチェッカー</h1>
+      <p class="page-lead">
+        目的を選択すると、選ぶべき水引の形（蝶結び／結び切り）や熨斗の有無、表書きの書き方がリアルタイムに画面上で確認できます。
+      </p>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="noshi-tool-container">
+      <!-- Left: Interactive Envelope Preview -->
+      <div class="noshi-preview-wrap">
+        <div style="font-size: 13px; font-weight: 700; color: var(--gold-600); margin-bottom: 16px;">
+          【仕上がりプレビュー】
+        </div>
+
+        <div class="noshi-envelope" id="noshiEnvelope">
+          <!-- Noshi Mark (Top Right) -->
+          <div class="noshi-badge-mark" id="previewNoshiMark">
+            <span>熨斗</span>
+          </div>
+
+          <!-- Upper Title Text -->
+          <div class="noshi-title-text" id="previewTopText">寿</div>
+
+          <!-- Mizuhiki Bar & Knot -->
+          <div class="noshi-mizuhiki-bar">
+            <div class="mizuhiki-knot gold-silver" id="previewMizuhikiKnot">結び切り（金銀）</div>
+          </div>
+
+          <!-- Lower Name Text -->
+          <div class="noshi-name-text" id="previewNameText">山田 太郎</div>
+        </div>
+      </div>
+
+      <!-- Right: Form Controls & Explanations -->
+      <div class="noshi-form-card">
+        <div class="simulator-box" style="margin-bottom: 24px;">
+          <div class="control-group" style="margin-bottom: 20px;">
+            <label class="control-label" for="noshiPurposeSelect">📌 贈る目的・用途</label>
+            <select id="noshiPurposeSelect" class="control-select">
+              <optgroup label="【お祝い・慶事】">
+                <option value="wedding">結婚祝い・ご祝儀</option>
+                <option value="baby">出産祝い</option>
+                <option value="school">入学・進学・就職祝い</option>
+                <option value="recovery">快気祝い（全快のお礼）</option>
+                <option value="gift">お中元・お歳暮</option>
+              </optgroup>
+              <optgroup label="【お見舞い（注意が必要）】">
+                <option value="illness">病気・ケガのお見舞い（のし無・結び切り）</option>
+              </optgroup>
+              <optgroup label="【お悔やみ・弔事】">
+                <option value="funeral_before">お通夜・葬儀（通夜〜四十九日前）</option>
+                <option value="funeral_after">四十九日法要以降・一周忌・年忌法要</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="noshiNameInput">✍️ 贈り主のお名前（任意）</label>
+            <input type="text" id="noshiNameInput" class="control-select" placeholder="例：山田 太郎" value="山田 太郎">
+          </div>
+        </div>
+
+        <!-- Dynamic Rule Description -->
+        <div class="article-content" style="padding: 24px;">
+          <h3 id="expTitle" style="margin-top: 0; color: var(--primary-800);">結婚祝い の正しい選び方</h3>
+          <table class="info-table" style="margin: 16px 0;">
+            <tr>
+              <th style="width: 120px;">水引の結び</th>
+              <td id="expMizuhiki" style="font-weight: 700; color: var(--gold-600);">結び切り（10本）</td>
+            </tr>
+            <tr>
+              <th>水引の色</th>
+              <td id="expColor">金銀 または 紅白</td>
+            </tr>
+            <tr>
+              <th>のし（右上）</th>
+              <td id="expNoshi">あり（右上に熨斗マーク）</td>
+            </tr>
+          </table>
+          <p id="expPoint" style="font-size: 13px; color: var(--text-sub); line-height: 1.7;">
+            結婚は一度きりであってほしい慶事のため、固く結ばれてほどけない『結び切り』を選びます。水引は夫婦2人分として10本の水引を用います。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Guide -->
+    <article class="article-content" style="margin-top: 40px;">
+      <h2>水引（みずひき）の基本ルール：蝶結びと結び切りの決定的な違い</h2>
+      <p>
+        のし袋で最も恥をかきやすいのが「水引の選び間違い」です。選び方の基準は非常に明快です。
+      </p>
+
+      <div class="callout tip">
+        <strong>🎀 蝶結び（花結び）＝「何度あっても良いお祝い」</strong><br>
+        引っ張ると何度でもほどけて結び直せることから、出産祝い、入学・卒業祝い、新築祝い、お中元・お歳暮、長寿祝いなどに用います。※結婚祝いやお見舞いには絶対に使ってはいけません。
+      </div>
+
+      <div class="callout warn">
+        <strong>🎗️ 結び切り（あわじ結び）＝「二度と繰り返したくないこと」</strong><br>
+        固く結ばれてほどけないことから、「人生に一度きりであってほしい」結婚祝い、全快を喜ぶ快気祝い、病気見舞い、そしてお通夜・告別式などのすべての弔事に用います。
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 マナーコンパス（Manner Compass）. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/noshi.js"></script>
+</body>
+</html>

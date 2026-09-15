@@ -1,206 +1,396 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>振込名義カタカナ変換ツール | 銀行振込・名義人名の自動変換</title>
-    <meta name="description" content="銀行振込の際に必要な、株式会社などの略号（カ、ユ等）や数字・英単語を全銀フォーマット準拠のカタカナ名義に自動変換する無料ツール「振込名義カタカナ変換ツール」です。">
-    <meta name="keywords" content="振込名義, 変換, カタカナ, 株式会社 略, 銀行振込, 全銀フォーマット, 振込名義カタカナ変換ツール">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://lengzhuji-beep.github.io/bank-converter/">
-    <meta property="og:title" content="振込名義カタカナ変換ツール | 銀行振込・名義人名の自動変換">
-    <meta property="og:description" content="銀行振込に必要な略号や英数字を、全銀フォーマット準拠のカタカナに一瞬で変換。">
-    
-    <link rel="canonical" href="https://lengzhuji-beep.github.io/bank-converter/">
-    <meta name="robots" content="index, follow">
-    <meta name="google-adsense-account" content="ca-pub-1605984058031593">
-
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "振込名義カタカナ変換ツール",
-      "url": "https://lengzhuji-beep.github.io/bank-converter/",
-      "description": "銀行振込の際に必要な、株式会社などの略号や数字・英単語を全銀フォーマット準拠のカタカナ名義に自動変換するツールです。",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "All",
-      "browserRequirements": "Requires JavaScript"
-    }
-    </script>
-
-    <!-- Google Analytics 4 (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WSM2T4B6R"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-6WSM2T4B6R');
-    </script>
-    
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1605984058031593" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="icon" type="image/png" href="bank-icon-v2.png">
-    <link rel="apple-touch-icon" href="bank-icon-v2.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マナーコンパス（Manner Compass）｜大人のマナー総合事典・シーン別早引きガイド</title>
+  <meta name="description" content="ビジネス・冠婚葬祭・食事・挨拶・敬語など、あらゆるシーンのマナーと作法を網羅した総合ガイド。ご祝儀・香典の相場シミュレーターやのし袋チェッカー、上座・下座の席次早見表など、迷った時に役立つツールを無料提供。">
+  <meta name="keywords" content="マナー, ビジネスマナー, 冠婚葬祭, ご祝儀相場, 香典相場, のし袋, 上座下座, テーブルマナー, 敬語">
+  
+  <!-- OGP Tags -->
+  <meta property="og:title" content="マナーコンパス（Manner Compass）｜大人のマナー総合事典">
+  <meta property="og:description" content="ビジネス・冠婚葬祭・食事・挨拶・敬語など、いざという時に困らない正しい大人の作法と便利ツールを提供。">
+  <meta property="og:type" content="website">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/tool.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="title-container">
-                <img src="bank-icon-v2.png" alt="Icon" class="header-icon">
-                <h1>振込名義カタカナ変換ツール</h1>
-            </div>
-            <p class="subtitle">全銀フォーマット準拠の振込名義に即座に変換</p>
-        </header>
 
-        <main class="main-content">
-            <section class="converter-section">
-                <div class="input-group">
-                    <label for="companyInput">会社名・個人名（漢字・カナ・英数）</label>
-                    <input type="text" id="companyInput" placeholder="例：株式会社ウェブフリコム" autocomplete="off">
-                </div>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="./index.html" class="brand-logo">
+        <div class="compass-icon">🧭</div>
+        <div class="brand-text">
+          <span class="brand-name">マナーコンパス</span>
+          <span class="brand-sub">Manner Compass</span>
+        </div>
+      </a>
 
-                <div class="result-area">
-                    <button class="copy-btn" id="copyBtn">COPY</button>
-                    <div id="convertedResult" contenteditable="true" title="直接編集できます">ココニ 変換結果ガ ヒョウジ サレマス</div>
-                    <div class="char-count" id="charCount">0 / 30</div>
-                </div>
-            </section>
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav">
+        <a href="./ceremony/index.html" class="nav-link">冠婚葬祭</a>
+        <a href="./business/index.html" class="nav-link">ビジネス</a>
+        <a href="./dining/index.html" class="nav-link">食事・テーブル</a>
+        <a href="./language/index.html" class="nav-link">敬語・言葉遣い</a>
+        <a href="./ceremony/simulator.html" class="nav-tool-btn">✨ 相場シミュレーター</a>
+      </nav>
 
-            <aside class="candidates-sidebar">
-                <div class="candidates-section" id="candidatesSection">
-                    <div class="candidates-header">他の候補</div>
-                    <div class="candidates-list" id="candidatesList">
-                        <!-- Candidates will be injected here -->
-                    </div>
-                </div>
-            </aside>
-        </main>
-
-        <section class="info-section">
-            <div class="content-block">
-                <h2>振込名義カタカナ変換ツールとは？</h2>
-                <p>銀行振込を行う際、ビジネスシーンでは「株式会社」を「カ）」、「有限会社」を「ユ）」と略したり、特定のカタカナ形式（全銀フォーマット）に変換する必要があります。当ツールは、入力された名称を自動で判別し、振込に最適なカタカナ名義に変換します。</p>
-            </div>
-            
-            <div class="content-block">
-                <h2>全銀フォーマット（銀行振込形式）の基本</h2>
-                <p>日本の多くの銀行では、全国銀行協会が定める「全銀フォーマット」に基づいたデータ処理を行っています。この形式では、使用できる文字が「全角カタカナ」「英数字」「一部の記号（括弧、ドット等）」に制限されており、さらに法人の種類を1文字〜2文字の略号で表現することが推奨されています。</p>
-                <div class="abbreviation-table-container">
-                    <table class="abbreviation-table">
-                        <thead>
-                            <tr>
-                                <th>法人・組織の種類</th>
-                                <th>略号（前方入力の場合）</th>
-                                <th>略号（中・後方入力の場合）</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>株式会社</td>
-                                <td>カ）</td>
-                                <td>（カ</td>
-                            </tr>
-                            <tr>
-                                <td>有限会社</td>
-                                <td>ユ）</td>
-                                <td>（ユ</td>
-                            </tr>
-                            <tr>
-                                <td>合同会社</td>
-                                <td>ド）</td>
-                                <td>（ド</td>
-                            </tr>
-                            <tr>
-                                <td>一般社団法人</td>
-                                <td>シヤ）</td>
-                                <td>（シヤ</td>
-                            </tr>
-                            <tr>
-                                <td>学校法人</td>
-                                <td>ガク）</td>
-                                <td>（ガク</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="content-block">
-                <h2>よくある質問 (FAQ)</h2>
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <p class="faq-q">Q. 小文字のカタカナ（ッ、ョ等）はどうなりますか？</p>
-                        <p class="faq-a">A. 多くの銀行システムでは小文字のまま通りますが、一部の古いシステムでは大文字（ツ、ヨ等）に変換される場合があります。当ツールでは標準的な全角カタカナを生成します。</p>
-                    </div>
-                    <div class="faq-item">
-                        <p class="faq-q">Q. 英数字の会社名はどう変換されますか？</p>
-                        <p class="faq-a">A. 全銀フォーマットでは英字も使用可能ですが、カタカナでの登録を求められることもあります。当ツールでは英字を全角カナに変換する候補も提示します。</p>
-                    </div>
-                    <div class="faq-item">
-                        <p class="faq-q">Q. 銀行への直接入稿にそのまま使えますか？</p>
-                        <p class="faq-a">A. はい、30文字制限のチェックも含めて全銀フォーマットに準拠した形式を出力しています。ただし、最終的な確認は振込先の情報と照らし合わせて行ってください。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="news-section content-block">
-            <h2>お役立ち金融・経済コラム</h2>
-            <div class="news-grid">
-                <div class="news-item">
-                    <a href="articles/financial-fees-guide.html">
-                        <h3>2026年版：日本の銀行振込手数料ガイドと節約のコツ</h3>
-                        <p>最新の手数料体系とコスト削減の秘策を解説。</p>
-                    </a>
-                </div>
-                <div class="news-item">
-                    <a href="articles/abbreviation-rules.html">
-                        <h3>振込名義の略称（カ、ユ、ド等）完全マスターガイド</h3>
-                        <p>迷いがちな銀行提出用の略記ルールを徹底攻略。</p>
-                    </a>
-                </div>
-                <div class="news-item">
-                    <a href="articles/japan-economy-2026.html">
-                        <h3>2026年の日本経済展望：金利上昇が家計に与える影響</h3>
-                        <p>「金利のある世界」での家計防衛策を考えます。</p>
-                    </a>
-                </div>
-                <div class="news-item">
-                    <a href="articles/stock-market-basics.html">
-                        <h3>初心者向け：株式市場の動きを左右する経済指標の読み方</h3>
-                        <p>雇用統計やCPIなど、投資の基本を学びましょう。</p>
-                    </a>
-                </div>
-                <div class="news-item">
-                    <a href="articles/glossary.html">
-                        <h3>金融・銀行・お振り込みの基本用語集</h3>
-                        <p>知っているようで知らない専門用語を分かりやすく解説。</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <nav>
-                <a href="index.html">ホーム</a>
-                <a href="about.html">当サイトについて</a>
-                <a href="privacy.html">プライバシーポリシー</a>
-                <a href="terms.html">利用規約</a>
-                <a href="contact.html">お問い合わせ</a>
-            </nav>
-            <p>&copy; 2026 振込名義カタカナ変換ツール</p>
-        </footer>
+      <!-- Mobile Hamburger Button -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
 
-    <script src="converter.js"></script>
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="./ceremony/index.html" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
+      <a href="./business/index.html" class="mobile-nav-link">ビジネスマナー <span>→</span></a>
+      <a href="./dining/index.html" class="mobile-nav-link">食事・テーブルマナー <span>→</span></a>
+      <a href="./language/index.html" class="mobile-nav-link">敬語・言葉遣い <span>→</span></a>
+      <a href="./ceremony/simulator.html" class="mobile-nav-link" style="color: var(--gold-300);">✨ ご祝儀・香典相場シミュレーター <span>→</span></a>
+      <a href="./ceremony/noshi.html" class="mobile-nav-link" style="color: var(--gold-300);">✉️ のし袋・表書きチェッカー <span>→</span></a>
+      <a href="./business/seating.html" class="mobile-nav-link" style="color: var(--gold-300);">💺 上座・下座 席次早見図解 <span>→</span></a>
+      <a href="./about.html" class="mobile-nav-link">サイトについて <span>→</span></a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-content">
+      <div class="hero-badge">大人としての品格と安心を</div>
+      <h1 class="hero-title">迷った時の、<br><span class="gold">正しいマナーの指針。</span></h1>
+      <p class="hero-desc">
+        冠婚葬祭のご祝儀や香典、ビジネスの席次やメール敬語、食事の作法まで。<br>
+        「いざという時に恥をかかない」ための知識とシミュレーターをわかりやすくお届けします。
+      </p>
+
+      <!-- Hero Quick Search -->
+      <div class="hero-search-box">
+        <span class="hero-search-icon">🔍</span>
+        <input type="text" id="heroSearchInput" class="hero-search-input" placeholder="例：結婚式 ご祝儀、上座 タクシー、お悔やみ メール、敬語..." aria-label="マナーを検索">
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Tool Highlight Section -->
+  <section class="container quick-tools-section">
+    <div class="tools-grid">
+      <!-- Tool 1 -->
+      <a href="./ceremony/simulator.html" class="tool-highlight-card ceremony">
+        <div class="tool-icon-wrap">💰</div>
+        <div class="tool-info">
+          <h3>ご祝儀・香典相場シミュレーター</h3>
+          <p>相手との関係性や年代を選ぶだけで、包むべき適正金額とお札の向きが即座に分かります。</p>
+          <span class="tool-action-link">相場を計算する →</span>
+        </div>
+      </a>
+
+      <!-- Tool 2 -->
+      <a href="./ceremony/noshi.html" class="tool-highlight-card ceremony">
+        <div class="tool-icon-wrap">✉️</div>
+        <div class="tool-info">
+          <h3>のし袋・表書きチェッカー</h3>
+          <p>お祝いやお悔やみの目的に合わせて、結び切り・蝶結びの水引と表書きをビジュアルで確認。</p>
+          <span class="tool-action-link">のし袋をチェック →</span>
+        </div>
+      </a>
+
+      <!-- Tool 3 -->
+      <a href="./business/seating.html" class="tool-highlight-card business">
+        <div class="tool-icon-wrap">💺</div>
+        <div class="tool-info">
+          <h3>上座・下座（席次）早見図解</h3>
+          <p>タクシー・会議室・エレベーター・宴会など、迷いやすい座席の位置を図解で一発確認。</p>
+          <span class="tool-action-link">席次図を見る →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Main 5 Categories Section -->
+  <section class="container">
+    <div class="section-header">
+      <span class="section-tag">Categories</span>
+      <h2 class="section-title">シーン別マナー一覧</h2>
+      <p class="section-sub">日々のビジネスから人生の節目まで、必要な作法を体系的にまとめています。</p>
+    </div>
+
+    <div class="category-cards-grid">
+      <!-- 1. Ceremony (冠婚葬祭) -->
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <div class="cat-badge-icon ceremony">🕊️</div>
+          <div class="cat-header-text">
+            <h3>冠婚葬祭・儀礼</h3>
+            <p>結婚式・お通夜・葬儀・法要・季節の贈答</p>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul class="cat-card-list">
+            <li class="cat-list-item"><a href="./ceremony/simulator.html">ご祝儀・香典の相場シミュレーター <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./ceremony/noshi.html">のし袋・金封の選び方と表書きのルール <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./ceremony/index.html#wedding">結婚式・披露宴の服装と招待状の返信マナー <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./ceremony/index.html#funeral">お通夜・葬儀の服装・数珠・袱紗（ふくさ）の使い方 <span>→</span></a></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <a href="./ceremony/index.html" class="cat-more-btn">冠婚葬祭ガイドを見る →</a>
+        </div>
+      </div>
+
+      <!-- 2. Business (ビジネス) -->
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <div class="cat-badge-icon business">🏢</div>
+          <div class="cat-header-text">
+            <h3>ビジネスマナー</h3>
+            <p>名刺交換・電話応対・席次・来客案内</p>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul class="cat-card-list">
+            <li class="cat-list-item"><a href="./business/seating.html">上座・下座（タクシー・会議室・エレベーター） <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./business/index.html#meishi">正しい名刺交換の順番と置き方のマナー <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./business/index.html#phone">ビジネス電話の受け方・取り次ぎの基本フレーズ <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./business/index.html#email">お礼・お詫びビジネスメールの定型フォーマット <span>→</span></a></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <a href="./business/index.html" class="cat-more-btn">ビジネスマナーを見る →</a>
+        </div>
+      </div>
+
+      <!-- 3. Dining (食事・テーブルマナー) -->
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <div class="cat-badge-icon dining">🍽️</div>
+          <div class="cat-header-text">
+            <h3>食事・テーブルマナー</h3>
+            <p>和食・洋食・会席料理・乾杯・カトラリー</p>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul class="cat-card-list">
+            <li class="cat-list-item"><a href="./dining/index.html#washoku">和食の正しい配膳とお椀の開け方・箸使い <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./dining/index.html#french">洋食フルコースのナイフ・フォークの順番 <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./dining/index.html#glass">ワイングラスの持ち方と乾杯で音を立てない作法 <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./dining/index.html#taboo">嫌い箸（寄せ箸・ねぶり箸・渡し箸）のNG一覧 <span>→</span></a></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <a href="./dining/index.html" class="cat-more-btn">食事マナーを見る →</a>
+        </div>
+      </div>
+
+      <!-- 4. Language (敬語・言葉遣い) -->
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <div class="cat-badge-icon language">🗣️</div>
+          <div class="cat-header-text">
+            <h3>敬語・言葉遣い</h3>
+            <p>二重敬語・バイト敬語・クッション言葉・言い換え</p>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul class="cat-card-list">
+            <li class="cat-list-item"><a href="./language/index.html#wrong">「了解しました」「ご苦労様です」の間違いと正しい言い換え <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./language/index.html#cushion">お願い・お断りを角立てない「クッション言葉」一覧 <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./language/index.html#double">「おっしゃられた」「拝見させていただきます」二重敬語 <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./language/index.html#sorry">ビジネスで誠意が伝わる「お詫び」の言葉遣い <span>→</span></a></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <a href="./language/index.html" class="cat-more-btn">敬語辞典を見る →</a>
+        </div>
+      </div>
+
+      <!-- 5. Greeting & Visit (挨拶・訪問・身だしなみ) -->
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <div class="cat-badge-icon greeting">🤝</div>
+          <div class="cat-header-text">
+            <h3>訪問・挨拶・身だしなみ</h3>
+            <p>手土産の渡し方・お辞儀の角度・ドレスコード</p>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul class="cat-card-list">
+            <li class="cat-list-item"><a href="./business/index.html#souvenir">手土産を渡すベストなタイミングと紙袋の処理 <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./business/index.html#bow">会釈（15度）・敬礼（30度）・最敬礼（45度）の使い分け <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./business/index.html#dress">オフィスカジュアル・平服（略礼装）の正しい定義 <span>→</span></a></li>
+            <li class="cat-list-item"><a href="./ceremony/index.html#condolence">お悔やみの言葉で使ってはいけない「忌み言葉」 <span>→</span></a></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <a href="./business/index.html" class="cat-more-btn">挨拶・訪問マナーを見る →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Quick Simulator Section on Top -->
+  <section class="container">
+    <div class="section-header">
+      <span class="section-tag">Quick Calculator</span>
+      <h2 class="section-title">クイック相場計算</h2>
+      <p class="section-sub">今すぐ金額の目安を知りたい場面ですぐに試せます。</p>
+    </div>
+
+    <div class="simulator-box">
+      <div class="simulator-controls">
+        <div class="control-group">
+          <label class="control-label" for="simEvent">📌 シチュエーション</label>
+          <select id="simEvent" class="control-select">
+            <option value="wedding">結婚式・結婚祝い</option>
+            <option value="funeral">お通夜・葬儀（香典）</option>
+            <option value="baby">出産祝い</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="simRelation">👤 相手との関係</label>
+          <select id="simRelation" class="control-select">
+            <option value="friend">友人・知人</option>
+            <option value="colleague">職場の同僚</option>
+            <option value="boss">職場の上司</option>
+            <option value="subordinate">職場の部下</option>
+            <option value="sibling">兄弟・姉妹</option>
+            <option value="relative">親族（いとこ等）</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="simAge">🎂 あなたの年代</label>
+          <select id="simAge" class="control-select">
+            <option value="20s">20代</option>
+            <option value="30s" selected>30代</option>
+            <option value="40s">40代以上</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="sim-result-card">
+        <span class="result-badge">CALCULATION RESULT</span>
+        <div class="result-target" id="resultTarget">結婚式・結婚祝いの目安相場</div>
+        <div class="result-price-wrap">
+          <div class="result-price-main" id="resultPriceMain">30,000円</div>
+          <div class="result-price-range" id="resultPriceRange">（相場幅: 3万円 〜 5万円）</div>
+        </div>
+        <ul class="result-note-list" id="resultNoteList">
+          <li>【新札の用意】必ず銀行等でピン札（新札）を用意します。</li>
+          <li>【割り切れない奇数】偶数（2・4・6など）は別れを連想させるため避けます。</li>
+          <li>【お札の向き】肖像画が表側・上部に来るように入れます。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container faq-section">
+    <div class="section-header">
+      <span class="section-tag">Q&A</span>
+      <h2 class="section-title">よくあるマナーの疑問</h2>
+      <p class="section-sub">多くの方が疑問に感じるポイントをまとめました。</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Q. 「了解しました」は上司や取引先に使ってはいけませんか？</span>
+          <span>＋</span>
+        </button>
+        <div class="faq-answer">
+          「了解」には敬意が含まれておらず、同僚や部下に「分かった」と伝えるニュアンスがあります。上司や取引先に対しては「承知いたしました」または「かしこまりました」を用いるのがビジネスの鉄則です。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Q. お通夜や葬儀に新札（ピン札）を包んではいけない理由は？</span>
+          <span>＋</span>
+        </button>
+        <div class="faq-answer">
+          新札を包むと「前もって不幸が起きることを予想して準備していた」という印象を与えてしまうためです。手元に新札しかない場合は、中央に一度折り目をつけてから不祝儀袋に入れます。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Q. タクシーに乗る際、一番の上座はどこですか？</span>
+          <span>＋</span>
+        </button>
+        <div class="faq-answer">
+          運転手付きのタクシーの場合、最も安全で乗り降りしやすい「運転席の真後ろ（後部座席の右側）」が一番の上座です。次が「助手席の後ろ（左側）」、三番目が「後部座席の中央」、一番の下座が「助手席（道案内や支払いを行う席）」となります。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Q. 手土産はいつ渡すのが正しいですか？</span>
+          <span>＋</span>
+        </button>
+        <div class="faq-answer">
+          玄関先で挨拶と同時に渡すのはNGです。部屋や応接室に通され、改めて挨拶を交わした後に渡します。紙袋から品物を取り出し、時計回りに向きを変えて正面を相手に向けて両手で渡すのがマナーです。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-about">
+          <h4>マナーコンパス（Manner Compass）</h4>
+          <p>
+            マナーコンパスは、ビジネス・冠婚葬祭・食事・敬語・日常の挨拶など、現代を生きる大人が知っておくべき作法とエチケットをわかりやすく体系化した総合マナー事典です。
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>シーン別マナー</h5>
+          <ul class="footer-links">
+            <li><a href="./ceremony/index.html">冠婚葬祭・儀礼</a></li>
+            <li><a href="./business/index.html">ビジネスマナー</a></li>
+            <li><a href="./dining/index.html">食事・テーブルマナー</a></li>
+            <li><a href="./language/index.html">敬語・言葉遣い</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>お役立ちツール</h5>
+          <ul class="footer-links">
+            <li><a href="./ceremony/simulator.html">相場シミュレーター</a></li>
+            <li><a href="./ceremony/noshi.html">のし袋チェッカー</a></li>
+            <li><a href="./business/seating.html">上座・下座 席次早見表</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>サイト情報</h5>
+          <ul class="footer-links">
+            <li><a href="./about.html">マナーコンパスについて</a></li>
+            <li><a href="./privacy.html">プライバシーポリシー</a></li>
+            <li><a href="./terms.html">免責事項・利用規約</a></li>
+            <li><a href="./contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 マナーコンパス（Manner Compass）. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/simulator.js"></script>
 </body>
 </html>
