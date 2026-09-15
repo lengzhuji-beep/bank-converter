@@ -151,18 +151,52 @@ img {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .nav-link {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #cbd5e1;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 0;
+  gap: 4px;
+  padding: 4px 0;
   position: relative;
+  white-space: nowrap;
+}
+
+.genre-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.genre-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-800);
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+}
+
+.genre-pill:hover {
+  border-color: var(--gold-400);
+  background: var(--gold-50);
+  color: var(--gold-800);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(184, 134, 11, 0.15);
 }
 
 .nav-link:hover, .nav-link.active {

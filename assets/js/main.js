@@ -48,19 +48,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!query) return;
 
         // Smart Redirect based on keyword
-        if (query.includes('祝儀') || query.includes('結婚') || query.includes('香典') || query.includes('葬') || query.includes('相場')) {
+        if (query.includes('祝儀') || query.includes('結婚')) {
+          window.location.href = './index.html#wedding';
+        } else if (query.includes('香典') || query.includes('葬') || query.includes('通夜') || query.includes('焼香')) {
+          window.location.href = './index.html#funeral';
+        } else if (query.includes('相場')) {
           window.location.href = './ceremony/simulator.html';
         } else if (query.includes('のし') || query.includes('熨斗') || query.includes('水引') || query.includes('表書き')) {
           window.location.href = './ceremony/noshi.html';
-        } else if (query.includes('上座') || query.includes('下座') || query.includes('席') || query.includes('タクシー') || query.includes('車')) {
+        } else if (query.includes('上座') || query.includes('下座') || query.includes('席') || query.includes('タクシー') || query.includes('名刺')) {
           window.location.href = './business/seating.html';
         } else if (query.includes('敬語') || query.includes('メール') || query.includes('言葉') || query.includes('了解')) {
           window.location.href = './language/index.html';
-        } else if (query.includes('箸') || query.includes('食') || query.includes('ワイン') || query.includes('ナイフ')) {
+        } else if (query.includes('箸') || query.includes('食') || query.includes('ワイン') || query.includes('ナイフ') || query.includes('中華')) {
           window.location.href = './dining/index.html';
+        } else if (query.includes('出産') || query.includes('内祝') || query.includes('赤ちゃん')) {
+          window.location.href = './baby/index.html';
+        } else if (query.includes('中元') || query.includes('歳暮') || query.includes('贈答') || query.includes('お礼状')) {
+          window.location.href = './gift/index.html';
+        } else if (query.includes('神社') || query.includes('寺') || query.includes('参拝') || query.includes('手水') || query.includes('御朱印') || query.includes('お賽銭')) {
+          window.location.href = './lifestyle/shrine.html';
+        } else if (query.includes('ゴルフ') || query.includes('グリーン') || query.includes('スロープレー')) {
+          window.location.href = './lifestyle/golf.html';
+        } else if (query.includes('引越') || query.includes('引っ越し') || query.includes('粗品') || query.includes('近所')) {
+          window.location.href = './lifestyle/moving.html';
         } else {
           // Scroll to category grid
-          const catGrid = document.querySelector('.category-cards-grid');
+          const catGrid = document.querySelector('.genre-pills-wrap') || document.querySelector('.section-title');
           if (catGrid) {
             catGrid.scrollIntoView({ behavior: 'smooth' });
           }

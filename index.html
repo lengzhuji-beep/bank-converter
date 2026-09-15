@@ -29,12 +29,18 @@
         </div>
       </a>
 
-      <!-- Desktop Navigation -->
+            <!-- Desktop Navigation -->
       <nav class="desktop-nav">
-        <a href="#ceremony" class="nav-link">冠婚葬祭</a>
+        <a href="#wedding" class="nav-link">結婚・慶事</a>
+        <a href="#funeral" class="nav-link">葬儀・弔事</a>
         <a href="#business" class="nav-link">ビジネス</a>
-        <a href="#dining" class="nav-link">食事・テーブル</a>
-        <a href="./ceremony/simulator.html" class="nav-tool-btn">✨ 相場シミュレーター</a>
+        <a href="#dining" class="nav-link">食事</a>
+        <a href="#baby" class="nav-link">出産</a>
+        <a href="#gift" class="nav-link">贈答</a>
+        <a href="#shrine" class="nav-link">参拝</a>
+        <a href="#golf" class="nav-link">ゴルフ</a>
+        <a href="#moving" class="nav-link">引越し</a>
+        <a href="./ceremony/simulator.html" class="nav-tool-btn">✨ 相場計算</a>
       </nav>
 
       <!-- Mobile Hamburger Button -->
@@ -45,11 +51,17 @@
       </button>
     </div>
 
-    <!-- Mobile Drawer -->
+        <!-- Mobile Drawer -->
     <div class="mobile-drawer" id="mobileDrawer">
-      <a href="#ceremony" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
-      <a href="#business" class="mobile-nav-link">ビジネスマナー <span>→</span></a>
-      <a href="#dining" class="mobile-nav-link">食事・テーブルマナー <span>→</span></a>
+      <a href="#wedding" class="mobile-nav-link">💍 結婚・慶事マナー <span>→</span></a>
+      <a href="#funeral" class="mobile-nav-link">🕊️ お通夜・葬儀マナー <span>→</span></a>
+      <a href="#business" class="mobile-nav-link">🏢 ビジネスマナー <span>→</span></a>
+      <a href="#dining" class="mobile-nav-link">🍽️ 食事・テーブルマナー <span>→</span></a>
+      <a href="#baby" class="mobile-nav-link">👶 出産祝い・内祝い <span>→</span></a>
+      <a href="#gift" class="mobile-nav-link">🎁 お中元・お歳暮・贈答 <span>→</span></a>
+      <a href="#shrine" class="mobile-nav-link">⛩️ 神社・寺院の参拝作法 <span>→</span></a>
+      <a href="#golf" class="mobile-nav-link">⛳ ゴルフのエチケット <span>→</span></a>
+      <a href="#moving" class="mobile-nav-link">🚚 引っ越し・ご近所挨拶 <span>→</span></a>
       <a href="./ceremony/simulator.html" class="mobile-nav-link" style="color: var(--gold-300);">✨ ご祝儀・香典相場シミュレーター <span>→</span></a>
       <a href="./ceremony/noshi.html" class="mobile-nav-link" style="color: var(--gold-300);">✉️ のし袋・表書きチェッカー <span>→</span></a>
       <a href="./business/seating.html" class="mobile-nav-link" style="color: var(--gold-300);">💺 上座・下座 席次早見図解 <span>→</span></a>
@@ -110,7 +122,7 @@
     </div>
   </section>
 
-  <!-- Main 4 Categories Section (直結型シーン別マナー一覧) -->
+    <!-- Main Categories Section (全9大シーン直結型マナー一覧) -->
   <section class="container" style="margin-bottom: 70px;">
     <div class="section-header">
       <span class="section-tag">Categories</span>
@@ -118,76 +130,73 @@
       <p class="section-sub">気になるマナー項目をクリックすると、直接その専用詳細解説ページへ遷移します。</p>
     </div>
 
-    <!-- 1. 冠婚葬祭・儀礼 -->
-    <div class="genre-section" id="ceremony">
+    <!-- Quick Genre Nav Pills -->
+    <div class="genre-pills-wrap" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 40px;">
+      <a href="#wedding" class="genre-pill">💍 結婚・慶事</a>
+      <a href="#funeral" class="genre-pill">🕊️ 葬儀・弔事</a>
+      <a href="#business" class="genre-pill">🏢 ビジネス</a>
+      <a href="#dining" class="genre-pill">🍽️ 食事・テーブル</a>
+      <a href="#baby" class="genre-pill">👶 出産祝い・内祝い</a>
+      <a href="#gift" class="genre-pill">🎁 お中元・お歳暮</a>
+      <a href="#shrine" class="genre-pill">⛩️ 神社・寺院参拝</a>
+      <a href="#golf" class="genre-pill">⛳ ゴルフ</a>
+      <a href="#moving" class="genre-pill">🚚 引っ越し挨拶</a>
+    </div>
+
+    <!-- 1. 結婚・慶事マナー -->
+    <div class="genre-section" id="wedding">
       <div class="genre-header">
-        <div class="genre-icon ceremony">🕊️</div>
+        <div class="genre-icon ceremony">💍</div>
         <div class="genre-title-group">
-          <h3 class="genre-title">冠婚葬祭・儀礼</h3>
-          <p class="genre-desc">結婚祝い・お通夜・告別式・袱紗・のし袋・忌み言葉の作法</p>
+          <h3 class="genre-title">結婚・慶事マナー</h3>
+          <p class="genre-desc">結婚祝い・披露宴招待状・ご祝儀相場・のし袋・慶事袱紗・ドレスコード</p>
         </div>
-        <span class="genre-count">全9項目</span>
+        <span class="genre-count">全6項目</span>
       </div>
       <div class="genre-topics-grid">
         <a href="./ceremony/simulator.html" class="topic-card">
-          <div class="topic-card-title">💰 相場シミュレーター</div>
-          <div class="topic-card-desc">関係性や自分の年代から、ご祝儀・香典の適正相場とお札の向きを即座に自動計算。</div>
+          <div class="topic-card-title">💰 ご祝儀相場シミュレーター</div>
+          <div class="topic-card-desc">新郎新婦との関係性や年代から、包むべき適正金額とお札の向きを即座に自動計算。</div>
           <div class="topic-card-footer">
             <span class="topic-card-tag">専用ツール</span>
             <span>開く →</span>
           </div>
         </a>
+        <a href="./ceremony/invitation.html" class="topic-card">
+          <div class="topic-card-title">💌 招待状返信ハガキの書き方</div>
+          <div class="topic-card-desc">「御出席」の消し方、「寿消し」、句読点を打たないお祝いメッセージ文例集。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">返信作法</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
         <a href="./ceremony/noshi.html" class="topic-card">
-          <div class="topic-card-title">🎀 のし袋・表書きチェッカー</div>
-          <div class="topic-card-desc">水引（蝶結び／結び切り）や表書き（寿・御霊前・御仏前）を画面上でリアルタイム図解。</div>
+          <div class="topic-card-title">🎀 祝儀袋・水引・表書きチェッカー</div>
+          <div class="topic-card-desc">結び切り・あわじ結びの水引や「寿」の表書きを画面上でリアルタイム図解。</div>
           <div class="topic-card-footer">
             <span class="topic-card-tag">図解ツール</span>
             <span>開く →</span>
           </div>
         </a>
-        <a href="./ceremony/invitation.html" class="topic-card">
-          <div class="topic-card-title">💌 招待状返信ハガキの書き方</div>
-          <div class="topic-card-desc">「御出席」の消し方、寿消しの作法、句読点を打たないお祝いメッセージ文例。</div>
-          <div class="topic-card-footer">
-            <span class="topic-card-tag">結婚式</span>
-            <span>解説を読む →</span>
-          </div>
-        </a>
         <a href="./ceremony/fukusa.html" class="topic-card">
-          <div class="topic-card-title">👝 袱紗（ふくさ）の包み方・開き方</div>
-          <div class="topic-card-desc">慶事は「右開き」、弔事は「左開き」。紫色の万能性と受付でのスマートな渡し方。</div>
+          <div class="topic-card-title">👝 結婚式の袱紗（ふくさ）の包み方</div>
+          <div class="topic-card-desc">慶事は「右開き」の鉄則。受付でのお祝いの言葉と美しい渡し方の所作手順。</div>
           <div class="topic-card-footer">
-            <span class="topic-card-tag">慶弔共通</span>
+            <span class="topic-card-tag">所作・マナー</span>
             <span>解説を読む →</span>
           </div>
         </a>
         <a href="./ceremony/dress.html" class="topic-card">
-          <div class="topic-card-title">👗 結婚式・葬儀の服装ドレスコード</div>
-          <div class="topic-card-desc">白ドレス厳禁、黒ネクタイのタブー、喪服のストッキング厚み（20〜30D）など男女別ルール。</div>
+          <div class="topic-card-title">👗 結婚式・披露宴の服装ドレスコード</div>
+          <div class="topic-card-desc">白ドレスNG、黒ネクタイ厳禁、露出を抑えるショールなど男女別のOK/NGルール。</div>
           <div class="topic-card-footer">
-            <span class="topic-card-tag">身だしなみ</span>
-            <span>解説を読む →</span>
-          </div>
-        </a>
-        <a href="./ceremony/shoko.html" class="topic-card">
-          <div class="topic-card-title">🕯️ お通夜・告別式の参列・焼香手順</div>
-          <div class="topic-card-desc">受付での悔やみの言葉、宗派別の焼香回数・抹香のつまみ方、数珠の持ち方。</div>
-          <div class="topic-card-footer">
-            <span class="topic-card-tag">お悔やみ</span>
-            <span>解説を読む →</span>
-          </div>
-        </a>
-        <a href="./ceremony/choden.html" class="topic-card">
-          <div class="topic-card-title">📜 弔電（お悔やみ電報）の送り方</div>
-          <div class="topic-card-desc">送るタイミング、喪主宛名の書き方、故人の尊称（ご尊父・ご母堂）と定番文例集。</div>
-          <div class="topic-card-footer">
-            <span class="topic-card-tag">電報・文例</span>
+            <span class="topic-card-tag">ドレスコード</span>
             <span>解説を読む →</span>
           </div>
         </a>
         <a href="./ceremony/taboo-words.html" class="topic-card">
-          <div class="topic-card-title">⚠️ 冠婚葬祭の「忌み言葉」一覧</div>
-          <div class="topic-card-desc">結婚式で避ける「別れ・重ね言葉」、お悔やみでの「死の直接表現」と言い換え辞典。</div>
+          <div class="topic-card-title">⚠️ 結婚式の「忌み言葉・重ね言葉」</div>
+          <div class="topic-card-desc">「別れる」「切れる」「重ね重ね」などお祝いの席で避けるべき言葉と言い換え。</div>
           <div class="topic-card-footer">
             <span class="topic-card-tag">言葉遣い</span>
             <span>解説を読む →</span>
@@ -196,13 +205,83 @@
       </div>
     </div>
 
-    <!-- 2. ビジネスマナー -->
+    <!-- 2. お通夜・葬儀マナー（弔事） -->
+    <div class="genre-section" id="funeral">
+      <div class="genre-header">
+        <div class="genre-icon ceremony">🕊️</div>
+        <div class="genre-title-group">
+          <h3 class="genre-title">お通夜・葬儀マナー（弔事）</h3>
+          <p class="genre-desc">通夜・告別式参列・焼香作法・香典相場・不祝儀袋・薄墨・喪服・弔電</p>
+        </div>
+        <span class="genre-count">全7項目</span>
+      </div>
+      <div class="genre-topics-grid">
+        <a href="./ceremony/simulator.html" class="topic-card">
+          <div class="topic-card-title">💰 香典相場シミュレーター</div>
+          <div class="topic-card-desc">故人との関係性や年代から、包むべき香典の相場と旧札の向きを即時計算。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">専用ツール</span>
+            <span>開く →</span>
+          </div>
+        </a>
+        <a href="./ceremony/shoko.html" class="topic-card">
+          <div class="topic-card-title">🕯️ お通夜・告別式の参列作法・焼香</div>
+          <div class="topic-card-desc">受付での挨拶、宗派別の焼香回数・抹香のつまみ方、数珠の正しい持ち方。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">参列・焼香</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./ceremony/noshi.html" class="topic-card">
+          <div class="topic-card-title">🎀 不祝儀袋（香典袋）と薄墨の作法</div>
+          <div class="topic-card-desc">白黒・黄白の水引、「御霊前」「御仏前」の宗教別使い分けと薄墨の理由。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">図解ツール</span>
+            <span>開く →</span>
+          </div>
+        </a>
+        <a href="./ceremony/fukusa.html" class="topic-card">
+          <div class="topic-card-title">👝 お悔やみの袱紗（ふくさ）の包み方</div>
+          <div class="topic-card-desc">弔事は「左開き」の鉄則。寒色・紫色の袱紗の包み方と受付での渡し方。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">所作・マナー</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./ceremony/dress.html" class="topic-card">
+          <div class="topic-card-title">👗 お通夜・葬儀の喪服マナー</div>
+          <div class="topic-card-desc">正喪服・準喪服・略喪服のルール、ストッキングの厚み（20〜30D）、黒ネクタイ。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">喪服ルール</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./ceremony/choden.html" class="topic-card">
+          <div class="topic-card-title">📜 弔電（お悔やみ電報）の送り方</div>
+          <div class="topic-card-desc">届けるタイミング、喪主宛名、故人の尊称（ご尊父・ご母堂）と定番文例。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">電報文例</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./ceremony/taboo-words.html" class="topic-card">
+          <div class="topic-card-title">⚠️ お悔やみの「忌み言葉」一覧</div>
+          <div class="topic-card-desc">「重ね重ね」「たびたび」など不幸の連続を連想させるNG表現と挨拶。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">お悔やみ挨拶</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. ビジネスマナー -->
     <div class="genre-section" id="business">
       <div class="genre-header">
         <div class="genre-icon business">🏢</div>
         <div class="genre-title-group">
           <h3 class="genre-title">ビジネスマナー</h3>
-          <p class="genre-desc">席次・名刺交換・電話応対・メール定型文・手土産・身だしなみ</p>
+          <p class="genre-desc">席次・名刺交換・電話応対・メール定型文・敬語・手土産・身だしなみ</p>
         </div>
         <span class="genre-count">全9項目</span>
       </div>
@@ -247,7 +326,6 @@
             <span>詳細解説へ →</span>
           </div>
         </a>
-
         <a href="./business/souvenir.html" class="topic-card">
           <div class="topic-card-title">🎁 手土産を渡すタイミングと紙袋の処理</div>
           <div class="topic-card-desc">応接室で着席する直前に渡す鉄則。紙袋の持ち帰りルールや上品な添え言葉。</div>
@@ -283,7 +361,7 @@
       </div>
     </div>
 
-    <!-- 3. 食事・テーブルマナー -->
+    <!-- 4. 食事・テーブルマナー -->
     <div class="genre-section" id="dining">
       <div class="genre-header">
         <div class="genre-icon dining">🍽️</div>
@@ -337,6 +415,250 @@
       </div>
     </div>
 
+    <!-- 5. 出産祝い・内祝いマナー -->
+    <div class="genre-section" id="baby">
+      <div class="genre-header">
+        <div class="genre-icon ceremony">👶</div>
+        <div class="genre-title-group">
+          <h3 class="genre-title">出産祝い・内祝いマナー</h3>
+          <p class="genre-desc">出産祝いの相場・贈る時期・のし袋（紅白蝶結び）・内祝い（半返し）・NGギフト</p>
+        </div>
+        <span class="genre-count">全4項目</span>
+      </div>
+      <div class="genre-topics-grid">
+        <a href="./baby/index.html" class="topic-card">
+          <div class="topic-card-title">👶 出産祝いの適正相場と贈る時期</div>
+          <div class="topic-card-desc">友人（3千〜1万円）・親族（1万〜3万円）・同僚別の相場。生後7日〜1ヶ月に贈る時期。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">出産祝い相場</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./baby/index.html" class="topic-card">
+          <div class="topic-card-title">🎀 出産祝いの「のし袋・水引・表書き」</div>
+          <div class="topic-card-desc">何度あっても喜ばしい「紅白蝶結び」の選び方、「御出産御祝」の書き方と名入れ。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">のし袋マナー</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./baby/index.html" class="topic-card">
+          <div class="topic-card-title">🎁 出産内祝い（お返し）の半返しルール</div>
+          <div class="topic-card-desc">いただいた額の半額〜1/3返しの基準、生後1ヶ月頃の時期、赤ちゃんの名前のお披露目。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">お返し・内祝い</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./baby/index.html" class="topic-card">
+          <div class="topic-card-title">⚠️ 喜ばれる品と避けるべきNGギフト</div>
+          <div class="topic-card-desc">タオルやカタログが喜ばれる理由、サイズアウトしやすい新生児服などタブーの注意点。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">ギフト選び</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 6. お中元・お歳暮・贈答マナー -->
+    <div class="genre-section" id="gift">
+      <div class="genre-header">
+        <div class="genre-icon dining">🎁</div>
+        <div class="genre-title-group">
+          <h3 class="genre-title">お中元・お歳暮・季節の贈答マナー</h3>
+          <p class="genre-desc">贈る時期（関東・関西の違い）・金額相場・のし紙・喪中の対応・お礼状文例</p>
+        </div>
+        <span class="genre-count">全5項目</span>
+      </div>
+      <div class="genre-topics-grid">
+        <a href="./gift/index.html" class="topic-card">
+          <div class="topic-card-title">🗓️ お中元・お歳暮の「贈る時期」カレンダー</div>
+          <div class="topic-card-desc">関東・関西での時期の違い、遅れた場合の「暑中見舞い」「寒中見舞い」への切り替え。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">時期・スケジュール</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./gift/index.html" class="topic-card">
+          <div class="topic-card-title">💰 金額相場・のし紙（紅白蝶結び）</div>
+          <div class="topic-card-desc">実家・上司・取引先別の相場（3千〜1万円）、内のし・外のしの使い分けと名入れ。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">相場・のし</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./gift/index.html" class="topic-card">
+          <div class="topic-card-title">🕊️ 喪中の時にお中元・お歳暮はどうする？</div>
+          <div class="topic-card-desc">お祝いではなく感謝の挨拶なので喪中でもOK！白無地のし紙の使い方と四十九日後の配慮。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">喪中の贈答</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./gift/index.html" class="topic-card">
+          <div class="topic-card-title">✉️ もらったら即対応！お礼状ハガキ文例</div>
+          <div class="topic-card-desc">届いてから3日以内に送るのが鉄則。個人用・ビジネス用のコピペで使えるハガキ文例。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">お礼状テンプレート</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./gift/index.html" class="topic-card">
+          <div class="topic-card-title">⚠️ 目上の人に贈ってはいけないNGギフト</div>
+          <div class="topic-card-desc">靴下（踏みつける）、時計・筆記具（勤勉奨励）、商品券（生活苦の支援）などのタブー。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">タブー・NG</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 7. 神社・寺院の参拝作法 -->
+    <div class="genre-section" id="shrine">
+      <div class="genre-header">
+        <div class="genre-icon ceremony">⛩️</div>
+        <div class="genre-title-group">
+          <h3 class="genre-title">神社・寺院の参拝作法</h3>
+          <p class="genre-desc">手水舎の順序・二礼二拍手一礼・お寺との違い・お賽銭の意味・御朱印ルール</p>
+        </div>
+        <span class="genre-count">全5項目</span>
+      </div>
+      <div class="genre-topics-grid">
+        <a href="./lifestyle/shrine.html" class="topic-card">
+          <div class="topic-card-title">⛩️ 神社とお寺の参拝作法の決定的な違い</div>
+          <div class="topic-card-desc">神社は「二礼二拍手一礼」、お寺は「合掌一礼（拍手NG）」。間違えやすい拝礼の根本原則。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">拝礼作法</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/shrine.html" class="topic-card">
+          <div class="topic-card-title">💧 手水舎（ちょうずや）の正しい清め方</div>
+          <div class="topic-card-desc">柄杓1杯の水で両手と口を清め、柄を洗い流す一連の美しい6ステップの所作手順。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">手水の作法</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/shrine.html" class="topic-card">
+          <div class="topic-card-title">🚶 鳥居・山門のくぐり方と参道の歩き方</div>
+          <div class="topic-card-desc">鳥居前の一礼、神様の通り道「正中」を避けて端を歩くエチケット。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">境内エチケット</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/shrine.html" class="topic-card">
+          <div class="topic-card-title">🪙 お賽銭の金額の意味と縁起</div>
+          <div class="topic-card-desc">「ご縁」の5円玉、始終ご縁の45円。逆に避けるべき硬貨（10円・500円）の意味。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">お賽銭の作法</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/shrine.html" class="topic-card">
+          <div class="topic-card-title">📜 御朱印の頂き方とおみくじの扱い</div>
+          <div class="topic-card-desc">先に参拝を済ませる鉄則、おみくじを結ぶ場所のルールや持ち帰りのお守り化。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">御朱印・おみくじ</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 8. ゴルフのエチケット＆マナー -->
+    <div class="genre-section" id="golf">
+      <div class="genre-header">
+        <div class="genre-icon business">⛳</div>
+        <div class="genre-title-group">
+          <h3 class="genre-title">ゴルフのエチケット＆マナー</h3>
+          <p class="genre-desc">クラブハウスのドレスコード・スロープレー防止・グリーン上の作法・安全確認</p>
+        </div>
+        <span class="genre-count">全4項目</span>
+      </div>
+      <div class="genre-topics-grid">
+        <a href="./lifestyle/golf.html" class="topic-card">
+          <div class="topic-card-title">👔 ゴルフ場のドレスコード完全解説</div>
+          <div class="topic-card-desc">行き帰りのジャケット着用、襟付きシャツ・タックイン、ジーンズ・スニーカー厳禁ルール。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">ドレスコード</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/golf.html" class="topic-card">
+          <div class="topic-card-title">⏱️ 初心者必読！スロープレー防止の鉄則</div>
+          <div class="topic-card-desc">クラブを2〜3本持って走る、素振りは1回、予備ボール常時携帯などファストプレーの心得。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">進行マナー</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/golf.html" class="topic-card">
+          <div class="topic-card-title">⛳ グリーン上の絶対タブー（ライン踏みNG）</div>
+          <div class="topic-card-desc">他人のパットラインを踏まない・跨がない、走らない、物音を立てず静止する作法。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">グリーン作法</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/golf.html" class="topic-card">
+          <div class="topic-card-title">🏌️ バンカー均しと「フォア！」の声かけ</div>
+          <div class="topic-card-desc">低い場所からの出入りとレーキ補修、危険球を大声で知らせて重大事故を防ぐエチケット。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">コース保護・安全</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 9. 引っ越し・ご近所挨拶マナー -->
+    <div class="genre-section" id="moving">
+      <div class="genre-header">
+        <div class="genre-icon dining">🚚</div>
+        <div class="genre-title-group">
+          <h3 class="genre-title">引っ越し・ご近所挨拶マナー</h3>
+          <p class="genre-desc">挨拶に回る範囲・粗品の相場と選び方・訪問時間・不在時の手紙テンプレート</p>
+        </div>
+        <span class="genre-count">全4項目</span>
+      </div>
+      <div class="genre-topics-grid">
+        <a href="./lifestyle/moving.html" class="topic-card">
+          <div class="topic-card-title">🏘️ 挨拶に回るべき「範囲」の基準</div>
+          <div class="topic-card-desc">マンションは「両隣・上下階」、一戸建ては「向こう三軒両隣＋裏」。足音トラブル防止。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">挨拶の範囲</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/moving.html" class="topic-card">
+          <div class="topic-card-title">🎁 挨拶品（粗品）の相場とおすすめの品</div>
+          <div class="topic-card-desc">500〜1,000円の消耗品（ラップ・タオル等）が鉄則。紅白蝶結びのしと名入れ。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">粗品・のし</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/moving.html" class="topic-card">
+          <div class="topic-card-title">⏰ 訪問のベストタイミングと時間帯</div>
+          <div class="topic-card-desc">搬入作業前または前日が理想。午前10時〜午後18時の食事時を外した訪問エチケット。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">訪問時間</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+        <a href="./lifestyle/moving.html" class="topic-card">
+          <div class="topic-card-title">✉️ 不在時の手紙・挨拶状テンプレート</div>
+          <div class="topic-card-desc">何度訪問しても留守だった場合に粗品に添える、コピペで使える丁寧な挨拶状文例。</div>
+          <div class="topic-card-footer">
+            <span class="topic-card-tag">手紙文例</span>
+            <span>解説を読む →</span>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -461,12 +783,18 @@
         </div>
 
         <div class="footer-col">
-          <h5>シーン別マナー</h5>
+                    <h5>シーン別マナー</h5>
           <ul class="footer-links">
-            <li><a href="#ceremony">冠婚葬祭・儀礼</a></li>
+            <li><a href="#wedding">結婚・慶事マナー</a></li>
+            <li><a href="#funeral">お通夜・葬儀マナー</a></li>
             <li><a href="#business">ビジネスマナー</a></li>
             <li><a href="#dining">食事・テーブルマナー</a></li>
-            </ul>
+            <li><a href="#baby">出産祝い・内祝い</a></li>
+            <li><a href="#gift">お中元・お歳暮</a></li>
+            <li><a href="#shrine">神社・寺院参拝</a></li>
+            <li><a href="#golf">ゴルフエチケット</a></li>
+            <li><a href="#moving">引っ越し挨拶</a></li>
+          </ul>
         </div>
 
         <div class="footer-col">
