@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>敬語・言葉遣い辞典｜間違いやすい敬語・二重敬語・クッション言葉早引き｜マナーコンパス</title>
-  <meta name="description" content="「了解しました」「ご苦労様です」「おっしゃられた」など、間違えやすい敬語の正しい言い換え、二重敬語、クッション言葉、お詫びフレーズを早引き検索できる敬語辞典。">
+  <title>敬語・言葉遣いの完全マナー辞典｜二重敬語・バイト敬語・言い換え早引き｜マナーコンパス</title>
+  <meta name="description" content="ビジネスで必須の敬語マナー総合解説。二重敬語（「おっしゃられた」「拝見させていただきます」）やバイト敬語（「〜のほう」「〜から」）の注意点、誤用敬語の正しい言い換え、クッション言葉、謝罪表現を網羅。">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tool.css">
   <style>
@@ -16,7 +16,7 @@
       margin-bottom: 36px;
     }
     .toc-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--primary-800);
       margin-bottom: 12px;
@@ -28,24 +28,70 @@
       list-style: none;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 8px 20px;
+      gap: 10px 20px;
     }
     .toc-list a {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--primary-700);
       display: flex;
       align-items: center;
       gap: 6px;
       padding: 4px 0;
+      transition: color 0.2s;
     }
     .toc-list a:hover {
       color: var(--gold-600);
       text-decoration: underline;
     }
+    .topic-subcard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 24px 0 36px;
+    }
+    .topic-subcard {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .topic-subcard:hover {
+      border-color: var(--gold-400);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .topic-subcard-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--primary-900);
+      margin-bottom: 6px;
+    }
+    .topic-subcard-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .topic-subcard-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold-600);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
   </style>
 </head>
 <body>
 
+  <!-- Site Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="../index.html" class="brand-logo">
@@ -59,8 +105,7 @@
         <a href="../index.html#ceremony" class="nav-link">冠婚葬祭</a>
         <a href="../index.html#business" class="nav-link">ビジネス</a>
         <a href="../index.html#dining" class="nav-link">食事・テーブル</a>
-        <a href="../index.html#language" class="nav-link">敬語・言葉遣い</a>
-        <a href="../ceremony/simulator.html" class="nav-tool-btn">💰 相場シミュレーター</a>
+        <a href="../ceremony/simulator.html" class="nav-tool-btn">✨ 相場シミュレーター</a>
       </nav>
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
         <span class="hamburger-line"></span>
@@ -70,59 +115,140 @@
     </div>
     <div class="mobile-drawer" id="mobileDrawer">
       <a href="../index.html" class="mobile-nav-link">トップページ <span>→</span></a>
-      <a href="../index.html#language" class="mobile-nav-link">敬語・言葉遣い <span>→</span></a>
       <a href="../index.html#business" class="mobile-nav-link">ビジネスマナー <span>→</span></a>
       <a href="../index.html#ceremony" class="mobile-nav-link">冠婚葬祭マナー <span>→</span></a>
+      <a href="../index.html#dining" class="mobile-nav-link">食事・テーブルマナー <span>→</span></a>
+      <a href="../ceremony/simulator.html" class="mobile-nav-link">相場シミュレーター <span>→</span></a>
     </div>
   </header>
 
+  <!-- Page Header -->
   <div class="page-header">
     <div class="container">
       <div class="breadcrumb">
-        <a href="../index.html">ホーム</a> ＞ <span>敬語・言葉遣い辞典</span>
+        <a href="../index.html">ホーム</a> ＞ <a href="../index.html#business">ビジネスマナー</a> ＞ <span>敬語・言葉遣いの完全マナー</span>
       </div>
-      <h1 class="page-title">🗣️ 敬語・言葉遣い早引き辞典</h1>
+      <h1 class="page-title">🗣️ 敬語・言葉遣いの完全マナー辞典</h1>
       <p class="page-lead">
-        うっかり使ってしまいがちなNG敬語、二重敬語、そして相手に好印象を与える正しい言い換え・クッション言葉をまとめました。
+        敬語はビジネスコミュニケーションの基盤です。丁寧に話そうとして陥りやすい「二重敬語」「バイト敬語」の注意点から、角を立てないクッション言葉、相手の心に響くお詫びの言葉まで、詳細な事項を網羅して解説します。
       </p>
     </div>
   </div>
 
   <main class="container">
+
+    <!-- Sub-topic Direct Cards -->
+    <div class="topic-subcard-grid">
+      <a href="./double-keigo.html" class="topic-subcard">
+        <div>
+          <div class="topic-subcard-title">⚠️ 二重敬語・バイト敬語</div>
+          <div class="topic-subcard-desc">「おっしゃられた」「〜のほう」など無意識に使ってしまう重複・不自然な表現の是正。</div>
+        </div>
+        <span class="topic-subcard-link">個別解説を読む →</span>
+      </a>
+      <a href="./wrong-phrases.html" class="topic-subcard">
+        <div>
+          <div class="topic-subcard-title">🗣️ 「了解しました」の言い換え</div>
+          <div class="topic-subcard-desc">「承知いたしました」「お疲れ様です」など、目上に失礼のない正しい返答ルール。</div>
+        </div>
+        <span class="topic-subcard-link">個別解説を読む →</span>
+      </a>
+      <a href="./cushion-words.html" class="topic-subcard">
+        <div>
+          <div class="topic-subcard-title">💬 クッション言葉一覧</div>
+          <div class="topic-subcard-desc">「お忙しいところ恐縮ですが」「あいにくではございますが」など場面別の実践例。</div>
+        </div>
+        <span class="topic-subcard-link">個別解説を読む →</span>
+      </a>
+      <a href="./apology.html" class="topic-subcard">
+        <div>
+          <div class="topic-subcard-title">🙇 お詫び・謝罪の言葉遣い</div>
+          <div class="topic-subcard-desc">「すみません」は厳禁。日常の軽いお詫びから重大ミスの公式謝罪まで使い分け。</div>
+        </div>
+        <span class="topic-subcard-link">個別解説を読む →</span>
+      </a>
+      <a href="./titles.html" class="topic-subcard">
+        <div>
+          <div class="topic-subcard-title">👥 社内・社外の敬称ルール</div>
+          <div class="topic-subcard-desc">「社長の〇〇」「佐藤部長」など、ウチとソトの区別と「様」の重複防止。</div>
+        </div>
+        <span class="topic-subcard-link">個別解説を読む →</span>
+      </a>
+    </div>
+
     <!-- Table of Contents -->
     <div class="toc-box">
-      <div class="toc-title">📑 目次（クリックで各項目へジャンプ）</div>
+      <div class="toc-title">📑 本ページの詳細解説目次</div>
       <ul class="toc-list">
-        <li><a href="#search-tool">1. 敬語リアルタイム検索ツール</a></li>
-        <li><a href="#wrong">2. 「了解しました」「ご苦労様です」の間違いと正しい言い換え</a></li>
-        <li><a href="#double">3. 「おっしゃられた」「拝見させていただきます」二重敬語の解説</a></li>
-        <li><a href="#cushion">4. 角を立てずにお願い・お断りする「クッション言葉」一覧</a></li>
-        <li><a href="#sorry">5. ビジネスで誠意が伝わる「お詫び・謝罪」の言葉遣い</a></li>
-        <li><a href="#title">6. 社内と社外での敬称ルール（「社長の〇〇」と呼ぶ理由）</a></li>
+        <li><a href="#search-tool">1. 敬語リアルタイム早引き検索ツール</a></li>
+        <li><a href="#double-keigo-detail">2. 【最重要】二重敬語・バイト敬語の注意点と解消法</a></li>
+        <li><a href="#wrong-detail">3. 「了解しました」「ご苦労様です」の間違いと言い換え</a></li>
+        <li><a href="#cushion-detail">4. お願い・お断りの印象を柔らかくする「クッション言葉」</a></li>
+        <li><a href="#apology-detail">5. 誠意が正しく伝わるビジネスの「お詫び・謝罪」</a></li>
+        <li><a href="#titles-detail">6. 社内と社外での敬称・呼び方の鉄則（ウチ・ソトの原則）</a></li>
       </ul>
     </div>
 
-    <!-- Search Tool Section -->
-    <section id="search-tool" style="margin-bottom: 40px;">
+    <!-- 1. Real-time Search Tool Section -->
+    <section id="search-tool" style="margin-bottom: 48px;">
       <h2 style="font-family: var(--font-serif); font-size: 21px; color: var(--primary-900); margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
         🔍 敬語クイック早引き検索
       </h2>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
+        気になるフレーズを入力すると、リアルタイムで正しい表現と解説を絞り込めます。
+      </p>
       <div class="filter-search-box">
-        <input type="text" id="phraseFilterInput" class="filter-input" placeholder="フレーズで検索（例：了解、ご苦労様、おっしゃる、資料、謝罪...）">
+        <input type="text" id="phraseFilterInput" class="filter-input" placeholder="フレーズで検索（例：了解、ご苦労様、おっしゃる、拝見、バイト敬語、謝罪...）">
       </div>
 
       <!-- Phrase Cards Grid -->
       <div class="phrase-grid" id="phraseCardGrid">
-        <div class="phrase-card" data-keyword="了解 承知 かしこまりました 分かりました">
+        <div class="phrase-card" data-keyword="了解 承知 かしこまりました 分かりました 目上 返事">
           <div class="phrase-wrong">了解しました / 了解です</div>
           <div class="phrase-correct">承知いたしました / かしこまりました</div>
           <div class="phrase-desc">「了解」には相手への敬意が含まれません。上司や取引先からの依頼・連絡には「承知いたしました」を使います。</div>
         </div>
 
-        <div class="phrase-card" data-keyword="ご苦労様 お疲れ様 挨拶">
+        <div class="phrase-card" data-keyword="ご苦労様 お疲れ様 挨拶 目上">
           <div class="phrase-wrong">ご苦労様です</div>
           <div class="phrase-correct">お疲れ様です</div>
           <div class="phrase-desc">「ご苦労様」は目上から目下にねぎらいをかける言葉です。目上の人には必ず「お疲れ様です」と言います。</div>
+        </div>
+
+        <div class="phrase-card" data-keyword="拝見 見る 二重敬語 謙譲語">
+          <div class="phrase-wrong">拝見させていただきます</div>
+          <div class="phrase-correct">拝見いたします / 拝見します</div>
+          <div class="phrase-desc">「拝見する（謙譲語）」に「〜させていただく（謙譲語）」を重ねた二重敬語です。「拝見いたします」で十分です。</div>
+        </div>
+
+        <div class="phrase-card" data-keyword="おっしゃる 言う 二重敬語 尊敬語">
+          <div class="phrase-wrong">〇〇部長がおっしゃられました</div>
+          <div class="phrase-correct">〇〇部長がおっしゃいました</div>
+          <div class="phrase-desc">「おっしゃる（尊敬語）」に「〜られる（尊敬助動詞）」を重ねた二重敬語です。「おっしゃいました」が正しい形です。</div>
+        </div>
+
+        <div class="phrase-card" data-keyword="ご覧 見る 二重敬語 尊敬語">
+          <div class="phrase-wrong">資料をご覧になられましたでしょうか</div>
+          <div class="phrase-correct">資料をご覧になりましたでしょうか</div>
+          <div class="phrase-desc">「ご覧になる（尊敬語）」に「〜られる（尊敬助動詞）」を重ねた二重敬語です。</div>
+        </div>
+
+        <div class="phrase-card" data-keyword="バイト敬語 方 ほう 案内 書類">
+          <div class="phrase-wrong">書類のほうをお送りします</div>
+          <div class="phrase-correct">書類をお送りいたします</div>
+          <div class="phrase-desc">方向を指す言葉ではないものに「〜のほう」をつけるのは不自然なバイト敬語です。「書類をお送りいたします」と表現します。</div>
+        </div>
+
+        <div class="phrase-card" data-keyword="バイト敬語 から 料金 お金 会計">
+          <div class="phrase-wrong">1,000円からお預かりします</div>
+          <div class="phrase-correct">1,000円をお預かりいたします</div>
+          <div class="phrase-desc">お釣りがある場合でも「〜から」をつけるのは誤りです。「〜をお預かりいたします」が正確な日本語です。</div>
+        </div>
+
+        <div class="phrase-card" data-keyword="バイト敬語 よろしかった 確認 過去形">
+          <div class="phrase-wrong">こちらでよろしかったでしょうか</div>
+          <div class="phrase-correct">こちらでよろしいでしょうか</div>
+          <div class="phrase-desc">現在の確認事項を不必要に過去形にするのは不自然です。「よろしいでしょうか」で確認します。</div>
         </div>
 
         <div class="phrase-card" data-keyword="すいません すみません 申し訳 謝罪 お詫び">
@@ -131,44 +257,119 @@
           <div class="phrase-desc">ビジネスシーンでの口頭やメールでは、「すみません」ではなく「大変申し訳ございません」が鉄則です。</div>
         </div>
 
-        <div class="phrase-card" data-keyword="拝見 見る 二重敬語">
-          <div class="phrase-wrong">拝見させていただきます</div>
-          <div class="phrase-correct">拝見いたします / 拝見します</div>
-          <div class="phrase-desc">「拝見する（謙譲語）」に「〜させていただく（謙譲語）」を重ねた二重敬語です。「拝見いたします」で十分な敬意が伝わります。</div>
-        </div>
-
-        <div class="phrase-card" data-keyword="おっしゃる 言う 二重敬語">
-          <div class="phrase-wrong">〇〇部長がおっしゃられました</div>
-          <div class="phrase-correct">〇〇部長がおっしゃいました</div>
-          <div class="phrase-desc">「おっしゃる（尊敬語）」に「〜られる（尊敬助動詞）」を重ねた二重敬語です。「おっしゃいました」が正しい形です。</div>
-        </div>
-
         <div class="phrase-card" data-keyword="なるほど 同意 相槌">
           <div class="phrase-wrong">なるほどですね / なるほど</div>
           <div class="phrase-correct">おっしゃる通りです / おっしゃる通りでございます</div>
-          <div class="phrase-desc">「なるほど」は相手を評価・品定めするニュアンスを含むため、上司やお客様に対して使うのは大変失礼です。</div>
+          <div class="phrase-desc">「なるほど」は相手を品定め・評価するニュアンスを含むため、上司やお客様に対して使うのは大変失礼です。</div>
         </div>
 
-        <div class="phrase-card" data-keyword="バイト敬語 方 ほう 案内">
-          <div class="phrase-wrong">書類のほうをお送りします</div>
-          <div class="phrase-correct">書類をお送りいたします</div>
-          <div class="phrase-desc">方向を指す言葉ではないものに「〜のほう」をつけるのは不自然なバイト敬語です。「書類をお送りいたします」とシンプルに表現します。</div>
+        <div class="phrase-card" data-keyword="参考 目上 意見 助言">
+          <div class="phrase-wrong">大変参考になりました</div>
+          <div class="phrase-correct">大変勉強になりました / 今後の参考にさせていただきます</div>
+          <div class="phrase-desc">「参考にする」は自分の考えの足しにする程度という意味が含まれるため、目上には「大変勉強になりました」が無難です。</div>
         </div>
 
-        <div class="phrase-card" data-keyword="バイト敬語 から 料金 お金">
-          <div class="phrase-wrong">1,000円からお預かりします</div>
-          <div class="phrase-correct">1,000円をお預かりいたします</div>
-          <div class="phrase-desc">お釣りがある場合でも「〜から」をつけるのは誤りです。「〜をお預かりいたします」が正確な日本語です。</div>
+        <div class="phrase-card" data-keyword="敬称 社長 部長 様 社外">
+          <div class="phrase-wrong">〇〇社長様 / 社長の佐藤様</div>
+          <div class="phrase-correct">社長の〇〇（社外向け） / 佐藤社長（社内向け）</div>
+          <div class="phrase-desc">役職名自体に敬意が含まれるため、「社長様」は二重敬称です。また社外の人に対しては自社の社長も呼び捨てにします。</div>
         </div>
       </div>
     </section>
 
     <!-- Explanatory Articles -->
     <article class="article-content">
-      <!-- 2. 了解・ご苦労様 -->
-      <h2 id="wrong">2. 「了解しました」「ご苦労様です」の間違いと正しい言い換え</h2>
+
+      <!-- 2. 二重敬語・バイト敬語の注意点 -->
+      <h2 id="double-keigo-detail">2. 【最重要】二重敬語・バイト敬語の注意点と正しいルール</h2>
       <p>
-        日常生活で馴染みがある言葉ほど、ビジネスの現場では重大なマナー違反になるリスクを孕んでいます。
+        敬語を使おうとする意識が高い人ほど陥りやすいのが<strong>「二重敬語」</strong>や<strong>「バイト敬語（ファミレス敬語・マニュアル敬語）」</strong>です。<br>
+        「丁寧に言おうとして敬語を過剰に重ねる」と、かえって日本語として不自然になり、相手に「教養がない」「慇懃無礼（丁寧すぎて失礼）」という悪印象を与えてしまいます。
+      </p>
+
+      <h3>① 二重敬語の仕組みと代表例</h3>
+      <p>
+        二重敬語とは、<strong>1つの語句に対して同じ種類の敬語（尊敬語＋尊敬語、または謙譲語＋謙譲語）を二重に使ってしまうこと</strong>です。
+      </p>
+      <table class="info-table">
+        <tr>
+          <th style="width: 170px;">誤った二重敬語（NG）</th>
+          <th style="width: 170px;">正しい敬語（OK）</th>
+          <th>誤りの構造と理由</th>
+        </tr>
+        <tr>
+          <td>❌ <strong>おっしゃられた</strong></td>
+          <td>⭕ <strong>おっしゃいました</strong></td>
+          <td>「おっしゃる（尊敬語）」＋「〜られる（尊敬語）」の重複。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>ご覧になられる</strong></td>
+          <td>⭕ <strong>ご覧になる</strong></td>
+          <td>「ご覧になる（尊敬語）」＋「〜られる（尊敬語）」の重複。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>拝見させていただきます</strong></td>
+          <td>⭕ <strong>拝見いたします</strong><br>⭕ <strong>拝見します</strong></td>
+          <td>「拝見する（謙譲語）」＋「〜させていただく（謙譲語）」の重複。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>伺わせていただきます</strong></td>
+          <td>⭕ <strong>伺います</strong><br>⭕ <strong>お伺いします</strong></td>
+          <td>「伺う（謙譲語）」＋「〜させていただく（謙譲語）」の重複。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>お召し上がりになられる</strong></td>
+          <td>⭕ <strong>お召し上がりになる</strong></td>
+          <td>「お召し上がりになる（尊敬語）」＋「〜られる（尊敬語）」の重複。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>ご持参される</strong></td>
+          <td>⭕ <strong>お持ちになる</strong></td>
+          <td>「持参する」は本来「自分の物を持っていく（謙譲語）」のため、相手の動作に使うこと自体が誤り。</td>
+        </tr>
+      </table>
+
+      <h3>② バイト敬語（マニュアル敬語）の注意点</h3>
+      <p>
+        飲食店やコンビニなどで定着し、ビジネスの現場でも無意識に使われがちな表現です。ビジネスの商談や公の場では必ず正しい日本語に修正しましょう。
+      </p>
+      <table class="info-table">
+        <tr>
+          <th style="width: 170px;">バイト敬語（NG）</th>
+          <th style="width: 170px;">正しい表現（OK）</th>
+          <th>理由と解説</th>
+        </tr>
+        <tr>
+          <td>❌ <strong>書類のほうをお送りします</strong></td>
+          <td>⭕ <strong>書類をお送りいたします</strong></td>
+          <td>方角や比較対象がない名詞に「〜のほう」を付けるのは不自然です。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>1,000円からお預かりします</strong></td>
+          <td>⭕ <strong>1,000円をお預かりいたします</strong></td>
+          <td>お金を「〜から」受領するのは文法的な誤りです。ちょうど頂く場合は「1,000円頂戴いたします」。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>よろしかったでしょうか</strong></td>
+          <td>⭕ <strong>よろしいでしょうか</strong></td>
+          <td>現在目の前で確認している事柄に対して、過去形を使う理由はありません。</td>
+        </tr>
+        <tr>
+          <td>❌ <strong>こちらが請求書になります</strong></td>
+          <td>⭕ <strong>こちらが請求書でございます</strong></td>
+          <td>「なる」は状態が変化することを意味します。最初から請求書であるものには「でございます」を使います。</td>
+        </tr>
+      </table>
+
+      <div class="callout tip">
+        💡 <strong>敬語の基本原則は「シンプル」</strong><br>
+        「〜させていただきます」「〜になられる」を多用するのをやめ、「〜いたします」「〜なさいます」「〜されます」と端的に表現するだけで、洗練されたスマートな印象になります。
+      </div>
+
+      <!-- 3. 了解しました・ご苦労様です -->
+      <h2 id="wrong-detail">3. 「了解しました」「ご苦労様です」の間違いと言い換え</h2>
+      <p>
+        日常生活で馴染みがある言葉ほど、ビジネスの現場では重大なマナー違反になるリスクを孕んでいます。相手との上下関係に応じた正しい使い分けを徹底しましょう。
       </p>
       <table class="info-table">
         <tr>
@@ -179,35 +380,30 @@
         <tr>
           <td><strong>了解しました</strong></td>
           <td><strong>承知いたしました<br>かしこまりました</strong></td>
-          <td>「了解」は同僚や目下に「事情を分かった」と認めるニュアンスがあり、敬意がありません。</td>
+          <td>「了解」は同僚や目下に「事情を分かった」と認めるニュアンスがあり、敬意がありません。目上には必ず「承知いたしました」を使います。</td>
         </tr>
         <tr>
           <td><strong>ご苦労様です</strong></td>
           <td><strong>お疲れ様です</strong></td>
-          <td>「ご苦労様」は目上の者が目下をねぎらう言葉です。目上の人に使うと無礼になります。</td>
+          <td>「ご苦労様」は目上の者が目下をねぎらう言葉です。目上の人に使うと大変失礼にあたります。</td>
+        </tr>
+        <tr>
+          <td><strong>なるほどですね</strong></td>
+          <td><strong>おっしゃる通りです<br>おっしゃる通りでございます</strong></td>
+          <td>「なるほど」は相手を評価・品定めする上から目線の言葉です。「おっしゃる通りです」と肯定します。</td>
         </tr>
         <tr>
           <td><strong>参考になりました</strong></td>
-          <td><strong>勉強になりました<br>大変参考になりました（※注意）</strong></td>
-          <td>「参考」は自分の考えの足しにする程度という意味が含まれるため、「勉強になりました」が最も無難です。</td>
+          <td><strong>大変勉強になりました</strong></td>
+          <td>「参考」は自分の判断材料の一部にする程度の意味合いを含むため、目上の助言には「勉強になりました」が最も誠意が伝わります。</td>
         </tr>
       </table>
 
-      <!-- 3. 二重敬語 -->
-      <h2 id="double">3. 「おっしゃられた」「拝見させていただきます」二重敬語</h2>
-      <p>
-        敬語を重ねすぎると「慇懃無礼（丁寧すぎてかえって失礼・不自然）」になってしまいます。同じ種類の敬語（尊敬語＋尊敬語、謙譲語＋謙譲語）を重ねないのが基本ルールです。
-      </p>
-      <ul>
-        <li>❌ <strong>ご覧になられる</strong> ➔ ⭕ <strong>ご覧になる</strong>（「ご覧になる」自体が尊敬語のため「〜られる」は不要）</li>
-        <li>❌ <strong>伺わせていただきます</strong> ➔ ⭕ <strong>伺います / お伺いします</strong></li>
-        <li>❌ <strong>お召し上がりになられる</strong> ➔ ⭕ <strong>お召し上がりになる</strong></li>
-      </ul>
-
       <!-- 4. クッション言葉 -->
-      <h2 id="cushion">4. お願い・お断りを角立てない「クッション言葉」一覧</h2>
+      <h2 id="cushion-detail">4. お願い・お断りを角立てない「クッション言葉」一覧</h2>
       <p>
-        本題の前に一言添えるだけで、依頼やお断りの印象が劇的に柔らかくなります。
+        ビジネスでは、言いにくいことを相手に伝えなければならない場面が多々あります。<br>
+        本題の直前に<strong>「クッション言葉」</strong>を一言添えるだけで、トゲをなくし、相手への配慮と好意を自然に伝えることができます。
       </p>
       <table class="info-table">
         <tr>
@@ -220,55 +416,151 @@
           <td>
             ・お忙しいところ恐縮ですが<br>
             ・ご多忙中とは存じますが<br>
+            ・お手数をおかけいたしますが<br>
             ・差し支えなければ
           </td>
-          <td>「お忙しいところ恐縮ですが、明日までにご確認いただけますでしょうか」</td>
+          <td>「お忙しいところ大変恐縮ですが、明日の15時までにご確認いただけますでしょうか」</td>
         </tr>
         <tr>
-          <td><strong>お断りする時</strong></td>
+          <td><strong>お断り・辞退する時</strong></td>
           <td>
             ・大変心苦しいのですが<br>
             ・あいにくではございますが<br>
-            ・ご期待に沿えず恐縮ですが
+            ・ご期待に沿えず恐縮ですが<br>
+            ・せっかくのお申し出ではございますが
           </td>
-          <td>「大変心苦しいのですが、今回は見送らせていただく運びとなりました」</td>
+          <td>「大変心苦しいのですが、今回は予算の都合上、見送らせていただく運びとなりました」</td>
         </tr>
         <tr>
           <td><strong>確認・質問する時</strong></td>
           <td>
             ・失礼とは存じますが<br>
-            ・念のため確認させていただきたいのですが
+            ・念のため確認させていただきたいのですが<br>
+            ・差し支えなければ伺いたいのですが
           </td>
-          <td>「失礼とは存じますが、お名前をもう一度伺ってもよろしいでしょうか」</td>
+          <td>「失礼とは存じますが、お名前の漢字をもう一度伺ってもよろしいでしょうか」</td>
+        </tr>
+        <tr>
+          <td><strong>反論・意見を述べる時</strong></td>
+          <td>
+            ・おっしゃることは重々承知しておりますが<br>
+            ・私どもの配慮が至らず申し訳ございませんが<br>
+            ・言葉を挟むようで恐縮ですが
+          </td>
+          <td>「おっしゃることは重々承知しておりますが、スケジュールの観点から別の案もご検討いただけませんでしょうか」</td>
         </tr>
       </table>
 
-      <!-- 5. お詫び -->
-      <h2 id="sorry">5. ビジネスで誠意が伝わる「お詫び」の言葉遣い</h2>
+      <!-- 5. お詫び・謝罪 -->
+      <h2 id="apology-detail">5. ビジネスで誠意が伝わる「お詫び」の言葉遣い</h2>
       <p>
-        「すみません」「ごめんなさい」はビジネスの謝罪では厳禁です。事態の重さに応じて適切な言葉を使い分けましょう。
+        ビジネスにおいて「すみません」「ごめんなさい」は厳禁です。口頭・メールを問わず、事態の深刻さに合わせた正しいお詫び言葉を使用しましょう。
       </p>
-      <div class="callout warn">
-        <strong>謝罪のレベル別フレーズ</strong><br>
-        1. <strong>日常の軽いお詫び</strong>: 「失礼いたしました」「恐れ入ります」<br>
-        2. <strong>一般的な謝罪</strong>: 「申し訳ございません」「深くお詫び申し上げます」<br>
-        3. <strong>重大なミス・会社としての謝罪</strong>: 「大変申し訳ございません」「弁解の余地もございません」「重ねて深くお詫び申し上げます」
-      </div>
+      <table class="info-table">
+        <tr>
+          <th style="width: 140px;">謝罪レベル</th>
+          <th>適切な言葉遣い</th>
+          <th>使用場面の目安</th>
+        </tr>
+        <tr>
+          <td><strong>日常の軽いお詫び</strong></td>
+          <td>
+            ・失礼いたしました<br>
+            ・恐れ入ります
+          </td>
+          <td>聞き返し、席を立つ際、少し待たせてしまった時など</td>
+        </tr>
+        <tr>
+          <td><strong>一般的なお詫び</strong></td>
+          <td>
+            ・申し訳ございません<br>
+            ・深くお詫び申し上げます
+          </td>
+          <td>書類の不備、スケジュールの遅れ、連絡ミスなど</td>
+        </tr>
+        <tr>
+          <td><strong>重大な過失・公式謝罪</strong></td>
+          <td>
+            ・大変申し訳ございませんでした<br>
+            ・弁解の余地もございません<br>
+            ・重ねて深くお詫び申し上げます
+          </td>
+          <td>金銭トラブル、納期遅延による損害、契約違反など深刻な事態</td>
+        </tr>
+      </table>
 
-      <!-- 6. 社内と社外の敬称 -->
-      <h2 id="title">6. 社内と社外での敬称ルール（「社長の〇〇」と呼ぶ理由）</h2>
+      <!-- 6. 社内と社外の敬称ルール -->
+      <h2 id="titles-detail">6. 社内と社外での敬称ルール（ウチ・ソトの原則）</h2>
       <p>
-        社外の人に対して自分の上司や社長のことを話す際、<strong>「〇〇社長様」「〇〇部長」と呼ぶのはNG</strong>です。
+        ビジネスの敬語において最も重要な概念が<strong>「ウチ（自社・身内）」と「ソト（社外・お客様・取引先）」の区別</strong>です。
       </p>
-      <ul>
-        <li><strong>社外に対して</strong>: 自社の人間には敬称をつけず、役職名を後につけて<strong>「社長の〇〇は席を外しております」「部長の佐藤は外出しております」</strong>、または単に「佐藤は〜」と呼び捨てにします。</li>
-        <li><strong>社内に対して</strong>: 「佐藤部長」「社長」と呼び、「佐藤社長様」のように役職に「様」を重ねるのは二重敬称で誤りです。</li>
-      </ul>
+      <div class="callout info">
+        <strong>【重要】社外の人に対して自分の上司や社長を呼ぶ場合</strong><br>
+        自社の人間には一切の敬称をつけません。役職名も敬称とみなされるため、役職を後につけるか、呼び捨てにするのが鉄則です。<br>
+        ❌ 「佐藤社長様はいらっしゃいますか？ ➔ 佐藤社長は外出しております」<br>
+        ⭕ <strong>「社長の佐藤は外出しております」</strong>、または単に <strong>「佐藤は外出しております」</strong>
+      </div>
+      <table class="info-table">
+        <tr>
+          <th>対象</th>
+          <th>社内での呼び方（対上司）</th>
+          <th>社外に対する呼び方（対顧客・取引先）</th>
+        </tr>
+        <tr>
+          <td><strong>社長</strong></td>
+          <td>「社長」または「佐藤社長」</td>
+          <td><strong>「社長の佐藤」</strong>または<strong>「佐藤」</strong></td>
+        </tr>
+        <tr>
+          <td><strong>部長・課長</strong></td>
+          <td>「田中部長」「鈴木課長」</td>
+          <td><strong>「部長の田中」</strong>または<strong>「田中」</strong></td>
+        </tr>
+        <tr>
+          <td><strong>取引先の社長</strong></td>
+          <td>「〇〇社の山田社長」</td>
+          <td><strong>「山田社長様」</strong>（※口頭では「山田社長」が一般的）</td>
+        </tr>
+      </table>
     </article>
   </main>
 
+  <!-- Site Footer -->
   <footer class="site-footer">
     <div class="container">
+      <div class="footer-top">
+        <div class="footer-about">
+          <h4>マナーコンパス（Manner Compass）</h4>
+          <p>
+            マナーコンパスは、ビジネス・冠婚葬祭・食事・敬語など、大人が知っておくべき作法をわかりやすく体系化した総合マナー事典です。
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>シーン別マナー</h5>
+          <ul class="footer-links">
+            <li><a href="../index.html#ceremony">冠婚葬祭・儀礼</a></li>
+            <li><a href="../index.html#business">ビジネスマナー</a></li>
+            <li><a href="../index.html#dining">食事・テーブルマナー</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>お役立ちツール</h5>
+          <ul class="footer-links">
+            <li><a href="../ceremony/simulator.html">相場シミュレーター</a></li>
+            <li><a href="../ceremony/noshi.html">のし袋チェッカー</a></li>
+            <li><a href="../business/seating.html">上座・下座 席次早見表</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>サイト情報</h5>
+          <ul class="footer-links">
+            <li><a href="../about.html">マナーコンパスについて</a></li>
+            <li><a href="../privacy.html">プライバシーポリシー</a></li>
+            <li><a href="../terms.html">免責事項・利用規約</a></li>
+            <li><a href="../contact.html">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
       <div class="footer-bottom">
         <p>&copy; 2026 マナーコンパス（Manner Compass）. All Rights Reserved.</p>
       </div>
