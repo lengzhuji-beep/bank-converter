@@ -68,4 +68,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+// 4. Smooth Anchor Scroll with Header Offset
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href').substring(1);
+      if (!targetId) return;
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        const headerOffset = 80;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        if (history.pushState) {
+          history.pushState(null, null, '#' + targetId);
+        }
+      }
+    });
+  });
+
+  // Handle hash on initial load from external page
+  if (window.location.hash) {
+    const hashTarget = document.getElementById(window.location.hash.substring(1));
+    if (hashTarget) {
+      setTimeout(() => {
+        const headerOffset = 80;
+        const elementPosition = hashTarget.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+  }
 });
+

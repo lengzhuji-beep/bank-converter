@@ -57,6 +57,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
@@ -485,6 +489,7 @@ img {
   padding: 32px;
   margin-bottom: 36px;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+  scroll-margin-top: 90px;
 }
 
 .genre-header {
